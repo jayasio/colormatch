@@ -6,29 +6,19 @@
     OrbitControls,
     interactivity,
   } from "@threlte/extras"
-  import _ from "lodash"
 
   import { game } from "$lib/game"
 
-  $: ({ spaceFactor, center, question } = $game)
+  $: ({ spaceFactor, center, difficulty } = $game)
 
-  export let state: any
-
-  function handleGroupClick(event: any) {
-    const { coord } = event.object.userData
-
-    if (_.isEqual($question.coords, coord)) state.score()
-    else state.strike()
-
-    event.stopPropogation()
-  }
+  export let handleSelect: (event: any) => void
 
   interactivity()
 </script>
 
 <T.PerspectiveCamera
   makeDefault
-  position={[$game.difficulty * 3, $game.difficulty * 3, $game.difficulty * 3]}
+  position={[$difficulty * 3, $difficulty * 3, $difficulty * 3]}
 >
   <OrbitControls enableDamping />
 </T.PerspectiveCamera>
@@ -40,7 +30,7 @@
 <T.Group
   autocenter
   position={[$center, $center, $center]}
-  on:dblclick={handleGroupClick}
+  on:dblclick={handleSelect}
 >
   <InstancedMesh>
     <T.SphereGeometry />

@@ -15,12 +15,11 @@
     medium = 4,
     hard = 5,
   }
-  let difficulty = Difficulty.medium
 
   let showScoreToast = false
   let showEndToast = false
 
-  $: ({ question, spaceFactor } = $game)
+  $: ({ question, spaceFactor, difficulty } = $game)
   $: ({ wins, strikes } = $game)
 
   const maxStrikes = 3
@@ -29,19 +28,21 @@
     initial: {
       start: "play",
       setDifficulty(difficultyLevel: Difficulty) {
-        difficulty = difficultyLevel
+        $difficulty = difficultyLevel
       },
     },
     play: {
       _enter() {
-        game.set(new Game(difficulty))
+        game.set(new Game($difficulty))
       },
       space({ isIncrement }) {
-        if (isIncrement && $spaceFactor < 3) $spaceFactor += 0.25
-        else if (!isIncrement && $spaceFactor > 2) $spaceFactor -= 0.25
-
-        if ($spaceFactor > 3) $spaceFactor = 3
-        else if ($spaceFactor < 2) $spaceFactor = 2
+        if (isIncrement && $spaceFactor < 3) {
+          $spaceFactor += 0.25
+          if ($spaceFactor > 3) $spaceFactor = 3
+        } else if (!isIncrement && $spaceFactor > 2) {
+          $spaceFactor -= 0.25
+          if ($spaceFactor < 2) $spaceFactor = 2
+        }
       },
       score() {
         $game.score()
@@ -61,7 +62,7 @@
       },
       start: "play",
       setDifficulty(difficultyLevel: Difficulty) {
-        difficulty = difficultyLevel
+        $difficulty = difficultyLevel
       },
     },
   })
@@ -91,6 +92,15 @@
         break
     }
   }
+
+  function handleSelect(event: any) {
+    const { coord } = event.object.userData
+
+    if (_.isEqual($question.coords, coord)) state.score()
+    else state.strike()
+
+    event.stopPropagation()
+  }
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
@@ -116,7 +126,7 @@
         {#each [Difficulty.easy, Difficulty.medium, Difficulty.hard] as difficultyLevel, index}
           <label class="difficulty-level" style:text-transform={"capitalize"}>
             <input
-              bind:group={difficulty}
+              bind:group={$difficulty}
               value={difficultyLevel}
               type="radio"
               style:display={"none"}
@@ -128,10 +138,11 @@
       </div>
       <button on:click={state.start}>
         {#if $state === "initial"}
-          Play <Shortcut label="Enter" color={"255,255,255"} />
+          Play
         {:else}
-          Play again <Shortcut label="Enter" color={"255,255,255"} />
+          Play again
         {/if}
+        <Shortcut label="⮐" color={"255,255,255"} />
       </button>
     </div>
   </div>
@@ -140,9 +151,9 @@
     <div>
       <div style:background-color={$question.color} class="question-color" />
       {$question.color}<br />
-      {`R: ${Math.round(($question.coords.x * 100) / ($game.difficulty - 1))}%, 
-        G: ${Math.round(($question.coords.y * 100) / ($game.difficulty - 1))}%, 
-        B: ${Math.round(($question.coords.z * 100) / ($game.difficulty - 1))}%`}
+      {`R: ${Math.round(($question.coords.x * 100) / ($difficulty - 1))}%, 
+        G: ${Math.round(($question.coords.y * 100) / ($difficulty - 1))}%, 
+        B: ${Math.round(($question.coords.z * 100) / ($difficulty - 1))}%`}
     </div>
 
     <div class="lives">
@@ -162,7 +173,7 @@
 
   <div class="container">
     <Canvas>
-      <Scene {state} />
+      <Scene {handleSelect} />
     </Canvas>
   </div>
 
@@ -302,10 +313,10 @@
   .difficulty-level {
     flex: 1;
     padding: 0.5rem 1rem;
+    gap: 0.5rem;
     display: flex;
     justify-content: center;
     border-radius: 0.25rem;
-    transition: all 200ms ease-out;
     cursor: pointer;
   }
 
