@@ -9,17 +9,21 @@
   import Shortcut from "$lib/Shortcut.svelte"
 
   import { game, Game } from "$lib/game"
+  import Slider from "$lib/Slider.svelte"
+  import { writable } from "svelte/store"
 
   enum Difficulty {
     easy = 3,
     medium = 4,
     hard = 5,
   }
+  let difficulty: Difficulty = Difficulty.medium
 
   let showScoreToast = false
   let showEndToast = false
+  // standardize, use one toast, set message and set true/false
 
-  $: ({ question, spaceFactor, difficulty } = $game)
+  $: ({ question, questionsList, spaceFactor } = $game)
   $: ({ wins, strikes } = $game)
 
   const maxStrikes = 3
@@ -28,12 +32,12 @@
     initial: {
       start: "play",
       setDifficulty(difficultyLevel: Difficulty) {
-        $difficulty = difficultyLevel
+        difficulty = difficultyLevel
       },
     },
     play: {
       _enter() {
-        game.set(new Game($difficulty))
+        game.set(new Game(difficulty))
       },
       space({ isIncrement }) {
         if (isIncrement && $spaceFactor < 3) {
@@ -62,7 +66,7 @@
       },
       start: "play",
       setDifficulty(difficultyLevel: Difficulty) {
-        $difficulty = difficultyLevel
+        difficulty = difficultyLevel
       },
     },
   })
@@ -107,6 +111,8 @@
 
 <svelte:head>
   <title>Color Match!</title>
+  <!-- <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" /> -->
 </svelte:head>
 
 {#if $state !== "play"}
@@ -118,6 +124,13 @@
           <div class="score">
             {$wins}
           </div>
+          <!-- Questions:
+          {#each $questionsList as question}
+            <div>
+              <div style:background-color={question.color} />
+              {question.color}
+            </div>
+          {/each} -->
         </div>
       {/if}
 
@@ -126,7 +139,7 @@
         {#each [Difficulty.easy, Difficulty.medium, Difficulty.hard] as difficultyLevel, index}
           <label class="difficulty-level" style:text-transform={"capitalize"}>
             <input
-              bind:group={$difficulty}
+              bind:group={difficulty}
               value={difficultyLevel}
               type="radio"
               style:display={"none"}
@@ -142,7 +155,7 @@
         {:else}
           Play again
         {/if}
-        <Shortcut label="⮐" color={"255,255,255"} />
+        <Shortcut label="⮐" />
       </button>
     </div>
   </div>
@@ -151,9 +164,9 @@
     <div>
       <div style:background-color={$question.color} class="question-color" />
       {$question.color}<br />
-      {`R: ${Math.round(($question.coords.x * 100) / ($difficulty - 1))}%, 
-        G: ${Math.round(($question.coords.y * 100) / ($difficulty - 1))}%, 
-        B: ${Math.round(($question.coords.z * 100) / ($difficulty - 1))}%`}
+      {`R: ${Math.round(($question.coords.x * 100) / (difficulty - 1))}%, 
+        G: ${Math.round(($question.coords.y * 100) / (difficulty - 1))}%, 
+        B: ${Math.round(($question.coords.z * 100) / (difficulty - 1))}%`}
     </div>
 
     <div class="lives">
@@ -171,18 +184,23 @@
     </div>
   </div>
 
+  <!-- <div
+    style={"width: 100dvw; height: 100dvh; z-index: 100; backdrop-filter: blur(60px);"}
+  /> -->
+
   <div class="container">
-    <Canvas>
+    <Canvas colorSpace="display-p3" useLegacyLights={false}>
       <Scene {handleSelect} />
     </Canvas>
+    <div class="bg" />
   </div>
 
   <div class="spacefactor-slider">
-    <input type="range" min={2} max={3} step={0.1} bind:value={$spaceFactor} />
+    <Slider bind:value={$spaceFactor} />
   </div>
 
   <button on:click={state.end} class="exit-button">
-    Exit <Shortcut label="Esc" color={"255,255,255"} />
+    Exit <Shortcut label="Esc" />
   </button>
 {/if}
 
@@ -197,8 +215,53 @@
 <style>
   :root {
     font-family: "Geist Mono", monospace;
+    /* Clean up fonts here & layout */
     font-size: 14px;
     user-select: none;
+
+    --surface-0: hsl(0, 0%, 100%);
+    --surface-1: hsl(0, 0%, 95%);
+    --surface-2: hsl(0, 0%, 90%);
+    --text: hsl(0, 0%, 0%);
+    --primary: hsl(0, 0%, 0%);
+    --accent: hsl(215, 100%, 50%);
+
+    /* font-family: Inter, sans-serif;
+    font-feature-settings:
+      "liga" 1,
+      "calt" 1;  */
+    /* fix for Chrome */
+  }
+  /* @supports (font-variation-settings: normal) {
+    :root {
+      font-family: InterVariable, sans-serif;
+    }
+  } */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface-0: hsl(0, 0%, 5%);
+      --surface-1: hsl(0, 0%, 10%);
+      --surface-2: hsl(0, 0%, 15%);
+      --text: hsl(0, 0%, 100%);
+      --primary: hsl(0, 0%, 100%);
+      --accent: hsl(215, 100%, 50%);
+    }
+  }
+
+  :global(body),
+  .bg {
+    background: radial-gradient(var(--surface-2), var(--surface-0));
+    background-color: transparent;
+    color: var(--text);
+  }
+
+  .bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    z-index: -101;
   }
 
   .container {
@@ -226,8 +289,8 @@
   button {
     border: none;
     border-radius: 0.5rem;
-    background-color: black;
-    color: white;
+    background-color: var(--primary);
+    color: var(--surface-0);
     padding: 0.75rem 1rem;
     cursor: pointer;
     display: flex;
@@ -251,6 +314,8 @@
     justify-content: space-between;
     width: 100%;
     align-items: start;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .lives {
@@ -261,6 +326,7 @@
     font-size: 2rem;
     align-items: start;
     font-family: system-ui;
+    justify-self: center;
   }
 
   .score-container {
@@ -296,7 +362,7 @@
   .score-card {
     width: 100%;
     padding: 1rem;
-    background-color: hsl(0, 0%, 95%);
+    background-color: var(--surface-1);
     font-weight: bold;
     border-radius: 0.5rem;
   }
@@ -306,7 +372,7 @@
     display: flex;
     gap: 0.125rem;
     width: 100%;
-    background-color: hsl(0, 0%, 95%);
+    background-color: var(--surface-1);
     border-radius: 0.5rem;
   }
 
@@ -321,12 +387,12 @@
   }
 
   .difficulty-level:hover {
-    background-color: hsl(0, 0%, 90%);
+    background-color: var(--surface-2);
   }
 
   .difficulty-level:has(input[type="radio"]:checked) {
-    background-color: hsl(215, 100%, 50%);
-    color: white;
+    background-color: var(--accent);
+    color: hsl(0, 0%, 100%);
   }
 
   .logo {

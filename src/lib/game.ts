@@ -17,13 +17,14 @@ export class Game {
   strikes
 
   question
+  questionsList
 
   normals
   colorNormals
   center
 
   constructor(difficulty: number) {
-    this.difficulty = writable(difficulty)
+    this.difficulty = difficulty
 
     this.spaceFactor = spring(2.0)
 
@@ -43,6 +44,7 @@ export class Game {
       )
     })
 
+    this.questionsList = writable<{ coords: Vector; color: String }[]>([])
     this.question = writable(this._generateQuestion())
   }
 
@@ -68,11 +70,15 @@ export class Game {
       return Math.floor(Math.random() * difficulty)
     }
     const coords = {
-      x: randomize(get(this.difficulty)),
-      y: randomize(get(this.difficulty)),
-      z: randomize(get(this.difficulty)),
+      x: randomize(this.difficulty),
+      y: randomize(this.difficulty),
+      z: randomize(this.difficulty),
     } as Vector
     const color = this.getColor(coords)
+
+    this.questionsList.update((questionsList) => {
+      return [...questionsList, { coords, color }]
+    })
 
     return {
       coords,

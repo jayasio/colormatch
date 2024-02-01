@@ -5,27 +5,40 @@
     InstancedMesh,
     OrbitControls,
     interactivity,
+    layers,
   } from "@threlte/extras"
 
   import { game } from "$lib/game"
+  import { onMount } from "svelte"
 
   $: ({ spaceFactor, center, difficulty } = $game)
 
   export let handleSelect: (event: any) => void
+
+  let orbitControls: OrbitControls
+
+  onMount(() => {
+    orbitControls.listenToKeyEvents(window)
+    // doesn't work yet
+
+    return () => {
+      orbitControls.stopListenToKeyEvents()
+    }
+  })
 
   interactivity()
 </script>
 
 <T.PerspectiveCamera
   makeDefault
-  position={[$difficulty * 3, $difficulty * 3, $difficulty * 3]}
+  position={[difficulty * 3, difficulty * 3, difficulty * 3]}
 >
-  <OrbitControls enableDamping />
+  <OrbitControls enableDamping autoRotate={false} bind:this={orbitControls} />
+  <T.DirectionalLight position={[12, 36, -0]} intensity={Math.PI * 0.5} />
+  <T.DirectionalLight position={[0, -4, 10]} intensity={Math.PI * 0.5} />
 </T.PerspectiveCamera>
 
-<T.DirectionalLight position={[0, 2, -1]} intensity={Math.PI * 0.5} />
-<T.DirectionalLight position={[1, -2, 0]} intensity={Math.PI * 0.5} />
-<T.AmbientLight intensity={Math.PI * 0.6} />
+<T.AmbientLight intensity={Math.PI * 0.25} />
 
 <T.Group
   autocenter
