@@ -5,12 +5,11 @@
 
   import Scene from "./Scene.svelte"
 
-  import Toast from "$lib/Toast.svelte"
-  import Shortcut from "$lib/Shortcut.svelte"
+  import Toast from "$lib/components/Toast.svelte"
+  import Shortcut from "$lib/components/Shortcut.svelte"
 
   import { game, Game } from "$lib/game"
-  import Slider from "$lib/Slider.svelte"
-  import { writable } from "svelte/store"
+  import Slider from "$lib/components/Slider.svelte"
 
   enum Difficulty {
     easy = 3,
@@ -237,21 +236,10 @@
       font-family: InterVariable, sans-serif;
     }
   } */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --surface-0: hsl(0, 0%, 5%);
-      --surface-1: hsl(0, 0%, 10%);
-      --surface-2: hsl(0, 0%, 15%);
-      --text: hsl(0, 0%, 100%);
-      --primary: hsl(0, 0%, 100%);
-      --accent: hsl(215, 100%, 50%);
-    }
-  }
 
   :global(body),
   .bg {
-    background: radial-gradient(var(--surface-2), var(--surface-0));
-    background-color: transparent;
+    background-color: var(--surface-0);
     color: var(--text);
   }
 
@@ -262,6 +250,29 @@
     width: 100dvw;
     height: 100dvh;
     z-index: -101;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface-0: hsl(0, 0%, 5%);
+      --surface-1: hsl(0, 0%, 10%);
+      --surface-2: hsl(0, 0%, 15%);
+      --text: hsl(0, 0%, 100%);
+      --primary: hsl(0, 0%, 100%);
+      --accent: hsl(215, 100%, 50%);
+    }
+
+    :global(body),
+    .bg {
+      background: radial-gradient(
+          ellipse at top,
+          var(--surface-2),
+          var(--surface-0)
+        ),
+        radial-gradient(ellipse at bottom, var(--surface-1), var(--surface-0));
+      background-color: transparent;
+      color: var(--text);
+    }
   }
 
   .container {

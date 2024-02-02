@@ -9,22 +9,10 @@
   } from "@threlte/extras"
 
   import { game } from "$lib/game"
-  import { onMount } from "svelte"
 
   $: ({ spaceFactor, center, difficulty } = $game)
 
   export let handleSelect: (event: any) => void
-
-  let orbitControls: OrbitControls
-
-  onMount(() => {
-    orbitControls.listenToKeyEvents(window)
-    // doesn't work yet
-
-    return () => {
-      orbitControls.stopListenToKeyEvents()
-    }
-  })
 
   interactivity()
 </script>
@@ -33,7 +21,7 @@
   makeDefault
   position={[difficulty * 3, difficulty * 3, difficulty * 3]}
 >
-  <OrbitControls enableDamping autoRotate={false} bind:this={orbitControls} />
+  <OrbitControls enableDamping autoRotate={false} />
   <T.DirectionalLight position={[12, 36, -0]} intensity={Math.PI * 0.5} />
   <T.DirectionalLight position={[0, -4, 10]} intensity={Math.PI * 0.5} />
 </T.PerspectiveCamera>
