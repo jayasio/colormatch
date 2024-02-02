@@ -7,7 +7,9 @@ A color matching game built over weekends\*.
 ### Features
 
 - [ ] When game ends, user can review the questions
-- [ ] CMYK mode: use CMYK coordinates (more research required on color theory)
+- [ ] CMYK mode: use CMYK coordinates
+  - more research required on color theory
+  - Check out `device-cmyk()`
 - [ ] Tutorial: Introduction for new users
 - [ ] Tutorial: Visualise how to see RGB
 - [ ] Tutorial: Show color on hover, maybe using `<HTML>` from `@threlte/extras`
@@ -20,11 +22,12 @@ A color matching game built over weekends\*.
 - [ ] Transition scene to blur background on menu
 - [ ] Transitions and microinteractions
 - [ ] Better User Interface
+- [ ] Better difficulty switcher with visuals
 
 ### Code hygiene
 
-- [ ] Central theme system
-- [ ] Standardise toast
+- [ ] Consistent design system
+- [x] Standardise toast
 - [ ] Better types
 - [ ] Restructure `game.ts`
 

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import "@fontsource/archivo"
+
   import { Canvas } from "@threlte/core"
   import fsm from "svelte-fsm"
   import _ from "lodash"
@@ -18,9 +20,19 @@
   }
   let difficulty: Difficulty = Difficulty.medium
 
-  let showScoreToast = false
-  let showEndToast = false
-  // standardize, use one toast, set message and set true/false
+  let showToast = false
+  let toastMessage: string
+  let toastType: "neutral" | "success" | "failure"
+
+  function toast(
+    message: string,
+    type: "neutral" | "success" | "failure" = "neutral",
+  ) {
+    toastMessage = message
+    toastType = type
+    showToast = true
+    setTimeout(() => (showToast = false), 1000)
+  }
 
   $: ({ question, questionsList, spaceFactor } = $game)
   $: ({ wins, strikes } = $game)
@@ -49,8 +61,7 @@
       },
       score() {
         $game.score()
-        showScoreToast = true
-        setTimeout(() => (showScoreToast = false), 1000)
+        toast("Nice!", "success")
       },
       strike() {
         $game.strike()
@@ -60,8 +71,7 @@
     },
     end: {
       _enter() {
-        showEndToast = true
-        setTimeout(() => (showEndToast = false), 1000)
+        toast("Game over :(", "failure")
       },
       start: "play",
       setDifficulty(difficultyLevel: Difficulty) {
@@ -203,19 +213,26 @@
   </button>
 {/if}
 
-{#if showScoreToast}
-  <Toast message={"Nice!"} type="success" />
-{/if}
-
-{#if showEndToast}
-  <Toast message={"Game over :("} type="failure" />
+{#if showToast}
+  <Toast message={toastMessage} type={toastType} />
 {/if}
 
 <style>
   :root {
-    font-family: "Geist Mono", monospace;
-    /* Clean up fonts here & layout */
-    font-size: 14px;
+    font-family:
+      "Archivo",
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      "Open Sans",
+      "Helvetica Neue",
+      sans-serif;
+
     user-select: none;
 
     --surface-0: hsl(0, 0%, 100%);
