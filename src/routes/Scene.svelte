@@ -5,23 +5,42 @@
     InstancedMesh,
     OrbitControls,
     interactivity,
-    layers,
   } from "@threlte/extras"
 
   import { game } from "$lib/game"
+  import { spring } from "svelte/motion"
 
   $: ({ spaceFactor, center, difficulty } = $game)
 
   export let handleSelect: (event: any) => void
+  export let state
+
+  let positionX = spring(0)
+  let positionY = spring(0)
+  let positionZ = spring(10)
+
+  $: {
+    if ($state === "play") {
+      positionX.set($game.difficulty * 3)
+      positionY.set($game.difficulty * 3)
+      positionZ.set($game.difficulty * 3)
+    } else {
+      positionX.set(-2)
+      positionY.set(5)
+      positionZ.set(5)
+    }
+  }
 
   interactivity()
 </script>
 
 <T.PerspectiveCamera
   makeDefault
-  position={[difficulty * 3, difficulty * 3, difficulty * 3]}
+  position.x={$positionX}
+  position.y={$positionY}
+  position.z={$positionZ}
 >
-  <OrbitControls enableDamping autoRotate={false} />
+  <OrbitControls enableDamping autoRotate={$state !== "play"} />
   <T.DirectionalLight position={[12, 36, -0]} intensity={Math.PI * 0.5} />
   <T.DirectionalLight position={[0, -4, 10]} intensity={Math.PI * 0.5} />
 </T.PerspectiveCamera>

@@ -25,6 +25,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 1000;
   }
 
   .toast {
@@ -32,5 +33,6 @@
     border-radius: 0.5rem;
     position: fixed;
     bottom: 4rem;
+    z-index: 1000;
   }
 </style>

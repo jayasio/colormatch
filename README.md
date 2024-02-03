@@ -35,3 +35,4 @@ A color matching game built over weekends\*.
 
 - [ ] Color space issues
 - [ ] iOS fix
+- [ ] Reset scene on `esc`

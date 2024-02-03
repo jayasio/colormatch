@@ -12,6 +12,7 @@
 
   import { game, Game } from "$lib/game"
   import Slider from "$lib/components/Slider.svelte"
+  import { blur, fade, slide } from "svelte/transition"
 
   enum Difficulty {
     easy = 3,
@@ -126,7 +127,12 @@
 
 {#if $state !== "play"}
   <div class="menu-container">
-    <div class="menu">
+    <div class="blur" transition:blur={{ duration: 400 }} />
+    <div
+      class="menu"
+      in:fade={{ delay: 100, duration: 100 }}
+      out:fade={{ duration: 100 }}
+    >
       {#if $state === "end"}
         <div class="score-card">
           You scored
@@ -134,12 +140,12 @@
             {$wins}
           </div>
           <!-- Questions:
-          {#each $questionsList as question}
-            <div>
-              <div style:background-color={question.color} />
-              {question.color}
-            </div>
-          {/each} -->
+        {#each $questionsList as question}
+          <div>
+            <div style:background-color={question.color} />
+            {question.color}
+          </div>
+        {/each} -->
         </div>
       {/if}
 
@@ -168,14 +174,48 @@
       </button>
     </div>
   </div>
-{:else}
+{/if}
+
+{#if $state === "play"}
   <div class="hud">
-    <div>
-      <div style:background-color={$question.color} class="question-color" />
-      {$question.color}<br />
-      {`R: ${Math.round(($question.coords.x * 100) / (difficulty - 1))}%, 
-        G: ${Math.round(($question.coords.y * 100) / (difficulty - 1))}%, 
-        B: ${Math.round(($question.coords.z * 100) / (difficulty - 1))}%`}
+    <div
+      class="question"
+      style="display: flex; flex-direction: column; gap: 0.5rem;"
+    >
+      <div
+        style:background-color={$question.color}
+        style="height: 1rem; width: 1rem;"
+      />
+      <div
+        class="question-color-channel"
+        style="display: flex; align-items: center;"
+      >
+        R <div
+          style:background-color="rgb(255,0,0)"
+          style="display: inline-block; height: 1rem; width: 1rem; border-radius: 100vmax;"
+        />
+        {Math.round(($question.coords.x * 100) / (difficulty - 1))}%
+      </div>
+      <div
+        class="question-color-channel"
+        style="display: flex; align-items: center;"
+      >
+        G <div
+          style:background-color="rgb(0,255,0)"
+          style="display: inline-block; height: 1rem; width: 1rem; border-radius: 100vmax;"
+        />
+        {Math.round(($question.coords.y * 100) / (difficulty - 1))}%
+      </div>
+      <div
+        class="question-color-channel"
+        style="display: flex; align-items: center;"
+      >
+        B <div
+          style:background-color="rgb(0,0,255)"
+          style="display: inline-block; height: 1rem; width: 1rem; border-radius: 100vmax;"
+        />
+        {Math.round(($question.coords.z * 100) / (difficulty - 1))}%
+      </div>
     </div>
 
     <div class="lives">
@@ -193,17 +233,6 @@
     </div>
   </div>
 
-  <!-- <div
-    style={"width: 100dvw; height: 100dvh; z-index: 100; backdrop-filter: blur(60px);"}
-  /> -->
-
-  <div class="container">
-    <Canvas colorSpace="display-p3" useLegacyLights={false}>
-      <Scene {handleSelect} />
-    </Canvas>
-    <div class="bg" />
-  </div>
-
   <div class="spacefactor-slider">
     <Slider bind:value={$spaceFactor} />
   </div>
@@ -212,6 +241,13 @@
     Exit <Shortcut label="Esc" />
   </button>
 {/if}
+
+<div class="container">
+  <Canvas colorSpace="display-p3" useLegacyLights={false}>
+    <Scene {handleSelect} {state} />
+  </Canvas>
+  <div class="bg" />
+</div>
 
 {#if showToast}
   <Toast message={toastMessage} type={toastType} />
@@ -235,9 +271,9 @@
 
     user-select: none;
 
-    --surface-0: hsl(0, 0%, 100%);
-    --surface-1: hsl(0, 0%, 95%);
-    --surface-2: hsl(0, 0%, 90%);
+    --surface-0: hsl(0, 0%, 96%);
+    --surface-1: hsl(0, 0%, 92%);
+    --surface-2: hsl(0, 0%, 88%);
     --text: hsl(0, 0%, 0%);
     --primary: hsl(0, 0%, 0%);
     --accent: hsl(215, 100%, 50%);
@@ -376,14 +412,29 @@
   .menu-container {
     width: 100dvw;
     height: 100dvh;
+    z-index: 100;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
+  .blur {
+    position: absolute;
+    width: 100dvw;
+    height: 100dvh;
+    z-index: 10;
+    backdrop-filter: blur(60px);
+    -webkit-backdrop-filter: blur(60px);
+  }
+
   .menu {
+    max-width: min(400px, 100%);
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 1rem;
     display: flex;
     flex-direction: column;
+    z-index: 100;
     gap: 1rem;
   }
 
