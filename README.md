@@ -34,5 +34,6 @@ A color matching game built over weekends\*.
 ### Bugs
 
 - [ ] Color space issues
+- [ ] Change `Play again` to `Play` when difficulty is changed
 - [ ] iOS fix
 - [ ] Reset scene on `esc`
