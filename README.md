@@ -30,6 +30,10 @@ A color matching game built over weekends\*.
 - [x] Standardise toast
 - [ ] Better types
 - [ ] Restructure `game.ts`
+- [ ] Extract `state` to its own store
+- [ ] Remove duplication of `Difficulty` enum
+- [ ] Remove duplication of CSS in menu
+- [ ] Use slots for `Menu` end state
 
 ### Bugs
 
