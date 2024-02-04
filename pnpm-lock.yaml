@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@fontsource/archivo':
+    specifier: ^5.0.8
+    version: 5.0.16
   '@threlte/core':
     specifier: ^7.0.12
     version: 7.0.12(svelte@4.2.9)(three@0.160.1)
@@ -265,6 +268,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@fontsource/archivo@5.0.16:
+    resolution: {integrity: sha512-HBqoOkkB4TVsdjQPZ75sNuRAvy1JvnD7s1GKzAOnnncDIc0mPN1W91AWBmVCkto6pZcXR/EIMzD1Zu4C4GPX1g==}
+    dev: false
 
   /@jridgewell/gen-mapping@0.3.3:
     resolution: {integrity: sha512-HLhSWOLRi875zjjMG/r+Nv0oCW8umGb0BgEhyX3dDX3egwZtB8PqLnjz3yedt8R5StBrzcg4aBpnh8UA9D1BoQ==}

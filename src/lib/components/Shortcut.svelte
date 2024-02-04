@@ -1,9 +1,8 @@
 <script lang="ts">
   export let label: string
-  export let color: string = "0,0,0"
 </script>
 
-<div style:--color={color}>
+<div>
   {label}
 </div>
 
@@ -12,8 +11,10 @@
     display: inline;
     font-size: 0.75rem;
     font-weight: medium;
-    color: rgba(var(--color), 0.8);
-    background-color: rgba(var(--color), 0.1);
+    color: var(--surface-0);
+    opacity: 0.6;
+    background-color: rgba(var(--text), 0.1);
+    /* bg-color needs a fix */
     border-radius: 0.25rem;
     padding: 0.25rem;
   }

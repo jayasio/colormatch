@@ -1,15 +1,10 @@
 import _ from "lodash"
 import { spring } from "svelte/motion"
 import { derived, writable } from "svelte/store"
-
-type Vector = {
-  x: number
-  y: number
-  z: number
-}
+import type { Vector } from "$lib/types"
 
 export class Game {
-  difficulty: number
+  difficulty
 
   spaceFactor
 
@@ -17,6 +12,7 @@ export class Game {
   strikes
 
   question
+  questionsList
 
   normals
   colorNormals
@@ -25,7 +21,7 @@ export class Game {
   constructor(difficulty: number) {
     this.difficulty = difficulty
 
-    this.spaceFactor = spring(2)
+    this.spaceFactor = spring(2.0)
 
     this.wins = writable(0)
     this.strikes = writable(0)
@@ -38,11 +34,12 @@ export class Game {
       return (
         ((_.head(this.normals) ?? 0) +
           (_.last(this.normals) ?? 0) +
-          (($spaceFactor - 2) * this.normals.length) / 2) *
+          (($spaceFactor - 2.0) * this.normals.length) / 2) *
         -1
       )
     })
 
+    this.questionsList = writable<{ coords: Vector; color: String }[]>([])
     this.question = writable(this._generateQuestion())
   }
 
@@ -72,10 +69,20 @@ export class Game {
       y: randomize(this.difficulty),
       z: randomize(this.difficulty),
     } as Vector
+    const coordsPercent = {
+      x: Math.round((coords.x * 100) / (this.difficulty - 1)),
+      y: Math.round((coords.y * 100) / (this.difficulty - 1)),
+      z: Math.round((coords.z * 100) / (this.difficulty - 1)),
+    } as Vector
     const color = this.getColor(coords)
+
+    this.questionsList.update((questionsList) => {
+      return [...questionsList, { coords, coordsPercent, color }]
+    })
 
     return {
       coords,
+      coordsPercent,
       color,
     }
   }
