@@ -25,9 +25,9 @@
       positionY.set($game.difficulty * 3)
       positionZ.set($game.difficulty * 3)
     } else {
-      positionX.set(-2)
-      positionY.set(5)
-      positionZ.set(5)
+      positionX.set(($game.difficulty * -2) / 4)
+      positionY.set(($game.difficulty * 5) / 4)
+      positionZ.set(($game.difficulty * 5) / 4)
     }
   }
 
