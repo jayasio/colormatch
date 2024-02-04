@@ -5,6 +5,8 @@
 
   import type { Difficulty } from "$lib/types"
 
+  let version = "0.2"
+
   export let state: any
   export let difficulty: Difficulty
 
@@ -34,7 +36,10 @@
       </div>
     {/if}
 
-    <div class="logo">Color Match!</div>
+    <div class="title">
+      <div class="logo">Color Match!</div>
+      <div class="version">v{version}</div>
+    </div>
     <div class="difficulty">
       {#each ["easy", "medium", "hard"] as difficultyLevel, index}
         <label class="difficulty-level" style:text-transform={"capitalize"}>
@@ -101,6 +106,24 @@
     gap: 0.25rem;
     justify-content: center;
     align-items: center;
+  }
+
+  .title {
+    display: flex;
+    justify-content: start;
+    align-items: end;
+    gap: 0.25rem;
+  }
+
+  .title > .logo {
+    font-weight: bold;
+  }
+
+  .title > .version {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--text);
+    opacity: 0.6;
   }
 
   .score {
