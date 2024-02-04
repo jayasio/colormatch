@@ -10,7 +10,7 @@
   import { game } from "$lib/game"
   import { spring } from "svelte/motion"
 
-  $: ({ spaceFactor, center, difficulty } = $game)
+  $: ({ spaceFactor, center } = $game)
 
   export let handleSelect: (event: any) => void
   export let state
