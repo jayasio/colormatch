@@ -13,22 +13,26 @@
   import Scene from "./Scene.svelte"
   import { game, Game } from "$lib/game"
 
-  enum Difficulty {
-    easy = 3,
-    medium = 4,
-    hard = 5,
-  }
+  import type { Difficulty, ToastStyle } from "$lib/types"
 
-  let difficulty: Difficulty = Difficulty.medium
+  let difficulty: Difficulty = "medium"
+  let difficultyNumber: number = 4
+
+  $: {
+    if (difficulty === "easy") {
+      difficultyNumber = 3
+    } else if (difficulty === "medium") {
+      difficultyNumber = 4
+    } else {
+      difficultyNumber = 5
+    }
+  }
 
   let showToast = false
   let toastMessage: string
-  let toastType: "neutral" | "success" | "failure"
+  let toastType: ToastStyle
 
-  function toast(
-    message: string,
-    type: "neutral" | "success" | "failure" = "neutral",
-  ) {
+  function toast(message: string, type: ToastStyle = "neutral") {
     toastMessage = message
     toastType = type
     showToast = true
@@ -49,7 +53,7 @@
     },
     play: {
       _enter() {
-        game.set(new Game(difficulty))
+        game.set(new Game(difficultyNumber))
       },
       space({ isIncrement }) {
         if (isIncrement && $spaceFactor < 3) {
@@ -90,13 +94,13 @@
         state.end()
         break
       case "1":
-        state.setDifficulty(Difficulty.easy)
+        state.setDifficulty("easy")
         break
       case "2":
-        state.setDifficulty(Difficulty.medium)
+        state.setDifficulty("medium")
         break
       case "3":
-        state.setDifficulty(Difficulty.hard)
+        state.setDifficulty("hard")
         break
       case ".":
         state.space({ isIncrement: true })
@@ -126,7 +130,7 @@
 </svelte:head>
 
 {#if $state !== "play"}
-  <Menu {state} {difficulty} />
+  <Menu {state} bind:difficulty />
 {/if}
 
 {#if $state === "play"}
@@ -147,7 +151,7 @@
           style:background-color="rgb(255,0,0)"
           style="display: inline-block; height: 1rem; width: 1rem; border-radius: 100vmax;"
         />
-        {Math.round(($question.coords.x * 100) / (difficulty - 1))}%
+        {$question.coordsPercent.x}%
       </div>
       <div
         class="question-color-channel"
@@ -157,7 +161,7 @@
           style:background-color="rgb(0,255,0)"
           style="display: inline-block; height: 1rem; width: 1rem; border-radius: 100vmax;"
         />
-        {Math.round(($question.coords.y * 100) / (difficulty - 1))}%
+        {$question.coordsPercent.y}%
       </div>
       <div
         class="question-color-channel"
@@ -167,7 +171,7 @@
           style:background-color="rgb(0,0,255)"
           style="display: inline-block; height: 1rem; width: 1rem; border-radius: 100vmax;"
         />
-        {Math.round(($question.coords.z * 100) / (difficulty - 1))}%
+        {$question.coordsPercent.z}%
       </div>
     </div>
 

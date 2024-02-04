@@ -3,14 +3,10 @@
   import { game } from "$lib/game"
   import Shortcut from "$lib/components/Shortcut.svelte"
 
-  enum Difficulty {
-    easy = 3,
-    medium = 4,
-    hard = 5,
-  }
+  import type { Difficulty } from "$lib/types"
 
   export let state: any
-  export let difficulty: number
+  export let difficulty: Difficulty
 
   $: ({ wins } = $game)
 </script>
@@ -40,7 +36,7 @@
 
     <div class="logo">Color Match!</div>
     <div class="difficulty">
-      {#each [Difficulty.easy, Difficulty.medium, Difficulty.hard] as difficultyLevel, index}
+      {#each ["easy", "medium", "hard"] as difficultyLevel, index}
         <label class="difficulty-level" style:text-transform={"capitalize"}>
           <input
             bind:group={difficulty}
@@ -48,7 +44,7 @@
             type="radio"
             style:display={"none"}
           />
-          {Difficulty[difficultyLevel]}
+          {difficultyLevel}
           <!-- <Shortcut label={`${index + 1}`} /> -->
         </label>
       {/each}

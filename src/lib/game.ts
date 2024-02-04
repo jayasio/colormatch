@@ -1,12 +1,7 @@
 import _ from "lodash"
 import { spring } from "svelte/motion"
-import { derived, get, writable } from "svelte/store"
-
-type Vector = {
-  x: number
-  y: number
-  z: number
-}
+import { derived, writable } from "svelte/store"
+import type { Vector } from "$lib/types"
 
 export class Game {
   difficulty
@@ -74,14 +69,20 @@ export class Game {
       y: randomize(this.difficulty),
       z: randomize(this.difficulty),
     } as Vector
+    const coordsPercent = {
+      x: Math.round((coords.x * 100) / (this.difficulty - 1)),
+      y: Math.round((coords.y * 100) / (this.difficulty - 1)),
+      z: Math.round((coords.z * 100) / (this.difficulty - 1)),
+    } as Vector
     const color = this.getColor(coords)
 
     this.questionsList.update((questionsList) => {
-      return [...questionsList, { coords, color }]
+      return [...questionsList, { coords, coordsPercent, color }]
     })
 
     return {
       coords,
+      coordsPercent,
       color,
     }
   }
