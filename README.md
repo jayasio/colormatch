@@ -19,7 +19,7 @@ A color matching game built over weekends\*.
 ### Experience
 
 - [ ] Add select success / failure animations in scene
-- [ ] Transition scene to blur background on menu
+- [x] Transition scene to blur background on menu
 - [ ] Transitions and microinteractions
 - [ ] Better User Interface
 - [ ] Better difficulty switcher with visuals
@@ -29,15 +29,23 @@ A color matching game built over weekends\*.
 - [ ] Consistent design system
 - [x] Standardise toast
 - [ ] Better types
-- [ ] Restructure `game.ts`
+- [x] Restructure `game.ts`
 - [ ] Extract `state` to its own store
-- [ ] Remove duplication of `Difficulty` enum
+- [x] Remove duplication of `Difficulty` enum
 - [ ] Remove duplication of CSS in menu
 - [ ] Use slots for `Menu` end state
+- [ ] Add Open Graph attributes
+- [ ] Camera jumps when transitioning: use a moving camera instead of `OrbitControls`, would also help in maybe implementing key-based scene manipulation
+- [ ] Upgrade to Svelte 5
+- [ ] Better components
 
 ### Bugs
 
 - [ ] Color space issues
 - [ ] Change `Play again` to `Play` when difficulty is changed
 - [ ] iOS fix
-- [ ] Reset scene on `esc`
+- [ ] Reset scene pan on `esc`
+
+## References
+
+- [ ] [https://developer.chrome.com/docs/css-ui/css-color-mix](Related to CSS colors)

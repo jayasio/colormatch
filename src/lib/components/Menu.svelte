@@ -5,7 +5,7 @@
 
   import type { Difficulty } from "$lib/types"
 
-  let version = "0.2"
+  let version = "v0.3"
 
   export let state: any
   export let difficulty: Difficulty
@@ -20,6 +20,11 @@
     in:fade={{ delay: 100, duration: 100 }}
     out:fade={{ duration: 100 }}
   >
+    <div class="title">
+      <div class="logo">ColorMatch!</div>
+      <div class="version">{version}</div>
+    </div>
+
     {#if $state === "end"}
       <div class="score-card">
         You scored
@@ -36,10 +41,6 @@
       </div>
     {/if}
 
-    <div class="title">
-      <div class="logo">Color Match!</div>
-      <div class="version">v{version}</div>
-    </div>
     <div class="difficulty">
       {#each ["easy", "medium", "hard"] as difficultyLevel, index}
         <label class="difficulty-level" style:text-transform={"capitalize"}>
@@ -54,6 +55,7 @@
         </label>
       {/each}
     </div>
+
     <button on:click={state.start}>
       {#if $state === "initial"}
         Play

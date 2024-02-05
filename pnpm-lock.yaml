@@ -5,9 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@fontsource/archivo':
-    specifier: ^5.0.8
+  '@fontsource-variable/space-grotesk':
+    specifier: ^5.0.16
     version: 5.0.16
+  '@fontsource/space-mono':
+    specifier: ^5.0.18
+    version: 5.0.18
   '@threlte/core':
     specifier: ^7.0.12
     version: 7.0.12(svelte@4.2.9)(three@0.160.1)
@@ -249,8 +252,12 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@fontsource/archivo@5.0.16:
-    resolution: {integrity: sha512-HBqoOkkB4TVsdjQPZ75sNuRAvy1JvnD7s1GKzAOnnncDIc0mPN1W91AWBmVCkto6pZcXR/EIMzD1Zu4C4GPX1g==}
+  /@fontsource-variable/space-grotesk@5.0.16:
+    resolution: {integrity: sha512-pFM2xRqXX5ac9d6XqMgF3o1AhJpzi89Y66MTrW36xiXdEHciGkKx1XeXMW0LEwZGTe36tkopKRfmnFg5KMSDgw==}
+    dev: false
+
+  /@fontsource/space-mono@5.0.18:
+    resolution: {integrity: sha512-2GKT0pokkncXbYF675JcxexjTwVGD2jX+a9rof9wgI+IuyMk0CNsZFBNuSDDsJoTfZpJjA2GCVaEr7f/bgp35A==}
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:

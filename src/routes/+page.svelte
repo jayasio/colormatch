@@ -1,6 +1,4 @@
 <script lang="ts">
-  import "@fontsource/archivo"
-
   import { Canvas } from "@threlte/core"
   import fsm from "svelte-fsm"
   import _ from "lodash"
@@ -11,7 +9,7 @@
   import Menu from "$lib/components/Menu.svelte"
 
   import Scene from "./Scene.svelte"
-  import { game, Game } from "$lib/game"
+  import { game, resetGame } from "$lib/game"
 
   import type { Difficulty, ToastStyle } from "$lib/types"
 
@@ -53,7 +51,7 @@
     },
     play: {
       _enter() {
-        game.set(new Game(difficultyNumber))
+        resetGame(difficultyNumber)
       },
       space({ isIncrement }) {
         if (isIncrement && $spaceFactor < 3) {
@@ -124,7 +122,7 @@
 <svelte:window on:keydown={handleKeyDown} />
 
 <svelte:head>
-  <title>Color Match!</title>
+  <title>ColorMatch!</title>
   <!-- <link rel="preconnect" href="https://rsms.me/" />
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css" /> -->
 </svelte:head>
@@ -212,20 +210,6 @@
 
 <style>
   :root {
-    font-family:
-      "Archivo",
-      system-ui,
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      Roboto,
-      Oxygen,
-      Ubuntu,
-      Cantarell,
-      "Open Sans",
-      "Helvetica Neue",
-      sans-serif;
-
     user-select: none;
 
     --surface-0: hsl(0, 0%, 96%);
