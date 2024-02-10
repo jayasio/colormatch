@@ -12,6 +12,7 @@
   import { game, resetGame } from "$lib/game"
 
   import type { Difficulty, ToastStyle } from "$lib/types"
+  import QuestionCard from "$lib/components/QuestionCard.svelte"
 
   let difficulty: Difficulty = "medium"
   let difficultyNumber: number = 4
@@ -133,45 +134,7 @@
 
 {#if $state === "play"}
   <div class="hud">
-    <div
-      class="question"
-      style="display: flex; flex-direction: column; gap: 0.5rem;"
-    >
-      <div
-        style:background-color={$question.color}
-        style="height: 1rem; width: 1rem;"
-      />
-      <div
-        class="question-color-channel"
-        style="display: flex; align-items: center;"
-      >
-        R <div
-          style:background-color="rgb(255,0,0)"
-          style="display: inline-block; height: 1rem; width: 1rem; border-radius: 100vmax;"
-        />
-        {$question.coordsPercent.x}%
-      </div>
-      <div
-        class="question-color-channel"
-        style="display: flex; align-items: center;"
-      >
-        G <div
-          style:background-color="rgb(0,255,0)"
-          style="display: inline-block; height: 1rem; width: 1rem; border-radius: 100vmax;"
-        />
-        {$question.coordsPercent.y}%
-      </div>
-      <div
-        class="question-color-channel"
-        style="display: flex; align-items: center;"
-      >
-        B <div
-          style:background-color="rgb(0,0,255)"
-          style="display: inline-block; height: 1rem; width: 1rem; border-radius: 100vmax;"
-        />
-        {$question.coordsPercent.z}%
-      </div>
-    </div>
+    <QuestionCard {question} />
 
     <div class="lives">
       {#each _.range($strikes, maxStrikes) as life}
@@ -310,6 +273,7 @@
     align-items: start;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    padding: 1rem;
   }
 
   .lives {
@@ -319,7 +283,8 @@
     display: flex;
     font-family: system-ui;
     font-size: 2rem;
-    align-items: start;
+    align-items: center;
+    justify-content: center;
     justify-self: center;
   }
 

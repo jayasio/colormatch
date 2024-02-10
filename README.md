@@ -32,6 +32,7 @@ A color matching game built over weekends\*.
 - [ ] Better types
 - [x] Restructure `game.ts`
 - [ ] Extract `state` to its own store
+- [ ] Extract `color` logic to its own utility
 - [x] Remove duplication of `Difficulty` enum
 - [ ] Remove duplication of CSS in menu
 - [ ] Use slots for `Menu` end state

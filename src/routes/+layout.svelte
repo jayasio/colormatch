@@ -59,6 +59,7 @@
     --heading-6: var(--font-1);
     --body-1: var(--font-0);
     --body-2: var(--font--1);
+    --ui: var(--font--1);
     --caption: var(--font--2);
   }
 
