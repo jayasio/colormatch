@@ -9,12 +9,10 @@
 <style>
   div {
     display: inline;
-    font-size: 0.75rem;
-    font-weight: medium;
-    color: var(--surface-0);
-    opacity: 0.6;
-    background-color: rgba(var(--text), 0.1);
-    /* bg-color needs a fix */
+    font: var(--caption);
+    font-weight: bold;
+    color: var(--text-inverse-1);
+    background-color: var(--surface-inverse-1);
     border-radius: 0.25rem;
     padding: 0.25rem;
   }

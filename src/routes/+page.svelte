@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Canvas } from "@threlte/core"
+  import { Canvas, T } from "@threlte/core"
   import fsm from "svelte-fsm"
   import _ from "lodash"
 
@@ -198,7 +198,12 @@
 {/if}
 
 <div class="container">
-  <Canvas colorSpace="display-p3" useLegacyLights={false}>
+  <Canvas
+    colorSpace="srgb"
+    useLegacyLights={false}
+    toneMapping={T.NoToneMapping}
+  >
+    <!-- TODO infer colorspace from media queries maybe -->
     <Scene {handleSelect} {state} />
   </Canvas>
   <div class="bg" />
@@ -211,13 +216,6 @@
 <style>
   :root {
     user-select: none;
-
-    --surface-0: hsl(0, 0%, 96%);
-    --surface-1: hsl(0, 0%, 92%);
-    --surface-2: hsl(0, 0%, 88%);
-    --text: hsl(0, 0%, 0%);
-    --primary: hsl(0, 0%, 0%);
-    --accent: hsl(215, 100%, 50%);
 
     /* font-family: Inter, sans-serif;
     font-feature-settings:
@@ -234,7 +232,7 @@
   :global(body),
   .bg {
     background-color: var(--surface-0);
-    color: var(--text);
+    color: var(--text-0);
   }
 
   .bg {
@@ -247,15 +245,6 @@
   }
 
   @media (prefers-color-scheme: dark) {
-    :root {
-      --surface-0: hsl(0, 0%, 5%);
-      --surface-1: hsl(0, 0%, 10%);
-      --surface-2: hsl(0, 0%, 15%);
-      --text: hsl(0, 0%, 100%);
-      --primary: hsl(0, 0%, 100%);
-      --accent: hsl(215, 100%, 50%);
-    }
-
     :global(body),
     .bg {
       background: radial-gradient(
@@ -265,7 +254,7 @@
         ),
         radial-gradient(ellipse at bottom, var(--surface-1), var(--surface-0));
       background-color: transparent;
-      color: var(--text);
+      color: var(--text-0);
     }
   }
 
@@ -294,8 +283,8 @@
   button {
     border: none;
     border-radius: 0.5rem;
-    background-color: var(--primary);
-    color: var(--surface-0);
+    background-color: var(--surface-inverse-0);
+    color: var(--text-inverse-0);
     padding: 0.75rem 1rem;
     cursor: pointer;
     display: flex;
@@ -328,9 +317,9 @@
     padding: 0;
     gap: 0;
     display: flex;
+    font-family: system-ui;
     font-size: 2rem;
     align-items: start;
-    font-family: system-ui;
     justify-self: center;
   }
 
@@ -344,9 +333,8 @@
   }
 
   .score {
-    font-size: 4rem;
+    font: var(--heading-1);
     margin: 0;
     padding: 0;
-    line-height: 1;
   }
 </style>

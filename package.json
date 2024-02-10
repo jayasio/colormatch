@@ -21,8 +21,8 @@
   },
   "type": "module",
   "dependencies": {
-    "@fontsource-variable/space-grotesk": "^5.0.16",
-    "@fontsource/space-mono": "^5.0.18",
+    "@fontsource/geist-mono": "^5.0.1",
+    "@fontsource/geist-sans": "^5.0.1",
     "@threlte/core": "^7.0.12",
     "@threlte/extras": "^8.5.0",
     "@types/lodash": "^4.14.202",

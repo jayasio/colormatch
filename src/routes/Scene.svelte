@@ -9,6 +9,8 @@
 
   import { game } from "$lib/game"
   import { spring } from "svelte/motion"
+  // import type { Vector } from "$lib/types"
+  import _ from "lodash"
 
   $: ({ spaceFactor, center } = $game)
 
@@ -31,6 +33,8 @@
     }
   }
 
+  // let highlight: Vector | null
+
   interactivity()
 </script>
 
@@ -41,16 +45,20 @@
   position.z={$positionZ}
 >
   <OrbitControls enableDamping autoRotate={$state !== "play"} />
-  <T.DirectionalLight position={[12, 36, -0]} intensity={Math.PI * 0.5} />
-  <T.DirectionalLight position={[0, -4, 10]} intensity={Math.PI * 0.5} />
+  <T.DirectionalLight position={[12, 36, -0]} intensity={Math.PI * 0.25} />
+  <T.DirectionalLight position={[0, -4, 10]} intensity={Math.PI * 0.25} />
 </T.PerspectiveCamera>
 
-<T.AmbientLight intensity={Math.PI * 0.25} />
+<T.AmbientLight intensity={Math.PI * 0.75} />
 
 <T.Group
   autocenter
   position={[$center, $center, $center]}
-  on:dblclick={handleSelect}
+  on:dblclick={(event) => {
+    // highlight = event.object.userData.coord
+    handleSelect(event)
+    // setTimeout(() => (highlight = null), 500)
+  }}
 >
   <InstancedMesh>
     <T.SphereGeometry />
@@ -64,6 +72,9 @@
             userData={{ coord: { x, y, z } }}
             color={$game.getColor({ x, y, z })}
           />
+          <!-- scale={_.isEqual(highlight, { x, y, z })
+              ? [1.2, 1.2, 1.2]
+              : [1, 1, 1]} -->
         {/each}
       {/each}
     {/each}

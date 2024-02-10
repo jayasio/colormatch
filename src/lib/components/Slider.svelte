@@ -44,7 +44,7 @@
     -webkit-appearance: none; /* Override default look */
     appearance: none;
     margin-top: 0px; /* Centers thumb on the track */
-    background-color: var(--text);
+    background-color: var(--surface-inverse-0);
     border-radius: 0.25rem;
     height: 2rem;
     width: 1rem;
@@ -68,7 +68,7 @@
 
   /* slider thumb */
   input[type="range"]::-moz-range-thumb {
-    background-color: var(--text);
+    background-color: var(--surface-inverse-0);
     border: none; /*Removes extra border that FF applies*/
     border-radius: 0.25rem;
     height: 2rem;

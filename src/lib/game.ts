@@ -13,6 +13,7 @@ function createGame(difficulty: number) {
   const colorNormals = normals.map((x) =>
     Math.ceil((x / (normals.length - 1)) * 255),
   )
+  // const colorNormalsNormalized = normals.map((x) => x / difficulty)
 
   const center = derived(spaceFactor, ($spaceFactor) => {
     return (
@@ -35,7 +36,13 @@ function createGame(difficulty: number) {
     strikes.update((n) => n + 1)
   }
 
-  function getColor(coords: Vector) {
+  function getColor(coords: Vector, colorSpace: string = "srgb") {
+    // return `color(
+    //   ${colorSpace}
+    //   ${colorNormalsNormalized[coords.x]}
+    //   ${colorNormalsNormalized[coords.y]}
+    //   ${colorNormalsNormalized[coords.z]}
+    //   )`
     return `rgb(${colorNormals[coords.x]}, ${colorNormals[coords.y]}, ${
       colorNormals[coords.z]
     })`

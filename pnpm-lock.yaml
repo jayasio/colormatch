@@ -5,12 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@fontsource-variable/space-grotesk':
-    specifier: ^5.0.16
-    version: 5.0.16
-  '@fontsource/space-mono':
-    specifier: ^5.0.18
-    version: 5.0.18
+  '@fontsource/geist-mono':
+    specifier: ^5.0.1
+    version: 5.0.1
+  '@fontsource/geist-sans':
+    specifier: ^5.0.1
+    version: 5.0.1
   '@threlte/core':
     specifier: ^7.0.12
     version: 7.0.12(svelte@4.2.9)(three@0.160.1)
@@ -252,12 +252,12 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@fontsource-variable/space-grotesk@5.0.16:
-    resolution: {integrity: sha512-pFM2xRqXX5ac9d6XqMgF3o1AhJpzi89Y66MTrW36xiXdEHciGkKx1XeXMW0LEwZGTe36tkopKRfmnFg5KMSDgw==}
+  /@fontsource/geist-mono@5.0.1:
+    resolution: {integrity: sha512-fbLTXtnGagDEaKmRqAnjbqWZbZ3RR6RExvNikt3hLI/qJXxaBZZw8OH+Ve5rAxVxmKwz0a5GmPk2cqW0aapbfQ==}
     dev: false
 
-  /@fontsource/space-mono@5.0.18:
-    resolution: {integrity: sha512-2GKT0pokkncXbYF675JcxexjTwVGD2jX+a9rof9wgI+IuyMk0CNsZFBNuSDDsJoTfZpJjA2GCVaEr7f/bgp35A==}
+  /@fontsource/geist-sans@5.0.1:
+    resolution: {integrity: sha512-Q/GGewhqc6WTtqbOQWaHCar/BZY3H6Nu0J65BuWYOCXUhc/iEhRP9n+7V2KZ3X8+/ZNMCfFzxzrUZrQYB/lnNw==}
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:

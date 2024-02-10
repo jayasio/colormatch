@@ -100,8 +100,8 @@
   button {
     border: none;
     border-radius: 0.5rem;
-    background-color: var(--primary);
-    color: var(--surface-0);
+    background-color: var(--surface-inverse-0);
+    color: var(--text-inverse-0);
     padding: 0.75rem 1rem;
     cursor: pointer;
     display: flex;
@@ -118,28 +118,28 @@
   }
 
   .title > .logo {
+    font: var(--heading-6);
     font-weight: bold;
   }
 
   .title > .version {
-    font-size: 0.75rem;
+    font: var(--caption);
+    color: var(--text-2);
+
     font-weight: bold;
-    color: var(--text);
     opacity: 0.6;
   }
 
   .score {
-    font-size: 4rem;
+    font: var(--heading-1);
     margin: 0;
     padding: 0;
-    line-height: 1;
   }
 
   .score-card {
     width: 100%;
     padding: 1rem;
     background-color: var(--surface-1);
-    font-weight: bold;
     border-radius: 0.5rem;
   }
 

@@ -19,6 +19,7 @@ A color matching game built over weekends\*.
 ### Experience
 
 - [ ] Add select success / failure animations in scene
+  - Added mechanism to highlight on dblclick, commented for now
 - [x] Transition scene to blur background on menu
 - [ ] Transitions and microinteractions
 - [ ] Better User Interface
@@ -41,7 +42,7 @@ A color matching game built over weekends\*.
 
 ### Bugs
 
-- [ ] Color space issues
+- [x] Color space issues (NoToneMapping improved color fidelity significantly)
 - [ ] Change `Play again` to `Play` when difficulty is changed
 - [ ] iOS fix
 - [ ] Reset scene pan on `esc`
