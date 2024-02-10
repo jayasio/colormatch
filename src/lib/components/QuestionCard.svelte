@@ -37,7 +37,6 @@
     flex-direction: column-reverse;
     gap: 2rem;
 
-    padding: 1rem;
     border-radius: 0.25rem;
 
     cursor: pointer;
@@ -46,6 +45,7 @@
 
     &.hint-always,
     &:hover {
+      padding: 1rem;
       background-color: var(--question-color);
     }
   }

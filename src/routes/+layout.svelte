@@ -104,4 +104,18 @@
       --text-inverse-2: var(--black-2);
     }
   }
+
+  @media screen and (width < 768px) {
+    :root {
+      --font-6: 500 2.488rem/1.2 "Geist Sans";
+      --font-5: 1.953rem/1.2 "Geist Sans";
+      --font-4: 1.563rem/1.2 "Geist Sans";
+      --font-3: 1.25rem/1.2 "Geist Sans";
+      --font-2: 1rem/1.2 "Geist Sans";
+      --font-1: 0.813rem/1.2 "Geist Sans";
+      --font-0: 0.75rem/1.2 "Geist Sans";
+      --font--1: 0.625rem/1.2 "Geist Sans";
+      --font--2: 0.5rem/1.2 "Geist Sans";
+    }
+  }
 </style>

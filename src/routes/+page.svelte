@@ -236,7 +236,7 @@
     display: flex;
     width: 100%;
     z-index: 10;
-    justify-content: center;
+    justify-content: start;
     padding-top: calc(1rem + env(safe-area-inset-top));
     padding-right: calc(1rem + env(safe-area-inset-right));
     padding-bottom: calc(1rem + env(safe-area-inset-bottom));
