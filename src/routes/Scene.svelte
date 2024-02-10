@@ -17,19 +17,19 @@
   export let handleSelect: (event: any) => void
   export let state
 
-  let positionX = spring(0)
-  let positionY = spring(0)
-  let positionZ = spring(10)
+  let cameraPositionX = spring(0)
+  let cameraPositionY = spring(0)
+  let cameraPositionZ = spring(10)
 
   $: {
     if ($state === "play") {
-      positionX.set($game.difficulty * 3)
-      positionY.set($game.difficulty * 3)
-      positionZ.set($game.difficulty * 3)
+      cameraPositionX.set($game.difficulty * (5 / 2))
+      cameraPositionY.set($game.difficulty * (5 / 2))
+      cameraPositionZ.set($game.difficulty * (5 / 2))
     } else {
-      positionX.set(($game.difficulty * -2) / 4)
-      positionY.set(($game.difficulty * 5) / 4)
-      positionZ.set(($game.difficulty * 5) / 4)
+      cameraPositionX.set($game.difficulty * (-2 / 4))
+      cameraPositionY.set($game.difficulty * (5 / 4))
+      cameraPositionZ.set($game.difficulty * (5 / 4))
     }
   }
 
@@ -40,9 +40,9 @@
 
 <T.PerspectiveCamera
   makeDefault
-  position.x={$positionX}
-  position.y={$positionY}
-  position.z={$positionZ}
+  position.x={$cameraPositionX}
+  position.y={$cameraPositionY}
+  position.z={$cameraPositionZ}
 >
   <OrbitControls enableDamping autoRotate={$state !== "play"} />
   <T.DirectionalLight position={[12, 36, -0]} intensity={Math.PI * 0.25} />
@@ -72,7 +72,8 @@
             userData={{ coord: { x, y, z } }}
             color={$game.getColor({ x, y, z })}
           />
-          <!-- scale={_.isEqual(highlight, { x, y, z })
+          <!-- opacity={_.isEqual(highlight, { x, y, z }) ? 1.0 : 0.25}
+            scale={_.isEqual(highlight, { x, y, z })
               ? [1.2, 1.2, 1.2]
               : [1, 1, 1]} -->
         {/each}
