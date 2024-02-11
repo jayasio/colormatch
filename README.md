@@ -4,9 +4,16 @@ A color matching game built over weekends\*.
 
 ## Tasks
 
+> Legend
+>
+> 🟡 Ongoing
+>
+> 🟢 Completed
+
 ### Features
 
 - [ ] When game ends, user can review the questions
+- [ ] Helpful feedback when wrong color is selected
 - [ ] CMYK mode: use CMYK coordinates
   - more research required on color theory
   - Check out `device-cmyk()`
@@ -18,26 +25,49 @@ A color matching game built over weekends\*.
 
 ### Experience
 
-- [ ] Add select success / failure animations in scene
-- [ ] Transition scene to blur background on menu
+- [ ] 🟡 Better User Interface
+- [ ] Since game is based on colors, plus we now have luminance based colors, menu can be a random color everytime (? will it look good on top of blurred scene)
+- [ ] Add hover feedback in scene
+- [ ] Add select success / failure feedback in scene
+- [ ] Audio effects (howler)
+  - Added mechanism to highlight on dblclick, commented for now
 - [ ] Transitions and microinteractions
-- [ ] Better User Interface
 - [ ] Better difficulty switcher with visuals
+- [ ] Better question generator
+  - Controlled randomness
+  - Ignore immediate repeats
+- [x] 🟢 Transition scene to blur background on menu
 
 ### Code hygiene
 
-- [ ] Consistent design system
-- [x] Standardise toast
-- [ ] Better types
-- [ ] Restructure `game.ts`
+- [ ] 🟡 Consistent design system
+- [ ] 🟡 Better types
+- [ ] Alpha based color variants
 - [ ] Extract `state` to its own store
-- [ ] Remove duplication of `Difficulty` enum
-- [ ] Remove duplication of CSS in menu
+- [ ] Extract `color` logic to its own utility
 - [ ] Use slots for `Menu` end state
+- [ ] Add Open Graph attributes
+- [ ] Camera jumps when transitioning: use a moving camera instead of `OrbitControls`, would also help in maybe implementing key-based scene manipulation
+- [ ] Upgrade to Svelte 5
+- [ ] Better components
+- [x] 🟢 Remove `Button` to its own component
+- [x] 🟢 Remove duplication of `Difficulty` enum
+- [x] 🟢 Standardise toast
+- [x] 🟢 Restructure `game.ts`
 
 ### Bugs
 
-- [ ] Color space issues
+- [ ] Sometimes after a rotate, click randomly stops working until mouse is moved; suspicious on damping on `OrbitControls`
+- [ ] Clicking on `Slider` causes random jumps in scene sometimes
+- [ ] Dynamic text color based on bg in `QuestionCard`
 - [ ] Change `Play again` to `Play` when difficulty is changed
-- [ ] iOS fix
-- [ ] Reset scene on `esc`
+- [ ] Reset scene pan on `esc`
+- [x] 🟢 `.ignore-pointer` for allowing pointer passthrough in layout divs
+  - ~~Use css `pointer-events: none` to allow pointer passthrough in layout divs~~
+  - ~~DOM elements should be minimal to avoid obstruction of pointer on scene~~
+- [x] 🟢 iOS fix - single click is select; clicks with delta > 0 are ignored
+- [x] 🟢 Color space issues (NoToneMapping improved color fidelity significantly)
+
+## References
+
+- [ ] [https://developer.chrome.com/docs/css-ui/css-color-mix](Related to CSS colors)

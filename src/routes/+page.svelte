@@ -1,7 +1,5 @@
 <script lang="ts">
-  import "@fontsource/archivo"
-
-  import { Canvas } from "@threlte/core"
+  import { Canvas, T } from "@threlte/core"
   import fsm from "svelte-fsm"
   import _ from "lodash"
 
@@ -11,9 +9,11 @@
   import Menu from "$lib/components/Menu.svelte"
 
   import Scene from "./Scene.svelte"
-  import { game, Game } from "$lib/game"
+  import { game, resetGame } from "$lib/game"
 
   import type { Difficulty, ToastStyle } from "$lib/types"
+  import QuestionCard from "$lib/components/QuestionCard.svelte"
+  import Button from "$lib/components/Button.svelte"
 
   let difficulty: Difficulty = "medium"
   let difficultyNumber: number = 4
@@ -53,7 +53,7 @@
     },
     play: {
       _enter() {
-        game.set(new Game(difficultyNumber))
+        resetGame(difficultyNumber)
       },
       space({ isIncrement }) {
         if (isIncrement && $spaceFactor < 3) {
@@ -112,70 +112,28 @@
   }
 
   function handleSelect(event: any) {
+    event.stopPropagation()
+
+    if (event.delta > 0) return
+
     const { coord } = event.object.userData
 
     if (_.isEqual($question.coords, coord)) state.score()
     else state.strike()
-
-    event.stopPropagation()
   }
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
-
-<svelte:head>
-  <title>Color Match!</title>
-  <!-- <link rel="preconnect" href="https://rsms.me/" />
-  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" /> -->
-</svelte:head>
 
 {#if $state !== "play"}
   <Menu {state} bind:difficulty />
 {/if}
 
 {#if $state === "play"}
-  <div class="hud">
-    <div
-      class="question"
-      style="display: flex; flex-direction: column; gap: 0.5rem;"
-    >
-      <div
-        style:background-color={$question.color}
-        style="height: 1rem; width: 1rem;"
-      />
-      <div
-        class="question-color-channel"
-        style="display: flex; align-items: center;"
-      >
-        R <div
-          style:background-color="rgb(255,0,0)"
-          style="display: inline-block; height: 1rem; width: 1rem; border-radius: 100vmax;"
-        />
-        {$question.coordsPercent.x}%
-      </div>
-      <div
-        class="question-color-channel"
-        style="display: flex; align-items: center;"
-      >
-        G <div
-          style:background-color="rgb(0,255,0)"
-          style="display: inline-block; height: 1rem; width: 1rem; border-radius: 100vmax;"
-        />
-        {$question.coordsPercent.y}%
-      </div>
-      <div
-        class="question-color-channel"
-        style="display: flex; align-items: center;"
-      >
-        B <div
-          style:background-color="rgb(0,0,255)"
-          style="display: inline-block; height: 1rem; width: 1rem; border-radius: 100vmax;"
-        />
-        {$question.coordsPercent.z}%
-      </div>
-    </div>
+  <div class="hud ignore-pointer">
+    <QuestionCard {question} />
 
-    <div class="lives">
+    <div class="lives ignore-pointer">
       {#each _.range($strikes, maxStrikes) as life}
         <div>❤️</div>
       {/each}
@@ -184,23 +142,31 @@
       {/each}
     </div>
 
-    <div class="score-container">
+    <div class="score-container ignore-pointer">
       <span class="score">{$wins}</span>
       Score
     </div>
   </div>
 
-  <div class="spacefactor-slider">
+  <div class="spacefactor-slider ignore-pointer">
     <Slider bind:value={$spaceFactor} />
   </div>
 
-  <button on:click={state.end} class="exit-button">
+  <Button
+    onclick={state.end}
+    style="position: fixed; bottom: 0; right: 0; z-index: 200;"
+  >
     Exit <Shortcut label="Esc" />
-  </button>
+  </Button>
 {/if}
 
 <div class="container">
-  <Canvas colorSpace="display-p3" useLegacyLights={false}>
+  <Canvas
+    colorSpace="srgb"
+    useLegacyLights={false}
+    toneMapping={T.NoToneMapping}
+  >
+    <!-- TODO infer colorspace from media queries maybe -->
     <Scene {handleSelect} {state} />
   </Canvas>
   <div class="bg" />
@@ -211,46 +177,10 @@
 {/if}
 
 <style>
-  :root {
-    font-family:
-      "Archivo",
-      system-ui,
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      Roboto,
-      Oxygen,
-      Ubuntu,
-      Cantarell,
-      "Open Sans",
-      "Helvetica Neue",
-      sans-serif;
-
-    user-select: none;
-
-    --surface-0: hsl(0, 0%, 96%);
-    --surface-1: hsl(0, 0%, 92%);
-    --surface-2: hsl(0, 0%, 88%);
-    --text: hsl(0, 0%, 0%);
-    --primary: hsl(0, 0%, 0%);
-    --accent: hsl(215, 100%, 50%);
-
-    /* font-family: Inter, sans-serif;
-    font-feature-settings:
-      "liga" 1,
-      "calt" 1;  */
-    /* fix for Chrome */
-  }
-  /* @supports (font-variation-settings: normal) {
-    :root {
-      font-family: InterVariable, sans-serif;
-    }
-  } */
-
   :global(body),
   .bg {
     background-color: var(--surface-0);
-    color: var(--text);
+    color: var(--text-0);
   }
 
   .bg {
@@ -263,25 +193,16 @@
   }
 
   @media (prefers-color-scheme: dark) {
-    :root {
-      --surface-0: hsl(0, 0%, 5%);
-      --surface-1: hsl(0, 0%, 10%);
-      --surface-2: hsl(0, 0%, 15%);
-      --text: hsl(0, 0%, 100%);
-      --primary: hsl(0, 0%, 100%);
-      --accent: hsl(215, 100%, 50%);
-    }
-
     :global(body),
     .bg {
       background: radial-gradient(
           ellipse at top,
-          var(--surface-2),
+          var(--surface-1),
           var(--surface-0)
         ),
         radial-gradient(ellipse at bottom, var(--surface-1), var(--surface-0));
       background-color: transparent;
-      color: var(--text);
+      color: var(--text-0);
     }
   }
 
@@ -300,31 +221,20 @@
     display: flex;
     width: 100%;
     z-index: 10;
-    justify-content: center;
+    justify-content: start;
     padding-top: calc(1rem + env(safe-area-inset-top));
     padding-right: calc(1rem + env(safe-area-inset-right));
     padding-bottom: calc(1rem + env(safe-area-inset-bottom));
     padding-left: calc(1rem + env(safe-area-inset-left));
   }
 
-  button {
-    border: none;
-    border-radius: 0.5rem;
-    background-color: var(--primary);
-    color: var(--surface-0);
-    padding: 0.75rem 1rem;
-    cursor: pointer;
-    display: flex;
-    gap: 0.25rem;
-    justify-content: center;
-    align-items: center;
-  }
+  .ignore-pointer {
+    pointer-events: none;
 
-  .exit-button {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    z-index: 200;
+    & > * {
+      pointer-events: auto;
+      pointer-events: all;
+    }
   }
 
   .hud {
@@ -337,6 +247,7 @@
     align-items: start;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    padding: 1rem;
   }
 
   .lives {
@@ -344,9 +255,10 @@
     padding: 0;
     gap: 0;
     display: flex;
-    font-size: 2rem;
-    align-items: start;
     font-family: system-ui;
+    font-size: 2rem;
+    align-items: center;
+    justify-content: center;
     justify-self: center;
   }
 
@@ -360,9 +272,8 @@
   }
 
   .score {
-    font-size: 4rem;
+    font: var(--heading-1);
     margin: 0;
     padding: 0;
-    line-height: 1;
   }
 </style>

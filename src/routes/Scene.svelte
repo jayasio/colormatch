@@ -9,52 +9,66 @@
 
   import { game } from "$lib/game"
   import { spring } from "svelte/motion"
+  import type { Vector } from "$lib/types"
+  import _ from "lodash"
 
   $: ({ spaceFactor, center } = $game)
 
   export let handleSelect: (event: any) => void
   export let state
 
-  let positionX = spring(0)
-  let positionY = spring(0)
-  let positionZ = spring(10)
+  let cameraPositionX = spring(0)
+  let cameraPositionY = spring(0)
+  let cameraPositionZ = spring(10)
 
   $: {
     if ($state === "play") {
-      positionX.set($game.difficulty * 3)
-      positionY.set($game.difficulty * 3)
-      positionZ.set($game.difficulty * 3)
+      cameraPositionX.set($game.difficulty * (5 / 2))
+      cameraPositionY.set($game.difficulty * (5 / 2))
+      cameraPositionZ.set($game.difficulty * (5 / 2))
     } else {
-      positionX.set(($game.difficulty * -2) / 4)
-      positionY.set(($game.difficulty * 5) / 4)
-      positionZ.set(($game.difficulty * 5) / 4)
+      cameraPositionX.set($game.difficulty * (-2 / 4))
+      cameraPositionY.set($game.difficulty * (5 / 4))
+      cameraPositionZ.set($game.difficulty * (5 / 4))
     }
   }
+
+  let highlight: Vector | null
 
   interactivity()
 </script>
 
 <T.PerspectiveCamera
   makeDefault
-  position.x={$positionX}
-  position.y={$positionY}
-  position.z={$positionZ}
+  position.x={$cameraPositionX}
+  position.y={$cameraPositionY}
+  position.z={$cameraPositionZ}
 >
   <OrbitControls enableDamping autoRotate={$state !== "play"} />
-  <T.DirectionalLight position={[12, 36, -0]} intensity={Math.PI * 0.5} />
-  <T.DirectionalLight position={[0, -4, 10]} intensity={Math.PI * 0.5} />
+  <T.DirectionalLight position={[12, 36, -0]} intensity={Math.PI * 0.25} />
+  <T.DirectionalLight position={[0, -4, 10]} intensity={Math.PI * 0.25} />
 </T.PerspectiveCamera>
 
-<T.AmbientLight intensity={Math.PI * 0.25} />
+<T.AmbientLight intensity={Math.PI * 0.75} />
 
 <T.Group
   autocenter
   position={[$center, $center, $center]}
-  on:dblclick={handleSelect}
+  on:pointerenter={(event) => {
+    highlight = event.object.userData.coord
+    event.stopPropagation()
+  }}
+  on:pointerleave={(event) => {
+    highlight = null
+    event.stopPropagation()
+  }}
+  on:click={(event) => {
+    handleSelect(event)
+  }}
 >
   <InstancedMesh>
     <T.SphereGeometry />
-    <T.MeshStandardMaterial />
+    <T.MeshLambertMaterial />
 
     {#each $game.normals as x}
       {#each $game.normals as y}
@@ -63,6 +77,9 @@
             position={[x * $spaceFactor, y * $spaceFactor, z * $spaceFactor]}
             userData={{ coord: { x, y, z } }}
             color={$game.getColor({ x, y, z })}
+            scale={_.isEqual(highlight, { x, y, z })
+              ? [1.125, 1.125, 1.125]
+              : [1, 1, 1]}
           />
         {/each}
       {/each}

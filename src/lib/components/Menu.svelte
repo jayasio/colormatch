@@ -4,8 +4,9 @@
   import Shortcut from "$lib/components/Shortcut.svelte"
 
   import type { Difficulty } from "$lib/types"
+  import Button from "$lib/components/Button.svelte"
 
-  let version = "0.2"
+  let version = "v0.3"
 
   export let state: any
   export let difficulty: Difficulty
@@ -20,6 +21,11 @@
     in:fade={{ delay: 100, duration: 100 }}
     out:fade={{ duration: 100 }}
   >
+    <div class="title">
+      <div class="logo">ColorMatch!</div>
+      <div class="version">{version}</div>
+    </div>
+
     {#if $state === "end"}
       <div class="score-card">
         You scored
@@ -36,10 +42,6 @@
       </div>
     {/if}
 
-    <div class="title">
-      <div class="logo">Color Match!</div>
-      <div class="version">v{version}</div>
-    </div>
     <div class="difficulty">
       {#each ["easy", "medium", "hard"] as difficultyLevel, index}
         <label class="difficulty-level" style:text-transform={"capitalize"}>
@@ -54,14 +56,15 @@
         </label>
       {/each}
     </div>
-    <button on:click={state.start}>
+
+    <Button onclick={state.start}>
       {#if $state === "initial"}
         Play
       {:else}
         Play again
       {/if}
       <Shortcut label="⮐" />
-    </button>
+    </Button>
   </div>
 </div>
 
@@ -95,19 +98,6 @@
     gap: 1rem;
   }
 
-  button {
-    border: none;
-    border-radius: 0.5rem;
-    background-color: var(--primary);
-    color: var(--surface-0);
-    padding: 0.75rem 1rem;
-    cursor: pointer;
-    display: flex;
-    gap: 0.25rem;
-    justify-content: center;
-    align-items: center;
-  }
-
   .title {
     display: flex;
     justify-content: start;
@@ -116,28 +106,28 @@
   }
 
   .title > .logo {
+    font: var(--heading-6);
     font-weight: bold;
   }
 
   .title > .version {
-    font-size: 0.75rem;
+    font: var(--caption);
+    color: var(--text-2);
+
     font-weight: bold;
-    color: var(--text);
     opacity: 0.6;
   }
 
   .score {
-    font-size: 4rem;
+    font: var(--heading-1);
     margin: 0;
     padding: 0;
-    line-height: 1;
   }
 
   .score-card {
     width: 100%;
     padding: 1rem;
     background-color: var(--surface-1);
-    font-weight: bold;
     border-radius: 0.5rem;
   }
 
