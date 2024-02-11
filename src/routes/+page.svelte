@@ -197,7 +197,7 @@
     .bg {
       background: radial-gradient(
           ellipse at top,
-          var(--surface-2),
+          var(--surface-1),
           var(--surface-0)
         ),
         radial-gradient(ellipse at bottom, var(--surface-1), var(--surface-0));
