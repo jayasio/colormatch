@@ -13,6 +13,7 @@
 
   import type { Difficulty, ToastStyle } from "$lib/types"
   import QuestionCard from "$lib/components/QuestionCard.svelte"
+  import Button from "$lib/components/Button.svelte"
 
   let difficulty: Difficulty = "medium"
   let difficultyNumber: number = 4
@@ -151,9 +152,12 @@
     <Slider bind:value={$spaceFactor} />
   </div>
 
-  <button on:click={state.end} class="exit-button">
+  <Button
+    onclick={state.end}
+    style="position: fixed; bottom: 0; right: 0; z-index: 200;"
+  >
     Exit <Shortcut label="Esc" />
-  </button>
+  </Button>
 {/if}
 
 <div class="container">
@@ -231,32 +235,6 @@
       pointer-events: auto;
       pointer-events: all;
     }
-  }
-
-  button {
-    border: none;
-    border-radius: 0.5rem;
-    background-color: var(--surface-inverse-0);
-    color: var(--text-inverse-0);
-    padding: 0.75rem 1rem;
-    cursor: pointer;
-    display: flex;
-    gap: 0.25rem;
-    justify-content: center;
-    align-items: center;
-
-    transition: all cubic-bezier(0.34, 1.56, 0.64, 1) 200ms;
-
-    &:hover {
-      background-color: var(--surface-inverse-1);
-    }
-  }
-
-  .exit-button {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    z-index: 200;
   }
 
   .hud {

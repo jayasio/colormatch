@@ -4,6 +4,7 @@
   import Shortcut from "$lib/components/Shortcut.svelte"
 
   import type { Difficulty } from "$lib/types"
+  import Button from "$lib/components/Button.svelte"
 
   let version = "v0.3"
 
@@ -56,14 +57,14 @@
       {/each}
     </div>
 
-    <button on:click={state.start}>
+    <Button onclick={state.start}>
       {#if $state === "initial"}
         Play
       {:else}
         Play again
       {/if}
       <Shortcut label="⮐" />
-    </button>
+    </Button>
   </div>
 </div>
 
@@ -95,25 +96,6 @@
     flex-direction: column;
     z-index: 100;
     gap: 1rem;
-  }
-
-  button {
-    border: none;
-    border-radius: 0.5rem;
-    background-color: var(--surface-inverse-0);
-    color: var(--text-inverse-0);
-    padding: 0.75rem 1rem;
-    cursor: pointer;
-    display: flex;
-    gap: 0.25rem;
-    justify-content: center;
-    align-items: center;
-
-    transition: all cubic-bezier(0.34, 1.56, 0.64, 1) 200ms;
-
-    &:hover {
-      background-color: var(--surface-inverse-1);
-    }
   }
 
   .title {

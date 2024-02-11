@@ -42,14 +42,15 @@ A color matching game built over weekends\*.
 
 - [ ] 🟡 Consistent design system
 - [ ] 🟡 Better types
+- [ ] Alpha based color variants
 - [ ] Extract `state` to its own store
 - [ ] Extract `color` logic to its own utility
-- [ ] Remove duplication of CSS in menu
 - [ ] Use slots for `Menu` end state
 - [ ] Add Open Graph attributes
 - [ ] Camera jumps when transitioning: use a moving camera instead of `OrbitControls`, would also help in maybe implementing key-based scene manipulation
 - [ ] Upgrade to Svelte 5
 - [ ] Better components
+- [x] 🟢 Remove `Button` to its own component
 - [x] 🟢 Remove duplication of `Difficulty` enum
 - [x] 🟢 Standardise toast
 - [x] 🟢 Restructure `game.ts`
