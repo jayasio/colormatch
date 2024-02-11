@@ -9,39 +9,6 @@
   <link rel="stylesheet" href="styles/reset.css" />
   <link rel="stylesheet" href="fonts/geist.css" />
   <meta name="viewport" content="width=device-width, user-scalable=no" />
-
-  <meta
-    name="description"
-    content="Master RGB color coordinates by playing ColorMatch, an interactive 3D game designed to make learning colors fun and engaging."
-  />
-  <meta
-    name="keywords"
-    content="ColorMatch, RGB Colors, Learning Game, Educational Game, 3D Game, Color Identification"
-  />
-  <link rel="canonical" href="https://colormatch.jayas.me" />
-  <meta name="robots" content="index, follow" />
-
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://colormatch.jayas.me" />
-  <meta property="og:title" content="ColorMatch!" />
-  <meta
-    property="og:description"
-    content="Master RGB color coordinates by playing ColorMatch, an interactive 3D game designed to make learning colors fun and engaging."
-  />
-  <meta property="og:image" content="https://colormatch.jayas.me/og.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://colormatch.jayas.me" />
-  <meta name="twitter:title" content="ColorMatch!" />
-  <meta
-    name="twitter:description"
-    content="Master RGB color coordinates by playing ColorMatch, an interactive 3D game designed to make learning colors fun and engaging."
-  />
-  <meta name="twitter:image" content="https://colormatch.jayas.me/og.png" />
 </svelte:head>
 
 <slot />
