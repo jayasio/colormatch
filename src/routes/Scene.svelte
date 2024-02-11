@@ -9,7 +9,7 @@
 
   import { game } from "$lib/game"
   import { spring } from "svelte/motion"
-  // import type { Vector } from "$lib/types"
+  import type { Vector } from "$lib/types"
   import _ from "lodash"
 
   $: ({ spaceFactor, center } = $game)
@@ -33,7 +33,7 @@
     }
   }
 
-  // let highlight: Vector | null
+  let highlight: Vector | null
 
   interactivity()
 </script>
@@ -54,15 +54,21 @@
 <T.Group
   autocenter
   position={[$center, $center, $center]}
-  on:dblclick={(event) => {
-    // highlight = event.object.userData.coord
+  on:pointerenter={(event) => {
+    highlight = event.object.userData.coord
+    event.stopPropagation()
+  }}
+  on:pointerleave={(event) => {
+    highlight = null
+    event.stopPropagation()
+  }}
+  on:click={(event) => {
     handleSelect(event)
-    // setTimeout(() => (highlight = null), 500)
   }}
 >
   <InstancedMesh>
     <T.SphereGeometry />
-    <T.MeshStandardMaterial />
+    <T.MeshLambertMaterial />
 
     {#each $game.normals as x}
       {#each $game.normals as y}
@@ -71,11 +77,10 @@
             position={[x * $spaceFactor, y * $spaceFactor, z * $spaceFactor]}
             userData={{ coord: { x, y, z } }}
             color={$game.getColor({ x, y, z })}
-          />
-          <!-- opacity={_.isEqual(highlight, { x, y, z }) ? 1.0 : 0.25}
             scale={_.isEqual(highlight, { x, y, z })
-              ? [1.2, 1.2, 1.2]
-              : [1, 1, 1]} -->
+              ? [1.125, 1.125, 1.125]
+              : [1, 1, 1]}
+          />
         {/each}
       {/each}
     {/each}

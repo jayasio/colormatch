@@ -108,6 +108,12 @@
     gap: 0.25rem;
     justify-content: center;
     align-items: center;
+
+    transition: all cubic-bezier(0.34, 1.56, 0.64, 1) 200ms;
+
+    &:hover {
+      background-color: var(--surface-inverse-1);
+    }
   }
 
   .title {

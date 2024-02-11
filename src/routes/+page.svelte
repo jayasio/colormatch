@@ -111,32 +111,28 @@
   }
 
   function handleSelect(event: any) {
+    event.stopPropagation()
+
+    if (event.delta > 0) return
+
     const { coord } = event.object.userData
 
     if (_.isEqual($question.coords, coord)) state.score()
     else state.strike()
-
-    event.stopPropagation()
   }
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
-
-<svelte:head>
-  <title>ColorMatch!</title>
-  <!-- <link rel="preconnect" href="https://rsms.me/" />
-  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" /> -->
-</svelte:head>
 
 {#if $state !== "play"}
   <Menu {state} bind:difficulty />
 {/if}
 
 {#if $state === "play"}
-  <div class="hud">
+  <div class="hud ignore-pointer">
     <QuestionCard {question} />
 
-    <div class="lives">
+    <div class="lives ignore-pointer">
       {#each _.range($strikes, maxStrikes) as life}
         <div>❤️</div>
       {/each}
@@ -145,13 +141,13 @@
       {/each}
     </div>
 
-    <div class="score-container">
+    <div class="score-container ignore-pointer">
       <span class="score">{$wins}</span>
       Score
     </div>
   </div>
 
-  <div class="spacefactor-slider">
+  <div class="spacefactor-slider ignore-pointer">
     <Slider bind:value={$spaceFactor} />
   </div>
 
@@ -177,21 +173,6 @@
 {/if}
 
 <style>
-  :root {
-    user-select: none;
-
-    /* font-family: Inter, sans-serif;
-    font-feature-settings:
-      "liga" 1,
-      "calt" 1;  */
-    /* fix for Chrome */
-  }
-  /* @supports (font-variation-settings: normal) {
-    :root {
-      font-family: InterVariable, sans-serif;
-    }
-  } */
-
   :global(body),
   .bg {
     background-color: var(--surface-0);
@@ -243,6 +224,15 @@
     padding-left: calc(1rem + env(safe-area-inset-left));
   }
 
+  .ignore-pointer {
+    pointer-events: none;
+
+    & > * {
+      pointer-events: auto;
+      pointer-events: all;
+    }
+  }
+
   button {
     border: none;
     border-radius: 0.5rem;
@@ -254,6 +244,12 @@
     gap: 0.25rem;
     justify-content: center;
     align-items: center;
+
+    transition: all cubic-bezier(0.34, 1.56, 0.64, 1) 200ms;
+
+    &:hover {
+      background-color: var(--surface-inverse-1);
+    }
   }
 
   .exit-button {

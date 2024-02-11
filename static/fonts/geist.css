@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "Geist Variable";
+  src: url("GeistVariableVF.woff2") format("woff2-variations");
+  font-weight: 100 900;
+}
+
+@font-face {
+  font-family: "Geist Mono Variable";
+  src: url("GeistMonoVariableVF.woff2") format("woff2-variations");
+  font-weight: 100 900;
+}

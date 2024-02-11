@@ -1,18 +1,26 @@
 <script>
-  import "@fontsource/geist-sans"
-  import "@fontsource/geist-mono"
-
   import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit"
 
   injectSpeedInsights()
 </script>
 
+<svelte:head>
+  <title>ColorMatch!</title>
+  <link rel="stylesheet" href="styles/reset.css" />
+  <link rel="stylesheet" href="fonts/geist.css" />
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
+</svelte:head>
+
 <slot />
 
 <style>
+  :global(*) {
+    user-select: none;
+  }
+
   :root {
     font-family:
-      "Geist Sans",
+      "Geist Variable",
       system-ui,
       -apple-system,
       BlinkMacSystemFont,
@@ -39,15 +47,15 @@
 
     /* Base type tokens */
 
-    --font-6: 500 3.812rem/1.2 "Geist Sans";
-    --font-5: 3.062rem/1.2 "Geist Sans";
-    --font-4: 2.438rem/1.2 "Geist Sans";
-    --font-3: 1.938rem/1.2 "Geist Sans";
-    --font-2: 1.562rem/1.2 "Geist Sans";
-    --font-1: 1.25rem/1.2 "Geist Sans";
-    --font-0: 1rem/1.2 "Geist Sans";
-    --font--1: 0.812rem/1.2 "Geist Sans";
-    --font--2: 0.625rem/1.2 "Geist Sans";
+    --font-6: 500 3.812rem/1.2 "Geist Variable";
+    --font-5: 3.062rem/1.2 "Geist Variable";
+    --font-4: 2.438rem/1.2 "Geist Variable";
+    --font-3: 1.938rem/1.2 "Geist Variable";
+    --font-2: 1.562rem/1.2 "Geist Variable";
+    --font-1: 1.25rem/1.2 "Geist Variable";
+    --font-0: 1rem/1.2 "Geist Variable";
+    --font--1: 0.812rem/1.2 "Geist Variable";
+    --font--2: 0.625rem/1.2 "Geist Variable";
 
     /* Semantic type tokens */
 
@@ -59,7 +67,6 @@
     --heading-6: var(--font-1);
     --body-1: var(--font-0);
     --body-2: var(--font--1);
-    --ui: var(--font--1);
     --caption: var(--font--2);
   }
 
@@ -107,15 +114,15 @@
 
   @media screen and (width < 768px) {
     :root {
-      --font-6: 500 2.488rem/1.2 "Geist Sans";
-      --font-5: 1.953rem/1.2 "Geist Sans";
-      --font-4: 1.563rem/1.2 "Geist Sans";
-      --font-3: 1.25rem/1.2 "Geist Sans";
-      --font-2: 1rem/1.2 "Geist Sans";
-      --font-1: 0.813rem/1.2 "Geist Sans";
-      --font-0: 0.75rem/1.2 "Geist Sans";
-      --font--1: 0.625rem/1.2 "Geist Sans";
-      --font--2: 0.5rem/1.2 "Geist Sans";
+      --font-6: 500 2.488rem/1.2 "Geist Variable";
+      --font-5: 1.953rem/1.2 "Geist Variable";
+      --font-4: 1.563rem/1.2 "Geist Variable";
+      --font-3: 1.25rem/1.2 "Geist Variable";
+      --font-2: 1rem/1.2 "Geist Variable";
+      --font-1: 0.813rem/1.2 "Geist Variable";
+      --font-0: 0.75rem/1.2 "Geist Variable";
+      --font--1: 0.625rem/1.2 "Geist Variable";
+      --font--2: 0.5rem/1.2 "Geist Variable";
     }
   }
 </style>

@@ -9,6 +9,15 @@
   on:click={() => (hintAlways = !hintAlways)}
   class:hint-always={hintAlways}
   style:--question-color={$question.color}
+  style:--luminance-text-0={$question.colorLuminance === "light"
+    ? "var(--text-0)"
+    : "var(--text-inverse-0)"}
+  style:--luminance-text-1={$question.colorLuminance === "light"
+    ? "var(--text-1)"
+    : "var(--text-inverse-1)"}
+  style:--luminance-text-2={$question.colorLuminance === "light"
+    ? "var(--text-2)"
+    : "var(--text-inverse-2)"}
 >
   <div style:flex={1}>
     <div class="rgb">{$question.color}</div>
@@ -41,17 +50,29 @@
 
     cursor: pointer;
 
-    transition: all ease-out 200ms;
+    transition: all ease-out 500ms;
+    transition: padding cubic-bezier(0.34, 1.56, 0.64, 1) 500ms;
 
     &.hint-always,
     &:hover {
-      padding: 1rem;
+      padding: 2rem;
       background-color: var(--question-color);
+      color: var(--luminance-text-0);
+
+      & .channel-percent {
+        font-weight: 500;
+      }
+
+      & .hint,
+      .channel-label {
+        color: var(--luminance-text-2);
+      }
     }
   }
 
   .rgb {
     font: var(--heading-6);
+    font-weight: 500;
   }
 
   .hint {

@@ -14,7 +14,7 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    font: var(--ui);
+    font: var(--body-1);
   }
 
   /*********** Baseline, reset styles ***********/
@@ -48,7 +48,7 @@
     background-color: var(--surface-inverse-0);
     border-radius: 0.25rem;
     height: 2rem;
-    width: 1rem;
+    width: 1.25rem;
   }
 
   input[type="range"]:focus::-webkit-slider-thumb {
@@ -73,7 +73,7 @@
     border: none; /*Removes extra border that FF applies*/
     border-radius: 0.25rem;
     height: 2rem;
-    width: 1rem;
+    width: 1.25rem;
   }
 
   input[type="range"]:focus::-moz-range-thumb {

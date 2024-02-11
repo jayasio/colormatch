@@ -59,17 +59,25 @@ function createGame(difficulty: number) {
       z: randomize(difficulty),
     } as Vector
     const coordsPercent = {
-      x: Math.round((coords.x * 100) / (difficulty - 1)),
-      y: Math.round((coords.y * 100) / (difficulty - 1)),
-      z: Math.round((coords.z * 100) / (difficulty - 1)),
+      x: Math.round((coords.x / (difficulty - 1)) * 100),
+      y: Math.round((coords.y / (difficulty - 1)) * 100),
+      z: Math.round((coords.z / (difficulty - 1)) * 100),
     } as Vector
     const color = `rgb(${colorNormals[coords.x]}, ${colorNormals[coords.y]}, ${
       colorNormals[coords.z]
     })`
+    const colorLuminance =
+      (0.299 * colorNormals[coords.x] +
+        0.587 * colorNormals[coords.y] +
+        0.114 * colorNormals[coords.z]) /
+        255 >
+      0.5
+        ? "light"
+        : "dark"
 
     questionsList.update((list) => [...list, { coords, coordsPercent, color }])
 
-    return { coords, coordsPercent, color }
+    return { coords, coordsPercent, color, colorLuminance }
   }
 
   return {
