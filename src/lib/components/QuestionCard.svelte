@@ -10,14 +10,14 @@
   class:hint-always={hintAlways}
   style:--question-color={$question.color}
   style:--luminance-text-0={$question.colorLuminance === "light"
-    ? "var(--text-0)"
-    : "var(--text-inverse-0)"}
+    ? "var(--black-0)"
+    : "var(--white-0)"}
   style:--luminance-text-1={$question.colorLuminance === "light"
-    ? "var(--text-1)"
-    : "var(--text-inverse-1)"}
+    ? "var(--black-1)"
+    : "var(--white-1)"}
   style:--luminance-text-2={$question.colorLuminance === "light"
-    ? "var(--text-2)"
-    : "var(--text-inverse-2)"}
+    ? "var(--black-2)"
+    : "var(--white-2)"}
 >
   <div style:flex={1}>
     <div class="rgb">{$question.color}</div>

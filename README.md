@@ -26,6 +26,7 @@ A color matching game built over weekends\*.
 ### Experience
 
 - [ ] 🟡 Better User Interface
+- [ ] Since game is based on colors, plus we now have luminance based colors, menu can be a random color everytime (? will it look good on top of blurred scene)
 - [ ] Add hover feedback in scene
 - [ ] Add select success / failure feedback in scene
 - [ ] Audio effects (howler)
