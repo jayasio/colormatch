@@ -29,7 +29,7 @@
     property="og:description"
     content="Master RGB color coordinates by playing ColorMatch, an interactive 3D game designed to make learning colors fun and engaging."
   />
-  <meta property="og:image" content="og.png" />
+  <meta property="og:image" content="https://colormatch.jayas.me/og.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
@@ -41,7 +41,7 @@
     name="twitter:description"
     content="Master RGB color coordinates by playing ColorMatch, an interactive 3D game designed to make learning colors fun and engaging."
   />
-  <meta name="twitter:image" content="og.png" />
+  <meta name="twitter:image" content="https://colormatch.jayas.me/og.png" />
 </svelte:head>
 
 <slot />
