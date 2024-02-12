@@ -11,6 +11,7 @@
   import { spring } from "svelte/motion"
   import type { Vector } from "$lib/types"
   import _ from "lodash"
+  import { onMount } from "svelte"
 
   $: ({ spaceFactor, center } = $game)
 
@@ -36,6 +37,25 @@
   let highlight: Vector | null
 
   interactivity()
+
+  let orbitControls: OrbitControls
+
+  onMount(() => {
+    console.log("yo")
+    console.log(orbitControls.ref)
+
+    orbitControls.ref.listenToKeyEvents(window)
+    orbitControls.ref.keys = {
+      LEFT: "KeyW",
+      UP: "KeyA",
+      RIGHT: "KeyS",
+      BOTTOM: "KeyD",
+    }
+
+    return () => {
+      orbitControls.ref.stopListenToKeyEvents()
+    }
+  })
 </script>
 
 <T.PerspectiveCamera
@@ -44,7 +64,11 @@
   position.y={$cameraPositionY}
   position.z={$cameraPositionZ}
 >
-  <OrbitControls enableDamping autoRotate={$state !== "play"} />
+  <OrbitControls
+    bind:this={orbitControls}
+    enableDamping
+    autoRotate={$state !== "play"}
+  />
   <T.DirectionalLight position={[12, 36, -0]} intensity={Math.PI * 0.25} />
   <T.DirectionalLight position={[0, -4, 10]} intensity={Math.PI * 0.25} />
 </T.PerspectiveCamera>

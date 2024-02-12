@@ -43,7 +43,8 @@
     --black-1: hsl(0, 0%, 10%);
     --black-2: hsl(0, 0%, 15%);
 
-    --accent: hsl(215, 100%, 50%);
+    --accent-light: hsl(212, 100%, 50%);
+    --accent-dark: hsl(182, 100%, 71%);
 
     /* Base type tokens */
 
@@ -89,6 +90,8 @@
       --text-inverse-0: var(--white-0);
       --text-inverse-1: var(--white-1);
       --text-inverse-2: var(--white-2);
+
+      --accent: var(--accent-light);
     }
   }
 
@@ -109,6 +112,8 @@
       --text-inverse-0: var(--black-0);
       --text-inverse-1: var(--black-1);
       --text-inverse-2: var(--black-2);
+
+      --accent: var(--accent-dark);
     }
   }
 

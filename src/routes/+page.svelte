@@ -4,7 +4,6 @@
   import _ from "lodash"
 
   import Toast from "$lib/components/Toast.svelte"
-  import Shortcut from "$lib/components/Shortcut.svelte"
   import Slider from "$lib/components/Slider.svelte"
   import Menu from "$lib/components/Menu.svelte"
 
@@ -154,9 +153,10 @@
 
   <Button
     onclick={state.end}
+    shortcut="Esc"
     style="position: fixed; bottom: 0; right: 0; z-index: 200;"
   >
-    Exit <Shortcut label="Esc" />
+    Exit
   </Button>
 {/if}
 
