@@ -11,8 +11,8 @@
     style:background-color={type === "neutral"
       ? "hsl(0, 0%, 95%)"
       : type === "failure"
-        ? "red"
-        : "hsl(80, 100%, 50%)"}
+        ? "rgb(247, 74, 6)"
+        : "hsl(182, 100%, 71%)"}
     style:color={type === "failure" ? "white" : "black"}
   >
     {message}
