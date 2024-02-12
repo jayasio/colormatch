@@ -1,12 +1,12 @@
 <script lang="ts">
   import { fade, blur } from "svelte/transition"
   import { game } from "$lib/game"
-  import Shortcut from "$lib/components/Shortcut.svelte"
 
   import type { Difficulty } from "$lib/types"
   import Button from "$lib/components/Button.svelte"
+  import Segmented from "$lib/components/Segmented.svelte"
 
-  let version = "v0.3"
+  let version = "beta v0.4"
 
   export let state: any
   export let difficulty: Difficulty
@@ -21,10 +21,17 @@
     in:fade={{ delay: 100, duration: 100 }}
     out:fade={{ duration: 100 }}
   >
-    <div class="title">
-      <div class="logo">ColorMatch!</div>
-      <div class="version">{version}</div>
-    </div>
+    {#if $state === "end"}
+      <div class="title-end">
+        <div class="logo">ColorMatch!</div>
+        <div class="version">{version}</div>
+      </div>
+    {:else}
+      <div class="title">
+        <div class="logo">Color<br />Match!</div>
+        <div class="version">{version}</div>
+      </div>
+    {/if}
 
     {#if $state === "end"}
       <div class="score-card">
@@ -42,28 +49,14 @@
       </div>
     {/if}
 
-    <div class="difficulty">
-      {#each ["easy", "medium", "hard"] as difficultyLevel, index}
-        <label class="difficulty-level" style:text-transform={"capitalize"}>
-          <input
-            bind:group={difficulty}
-            value={difficultyLevel}
-            type="radio"
-            style:display={"none"}
-          />
-          {difficultyLevel}
-          <!-- <Shortcut label={`${index + 1}`} /> -->
-        </label>
-      {/each}
-    </div>
+    <Segmented value={difficulty} options={["easy", "medium", "hard"]} />
 
-    <Button onclick={state.start}>
+    <Button onclick={state.start} shortcut="⮐">
       {#if $state === "initial"}
         Play
       {:else}
         Play again
       {/if}
-      <Shortcut label="⮐" />
     </Button>
   </div>
 </div>
@@ -88,34 +81,53 @@
   }
 
   .menu {
-    max-width: min(400px, 100%);
+    max-width: min(800px, 100%);
     background-color: var(--surface-0);
-    padding: 1rem;
-    border-radius: 1rem;
+    padding: 0.5rem;
+    border-radius: 0.75rem;
     display: flex;
     flex-direction: column;
     z-index: 100;
-    gap: 1rem;
+    gap: 0.5rem;
   }
 
   .title {
     display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 0.25rem;
+    /* padding: 0.25rem; */
+    padding-bottom: 5rem;
+
+    & > .logo {
+      font: var(--heading-4);
+      line-height: 1.1;
+    }
+  }
+
+  .title-end {
+    display: flex;
     justify-content: start;
     align-items: end;
     gap: 0.25rem;
+    padding: 0.5rem;
+
+    & > .logo {
+      font: var(--body-1);
+      line-height: 1.1;
+    }
   }
 
-  .title > .logo {
-    font: var(--heading-6);
-    font-weight: bold;
-  }
-
-  .title > .version {
+  .version {
     font: var(--caption);
-    color: var(--text-2);
+    color: var(--white-0);
 
-    font-weight: bold;
-    opacity: 0.6;
+    font-weight: 500;
+
+    padding: 0.25rem;
+    border-radius: 0.125rem;
+    background-color: rgb(247, 74, 6);
   }
 
   .score {
@@ -131,41 +143,8 @@
     border-radius: 0.5rem;
   }
 
-  .difficulty {
-    padding: 0.25rem;
-    display: flex;
-    gap: 0.125rem;
-    width: 100%;
-    background-color: var(--surface-1);
-    border-radius: 0.5rem;
-  }
-
-  .difficulty-level {
-    flex: 1;
-    padding: 0.5rem 1rem;
-    gap: 0.5rem;
-    display: flex;
-    justify-content: center;
-    border-radius: 0.25rem;
-    cursor: pointer;
-  }
-
-  .difficulty-level:hover {
-    background-color: var(--surface-2);
-  }
-
-  .difficulty-level:has(input[type="radio"]:checked) {
-    background-color: var(--accent);
-    color: hsl(0, 0%, 100%);
-  }
-
   .logo {
     margin: 0;
     padding: 0;
-  }
-
-  .question-color {
-    height: 4rem;
-    width: 4rem;
   }
 </style>

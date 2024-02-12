@@ -1,15 +1,21 @@
 <script lang="ts">
+  import Shortcut from "$lib/components/Shortcut.svelte"
   export let onclick: (event: any) => void
+  export let shortcut: string | null = null
 </script>
 
 <button on:click={onclick} {...$$restProps}>
   <slot />
+
+  {#if shortcut}
+    <Shortcut label={shortcut} />
+  {/if}
 </button>
 
 <style>
   button {
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     background-color: var(--surface-inverse-0);
     color: var(--text-inverse-0);
     padding: 0.75rem 1rem;
