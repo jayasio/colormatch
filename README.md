@@ -30,9 +30,11 @@ A color matching game built over weekends\*.
 - [ ] Add hover feedback in scene
 - [ ] Add select success / failure feedback in scene
 - [ ] Audio effects (howler)
-  - Added mechanism to highlight on dblclick, commented for now
+  - 🟢 Added mechanism to highlight on dblclick, commented for now
 - [ ] Transitions and microinteractions
-- [ ] Better difficulty switcher with visuals
+- [ ] Better difficulty input
+  - 🟢 Transition for difficulty input
+  - Visual representation
 - [ ] Better question generator
   - Controlled randomness
   - Ignore immediate repeats
