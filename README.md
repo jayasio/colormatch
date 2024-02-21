@@ -47,11 +47,11 @@ A color matching game built over weekends\*.
 - [ ] Alpha based color variants
 - [ ] Extract `state` to its own store
 - [ ] Extract `color` logic to its own utility
-- [ ] Use slots for `Menu` end state
-- [ ] Add Open Graph attributes
+- [ ] 🟡 Add Open Graph attributes
 - [ ] Camera jumps when transitioning: use a moving camera instead of `OrbitControls`, would also help in maybe implementing key-based scene manipulation
-- [ ] Upgrade to Svelte 5
 - [ ] Better components
+- [ ] Upgrade to Svelte 5
+- [~] Use slots for `Menu` end state
 - [x] 🟢 Remove `Button` to its own component
 - [x] 🟢 Remove duplication of `Difficulty` enum
 - [x] 🟢 Standardise toast

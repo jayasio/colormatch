@@ -94,9 +94,9 @@
     <T.SphereGeometry />
     <T.MeshLambertMaterial />
 
-    {#each $game.normals as x}
-      {#each $game.normals as y}
-        {#each $game.normals as z}
+    {#each $game.range.asNumber as x}
+      {#each $game.range.asNumber as y}
+        {#each $game.range.asNumber as z}
           <Instance
             position={[x * $spaceFactor, y * $spaceFactor, z * $spaceFactor]}
             userData={{ coord: { x, y, z } }}

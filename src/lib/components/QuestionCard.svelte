@@ -25,15 +25,15 @@
   </div>
   <div class="channels">
     <div class="channel">
-      <div class="channel-percent">{$question.coordsPercent.x}%</div>
+      <div class="channel-percent">{$question.coordPercent.x}%</div>
       <div class="channel-label">Red</div>
     </div>
     <div class="channel">
-      <div class="channel-percent">{$question.coordsPercent.y}%</div>
+      <div class="channel-percent">{$question.coordPercent.y}%</div>
       <div class="channel-label">Green</div>
     </div>
     <div class="channel">
-      <div class="channel-percent">{$question.coordsPercent.z}%</div>
+      <div class="channel-percent">{$question.coordPercent.z}%</div>
       <div class="channel-label">Blue</div>
     </div>
   </div>

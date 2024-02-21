@@ -1,51 +1,65 @@
 import _ from "lodash"
 import { spring } from "svelte/motion"
-import { derived, writable } from "svelte/store"
+import { derived, get, writable } from "svelte/store"
 import type { Vector } from "$lib/types"
 
+function createRange(difficulty: number) {
+  const range = _.range(0, difficulty)
+  return {
+    asNumber: range,
+    asPercent: range.flatMap((x) => Math.round((x / (difficulty - 1)) * 100)),
+    asColor: range.flatMap((x) => Math.ceil((x / (difficulty - 1)) * 255)),
+  }
+}
+
 function createGame(difficulty: number) {
+  const range = createRange(difficulty)
+
   const spaceFactor = spring(2.0)
 
   const wins = writable(0)
   const strikes = writable(0)
 
-  const normals = _.range(0, difficulty)
-  const colorNormals = normals.map((x) =>
-    Math.ceil((x / (normals.length - 1)) * 255),
-  )
-  // const colorNormalsNormalized = normals.map((x) => x / difficulty)
-
   const center = derived(spaceFactor, ($spaceFactor) => {
     return (
-      ((_.head(normals) ?? 0) +
-        (_.last(normals) ?? 0) +
-        (($spaceFactor - 2.0) * normals.length) / 2) *
+      ((_.head(range.asNumber) ?? 0) +
+        (_.last(range.asNumber) ?? 0) +
+        (($spaceFactor - 2.0) * range.asNumber.length) / 2) *
       -1
     )
   })
 
-  const questionsList = writable<{ coords: Vector; color: string }[]>([])
   const question = writable(generateQuestion())
+  const questionsList = writable([get(question)])
 
   function score() {
     wins.update((n) => n + 1)
-    question.set(generateQuestion())
+
+    const newQuestion = generateQuestion()
+
+    question.set(newQuestion)
+    questionsList.update((list) => [...list, newQuestion])
   }
 
   function strike() {
     strikes.update((n) => n + 1)
   }
 
-  function getColor(coords: Vector, colorSpace: string = "srgb") {
-    // return `color(
-    //   ${colorSpace}
-    //   ${colorNormalsNormalized[coords.x]}
-    //   ${colorNormalsNormalized[coords.y]}
-    //   ${colorNormalsNormalized[coords.z]}
-    //   )`
-    return `rgb(${colorNormals[coords.x]}, ${colorNormals[coords.y]}, ${
-      colorNormals[coords.z]
-    })`
+  function getColor(coord: Vector) {
+    return `rgb(
+      ${range.asColor[coord.x]}, 
+      ${range.asColor[coord.y]}, 
+      ${range.asColor[coord.z]}
+      )`
+  }
+
+  function getLuminance(coord: Vector): "light" | "dark" {
+    const luminance =
+      (0.299 * range.asColor[coord.x] +
+        0.587 * range.asColor[coord.y] +
+        0.114 * range.asColor[coord.z]) /
+      255
+    return luminance > 0.5 ? "light" : "dark"
   }
 
   function generateQuestion() {
@@ -53,40 +67,31 @@ function createGame(difficulty: number) {
       return Math.floor(Math.random() * difficulty)
     }
 
-    const coords = {
+    const random = {
       x: randomize(difficulty),
       y: randomize(difficulty),
       z: randomize(difficulty),
     } as Vector
-    const coordsPercent = {
-      x: Math.round((coords.x / (difficulty - 1)) * 100),
-      y: Math.round((coords.y / (difficulty - 1)) * 100),
-      z: Math.round((coords.z / (difficulty - 1)) * 100),
-    } as Vector
-    const color = `rgb(${colorNormals[coords.x]}, ${colorNormals[coords.y]}, ${
-      colorNormals[coords.z]
-    })`
-    const colorLuminance =
-      (0.299 * colorNormals[coords.x] +
-        0.587 * colorNormals[coords.y] +
-        0.114 * colorNormals[coords.z]) /
-        255 >
-      0.5
-        ? "light"
-        : "dark"
 
-    questionsList.update((list) => [...list, { coords, coordsPercent, color }])
-
-    return { coords, coordsPercent, color, colorLuminance }
+    return {
+      coord: random,
+      coordPercent: {
+        x: range.asPercent[random.x],
+        y: range.asPercent[random.y],
+        z: range.asPercent[random.z],
+      } as Vector,
+      color: getColor(random),
+      colorLuminance: getLuminance(random),
+    }
   }
 
   return {
     difficulty,
     spaceFactor,
+    range,
     wins,
     strikes,
     center,
-    normals,
     questionsList,
     question,
     score,
