@@ -117,7 +117,7 @@
 
     const { coord } = event.object.userData
 
-    if (_.isEqual($question.coord, coord)) state.score()
+    if (_.isEqual($question, coord)) state.score()
     else state.strike()
   }
 </script>
