@@ -73,7 +73,7 @@
 
   /* semantic color tokens */
 
-  @media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
+  /* @media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
     :root {
       --surface-0: var(--white-0);
       --surface-1: var(--white-1);
@@ -93,9 +93,11 @@
 
       --accent: var(--accent-light);
     }
-  }
+  } */
 
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: dark),
+    (prefers-color-scheme: light),
+    (prefers-color-scheme: no-preference) {
     :root {
       --surface-0: var(--black-0);
       --surface-1: var(--black-1);

@@ -16,6 +16,7 @@
   button {
     border: none;
     border-radius: 0.25rem;
+    font-weight: 500;
     background-color: var(--surface-inverse-0);
     color: var(--text-inverse-0);
     padding: 0.75rem 1rem;

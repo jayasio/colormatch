@@ -1,102 +1,64 @@
+import { derived, get, writable } from "svelte/store"
 import _ from "lodash"
 import { spring } from "svelte/motion"
-import { derived, writable } from "svelte/store"
-import type { Vector } from "$lib/types"
+import { CoordVector } from "./Vector"
 
-function createGame(difficulty: number) {
+function createGame(difficulty: number = 4) {
+  const range = _.range(0, difficulty)
+
   const spaceFactor = spring(2.0)
-
-  const wins = writable(0)
-  const strikes = writable(0)
-
-  const normals = _.range(0, difficulty)
-  const colorNormals = normals.map((x) =>
-    Math.ceil((x / (normals.length - 1)) * 255),
-  )
-  // const colorNormalsNormalized = normals.map((x) => x / difficulty)
-
   const center = derived(spaceFactor, ($spaceFactor) => {
     return (
-      ((_.head(normals) ?? 0) +
-        (_.last(normals) ?? 0) +
-        (($spaceFactor - 2.0) * normals.length) / 2) *
+      ((_.head(range) ?? 0) +
+        (_.last(range) ?? 0) +
+        (($spaceFactor - 2.0) * range.length) / 2) *
       -1
     )
   })
 
-  const questionsList = writable<{ coords: Vector; color: string }[]>([])
-  const question = writable(generateQuestion())
+  const wins = writable(0)
+  const strikes = writable(0)
+
+  const question = writable<CoordVector>(generateQuestion())
+  const questionsList = writable<CoordVector[]>([get(question)])
+
+  function generateQuestion() {
+    return CoordVector.random(difficulty)
+  }
 
   function score() {
     wins.update((n) => n + 1)
-    question.set(generateQuestion())
+
+    let generated
+
+    do {
+      generated = generateQuestion()
+    } while (question && _.isEqual(generated, get(question)))
+
+    question.set(generated)
+    questionsList.update((list) => [...list, get(question)])
   }
 
   function strike() {
     strikes.update((n) => n + 1)
   }
 
-  function getColor(coords: Vector, colorSpace: string = "srgb") {
-    // return `color(
-    //   ${colorSpace}
-    //   ${colorNormalsNormalized[coords.x]}
-    //   ${colorNormalsNormalized[coords.y]}
-    //   ${colorNormalsNormalized[coords.z]}
-    //   )`
-    return `rgb(${colorNormals[coords.x]}, ${colorNormals[coords.y]}, ${
-      colorNormals[coords.z]
-    })`
-  }
-
-  function generateQuestion() {
-    function randomize(difficulty: number) {
-      return Math.floor(Math.random() * difficulty)
-    }
-
-    const coords = {
-      x: randomize(difficulty),
-      y: randomize(difficulty),
-      z: randomize(difficulty),
-    } as Vector
-    const coordsPercent = {
-      x: Math.round((coords.x / (difficulty - 1)) * 100),
-      y: Math.round((coords.y / (difficulty - 1)) * 100),
-      z: Math.round((coords.z / (difficulty - 1)) * 100),
-    } as Vector
-    const color = `rgb(${colorNormals[coords.x]}, ${colorNormals[coords.y]}, ${
-      colorNormals[coords.z]
-    })`
-    const colorLuminance =
-      (0.299 * colorNormals[coords.x] +
-        0.587 * colorNormals[coords.y] +
-        0.114 * colorNormals[coords.z]) /
-        255 >
-      0.5
-        ? "light"
-        : "dark"
-
-    questionsList.update((list) => [...list, { coords, coordsPercent, color }])
-
-    return { coords, coordsPercent, color, colorLuminance }
-  }
-
   return {
     difficulty,
+    range,
     spaceFactor,
+    center,
     wins,
     strikes,
-    center,
-    normals,
-    questionsList,
     question,
+    questionsList,
     score,
     strike,
-    getColor,
   }
 }
 
-export const game = writable(createGame(4))
+export const game = writable(createGame())
 
 export function resetGame(difficulty: number) {
-  game.set(createGame(difficulty ?? 4))
+  game.set(createGame(difficulty))
 }

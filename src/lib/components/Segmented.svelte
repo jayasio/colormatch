@@ -3,9 +3,12 @@
 
   export let options: T[]
   export let value: T
+
+  $: activeIndex = options.indexOf(value)
+  $: count = options.length
 </script>
 
-<div class="segmented">
+<div class="segmented" style:--activeIndex={activeIndex} style:--count={count}>
   {#each options as option, index}
     <label for={`option${index}`}>
       <input
@@ -22,33 +25,54 @@
 
 <style>
   .segmented {
-    display: flex;
-    width: 100%;
-    background-color: var(--surface-1);
+    height: 3rem;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    background: var(--surface-1);
     border-radius: 0.25rem;
+    position: relative;
     overflow: hidden;
-  }
 
-  input {
-    display: none;
+    &::after {
+      content: "";
+      width: calc(100% / var(--count));
+      height: 100%;
+      background: var(--accent);
+      border-radius: 0.25rem;
+      position: absolute;
+      mix-blend-mode: difference;
+      transition: transform 0.25s;
+      transform: translateX(calc(var(--activeIndex) * 100%));
+    }
   }
 
   label {
-    flex: 1;
-    padding: 0.75rem 1rem;
-    gap: 0.5rem;
-    display: flex;
-    justify-content: center;
+    height: 100%;
+    padding: 0 1rem;
+    display: grid;
+    place-items: center;
+    font-weight: 500;
     text-transform: capitalize;
+    color: var(--text-2);
     cursor: pointer;
+    border-radius: 0.25rem;
+    transition:
+      background-color 0.25s,
+      color 0.25s,
+      opacity 0.25s;
 
-    &:hover {
+    &:has(input:not(:checked)) {
+      opacity: 0.75;
+    }
+
+    &:hover:has(input:not(:checked)) {
+      opacity: 1;
       background-color: var(--surface-2);
     }
+  }
 
-    &:has(input[type="radio"]:checked) {
-      background-color: var(--accent);
-      color: var(--text-inverse-0);
-    }
+  input[type="radio"] {
+    display: none;
   }
 </style>

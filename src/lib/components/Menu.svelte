@@ -49,7 +49,7 @@
       </div>
     {/if}
 
-    <Segmented value={difficulty} options={["easy", "medium", "hard"]} />
+    <Segmented bind:value={difficulty} options={["easy", "medium", "hard"]} />
 
     <Button onclick={state.start} shortcut="⮐">
       {#if $state === "initial"}
@@ -81,7 +81,7 @@
   }
 
   .menu {
-    max-width: min(800px, 100%);
+    max-width: max(800px, 20vw);
     background-color: var(--surface-0);
     padding: 0.5rem;
     border-radius: 0.75rem;
@@ -126,7 +126,7 @@
     font-weight: 500;
 
     padding: 0.25rem;
-    border-radius: 0.125rem;
+    border-radius: 0.25rem;
     background-color: rgb(247, 74, 6);
   }
 

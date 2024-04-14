@@ -9,11 +9,11 @@
 
   import { game } from "$lib/game"
   import { spring } from "svelte/motion"
-  import type { Vector } from "$lib/types"
   import _ from "lodash"
   import { onMount } from "svelte"
+  import { CoordVector } from "$lib/Vector"
 
-  $: ({ spaceFactor, center } = $game)
+  $: ({ spaceFactor, center, difficulty } = $game)
 
   export let handleSelect: (event: any) => void
   export let state
@@ -34,16 +34,13 @@
     }
   }
 
-  let highlight: Vector | null
+  let highlight: CoordVector | null
 
   interactivity()
 
   let orbitControls: OrbitControls
 
   onMount(() => {
-    console.log("yo")
-    console.log(orbitControls.ref)
-
     orbitControls.ref.listenToKeyEvents(window)
     orbitControls.ref.keys = {
       LEFT: "KeyW",
@@ -94,14 +91,20 @@
     <T.SphereGeometry />
     <T.MeshLambertMaterial />
 
-    {#each $game.normals as x}
-      {#each $game.normals as y}
-        {#each $game.normals as z}
+    {#each $game.range as x}
+      {#each $game.range as y}
+        {#each $game.range as z}
+          {@const coord = new CoordVector(x, y, z)}
+          {@const color = coord.toColor(difficulty)}
           <Instance
-            position={[x * $spaceFactor, y * $spaceFactor, z * $spaceFactor]}
-            userData={{ coord: { x, y, z } }}
-            color={$game.getColor({ x, y, z })}
-            scale={_.isEqual(highlight, { x, y, z })
+            position={[
+              coord.x * $spaceFactor,
+              coord.y * $spaceFactor,
+              coord.z * $spaceFactor,
+            ]}
+            userData={{ coord }}
+            color={color.toString()}
+            scale={_.isEqual(highlight, coord)
               ? [1.125, 1.125, 1.125]
               : [1, 1, 1]}
           />
