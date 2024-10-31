@@ -1,7 +1,11 @@
 <script lang="ts">
-  export let isDarkMode = false
+  interface Props {
+    isDarkMode?: boolean;
+  }
+
+  let { isDarkMode = $bindable(false) }: Props = $props();
 </script>
 
-<button on:click={() => (isDarkMode = !isDarkMode)}>
+<button onclick={() => (isDarkMode = !isDarkMode)}>
   {isDarkMode ? "☀️" : "🌙"}
 </button>

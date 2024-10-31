@@ -1,11 +1,15 @@
 <script lang="ts">
   type T = $$Generic
 
-  export let options: T[]
-  export let value: T
+  interface Props {
+    options: T[];
+    value: T;
+  }
 
-  $: activeIndex = options.indexOf(value)
-  $: count = options.length
+  let { options, value = $bindable() }: Props = $props();
+
+  let activeIndex = $derived(options.indexOf(value))
+  let count = $derived(options.length)
 </script>
 
 <div class="segmented" style:--activeIndex={activeIndex} style:--count={count}>

@@ -1,5 +1,12 @@
 <script>
   import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit"
+  /**
+   * @typedef {Object} Props
+   * @property {import('svelte').Snippet} [children]
+   */
+
+  /** @type {Props} */
+  let { children } = $props();
 
   injectSpeedInsights()
 </script>
@@ -11,7 +18,7 @@
   <meta name="viewport" content="width=device-width, user-scalable=no" />
 </svelte:head>
 
-<slot />
+{@render children?.()}
 
 <style>
   :global(*) {

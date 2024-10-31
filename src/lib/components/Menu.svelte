@@ -8,20 +8,20 @@
 
   let version = "beta v0.4"
 
-  export let state: any
-  export let difficulty: Difficulty
+  interface Props {
+    stateMachine: any
+    difficulty: Difficulty
+  }
 
-  $: ({ wins } = $game)
+  let { stateMachine, difficulty = $bindable() }: Props = $props()
+
+  let { wins } = $derived($game)
 </script>
 
 <div class="menu-container">
-  <div class="blur" transition:blur={{ duration: 400 }} />
-  <div
-    class="menu"
-    in:fade={{ delay: 100, duration: 100 }}
-    out:fade={{ duration: 100 }}
-  >
-    {#if $state === "end"}
+  <div class="blur" transition:blur={{ duration: 400 }}></div>
+  <div class="menu" in:fade={{ delay: 100, duration: 100 }} out:fade={{ duration: 100 }}>
+    {#if stateMachine.current === "end"}
       <div class="title-end">
         <div class="logo">ColorMatch!</div>
         <div class="version">{version}</div>
@@ -33,7 +33,7 @@
       </div>
     {/if}
 
-    {#if $state === "end"}
+    {#if stateMachine.current === "end"}
       <div class="score-card">
         You scored
         <div class="score">
@@ -51,8 +51,8 @@
 
     <Segmented bind:value={difficulty} options={["easy", "medium", "hard"]} />
 
-    <Button onclick={state.start} shortcut="⮐">
-      {#if $state === "initial"}
+    <Button onclick={() => stateMachine.send("start")} shortcut="⮐">
+      {#if stateMachine.current === "initial"}
         Play
       {:else}
         Play again

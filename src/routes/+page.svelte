@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { Canvas, T } from "@threlte/core"
-  import fsm from "svelte-fsm"
+  import { Canvas } from "@threlte/core"
   import _ from "lodash"
 
   import Toast from "$lib/components/Toast.svelte"
@@ -14,10 +13,12 @@
   import QuestionCard from "$lib/components/QuestionCard.svelte"
   import Button from "$lib/components/Button.svelte"
 
-  let difficulty: Difficulty = "medium"
-  let difficultyNumber: number = 4
+  import { FiniteStateMachine } from "runed"
 
-  $: {
+  let difficulty: Difficulty = $state("medium")
+  let difficultyNumber: number = $state(4)
+
+  $effect(() => {
     if (difficulty === "easy") {
       difficultyNumber = 3
     } else if (difficulty === "medium") {
@@ -25,11 +26,11 @@
     } else {
       difficultyNumber = 5
     }
-  }
+  })
 
-  let showToast = false
-  let toastMessage: string
-  let toastType: ToastStyle
+  let showToast = $state(false)
+  let toastMessage: string | undefined = $state()
+  let toastType: ToastStyle | undefined = $state()
 
   function toast(message: string, type: ToastStyle = "neutral") {
     toastMessage = message
@@ -38,23 +39,23 @@
     setTimeout(() => (showToast = false), 1000)
   }
 
-  $: ({ question, questionsList, spaceFactor } = $game)
-  $: ({ wins, strikes } = $game)
+  let { question, questionsList, spaceFactor } = $derived($game)
+  let { wins, strikes } = $derived($game)
 
   const maxStrikes = 3
 
-  const state = fsm("initial", {
+  const stateMachine = new FiniteStateMachine("initial", {
     initial: {
       start: "play",
-      setDifficulty(difficultyLevel: Difficulty) {
+      setDifficulty: (difficultyLevel: Difficulty) => {
         difficulty = difficultyLevel
       },
     },
     play: {
-      _enter() {
+      _enter: () => {
         resetGame(difficultyNumber)
       },
-      space({ isIncrement }) {
+      space: (isIncrement) => {
         if (isIncrement && $spaceFactor < 3) {
           $spaceFactor += 0.25
           if ($spaceFactor > 3) $spaceFactor = 3
@@ -74,11 +75,11 @@
       end: "end",
     },
     end: {
-      _enter() {
+      _enter: () => {
         toast("Game over :(", "failure")
       },
       start: "play",
-      setDifficulty(difficultyLevel: Difficulty) {
+      setDifficulty: (difficultyLevel: Difficulty) => {
         difficulty = difficultyLevel
       },
     },
@@ -87,25 +88,25 @@
   function handleKeyDown(event: KeyboardEvent) {
     switch (event.key) {
       case "Enter":
-        state.start()
+        stateMachine.send("start")
         break
       case "Escape":
-        state.end()
+        stateMachine.send("end")
         break
       case "1":
-        state.setDifficulty("easy")
+        stateMachine.send("setDifficulty", "easy")
         break
       case "2":
-        state.setDifficulty("medium")
+        stateMachine.send("setDifficulty", "medium")
         break
       case "3":
-        state.setDifficulty("hard")
+        stateMachine.send("setDifficulty", "hard")
         break
       case ".":
-        state.space({ isIncrement: true })
+        stateMachine.send("space", true)
         break
       case ",":
-        state.space({ isIncrement: false })
+        stateMachine.send("space", false)
         break
     }
   }
@@ -117,19 +118,19 @@
 
     const { coord } = event.object.userData
 
-    if (_.isEqual($question, coord)) state.score()
-    else state.strike()
+    if (_.isEqual($question, coord)) stateMachine.send("score")
+    else stateMachine.send("strike")
   }
 </script>
 
-<svelte:window on:keydown={handleKeyDown} />
+<svelte:window onkeydown={handleKeyDown} />
 
-{#if $state !== "play"}
-  <Menu {state} bind:difficulty />
+{#if stateMachine.current !== "play"}
+  <Menu {stateMachine} bind:difficulty />
 {/if}
 
-{#if $state === "play"}
-  <div class="hud ignore-pointer">
+{#if stateMachine.current === "play"}
+  <div class="hud">
     <QuestionCard {question} />
 
     <div class="lives ignore-pointer">
@@ -152,24 +153,18 @@
   </div>
 
   <Button
-    onclick={state.end}
+    onclick={() => stateMachine.send("end")}
     shortcut="Esc"
-    style="position: fixed; bottom: 0; right: 0; z-index: 200;"
+    style="position: fixed; bottom: 0; right: 0; z-index: 200;">Exit</Button
   >
-    Exit
-  </Button>
 {/if}
 
 <div class="container">
-  <Canvas
-    colorSpace="srgb"
-    useLegacyLights={false}
-    toneMapping={T.NoToneMapping}
-  >
+  <Canvas colorSpace="srgb" useLegacyLights={false} toneMapping={0}>
     <!-- TODO infer colorspace from media queries maybe -->
-    <Scene {handleSelect} {state} />
+    <Scene {handleSelect} {stateMachine} />
   </Canvas>
-  <div class="bg" />
+  <div class="bg"></div>
 </div>
 
 {#if showToast}
@@ -195,11 +190,7 @@
   @media (prefers-color-scheme: dark) {
     :global(body),
     .bg {
-      background: radial-gradient(
-          ellipse at top,
-          var(--surface-1),
-          var(--surface-0)
-        ),
+      background: radial-gradient(ellipse at top, var(--surface-1), var(--surface-0)),
         radial-gradient(ellipse at bottom, var(--surface-1), var(--surface-0));
       background-color: transparent;
       color: var(--text-0);

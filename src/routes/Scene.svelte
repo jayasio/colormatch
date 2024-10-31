@@ -1,11 +1,6 @@
 <script lang="ts">
   import { T } from "@threlte/core"
-  import {
-    Instance,
-    InstancedMesh,
-    OrbitControls,
-    interactivity,
-  } from "@threlte/extras"
+  import { Instance, InstancedMesh, OrbitControls, interactivity } from "@threlte/extras"
 
   import { game } from "$lib/game"
   import { spring } from "svelte/motion"
@@ -13,17 +8,21 @@
   import { onMount } from "svelte"
   import { CoordVector } from "$lib/Vector"
 
-  $: ({ spaceFactor, center, difficulty } = $game)
+  let { spaceFactor, center, difficulty } = $derived($game)
 
-  export let handleSelect: (event: any) => void
-  export let state
+  interface Props {
+    handleSelect: (event: any) => void
+    stateMachine: any
+  }
+
+  let { handleSelect, stateMachine }: Props = $props()
 
   let cameraPositionX = spring(0)
   let cameraPositionY = spring(0)
   let cameraPositionZ = spring(10)
 
-  $: {
-    if ($state === "play") {
+  $effect(() => {
+    if (stateMachine.current === "play") {
       cameraPositionX.set($game.difficulty * (5 / 2))
       cameraPositionY.set($game.difficulty * (5 / 2))
       cameraPositionZ.set($game.difficulty * (5 / 2))
@@ -32,17 +31,17 @@
       cameraPositionY.set($game.difficulty * (5 / 4))
       cameraPositionZ.set($game.difficulty * (5 / 4))
     }
-  }
+  })
 
-  let highlight: CoordVector | null
+  let highlight: CoordVector | null | undefined = $state()
 
   interactivity()
 
-  let orbitControls: OrbitControls
+  let orbitControls: OrbitControls | undefined = $state()
 
   onMount(() => {
-    orbitControls.ref.listenToKeyEvents(window)
-    orbitControls.ref.keys = {
+    orbitControls?.ref.listenToKeyEvents(window)
+    orbitControls!.ref.keys = {
       LEFT: "KeyW",
       UP: "KeyA",
       RIGHT: "KeyS",
@@ -50,7 +49,7 @@
     }
 
     return () => {
-      orbitControls.ref.stopListenToKeyEvents()
+      orbitControls?.ref.stopListenToKeyEvents()
     }
   })
 </script>
@@ -61,11 +60,7 @@
   position.y={$cameraPositionY}
   position.z={$cameraPositionZ}
 >
-  <OrbitControls
-    bind:this={orbitControls}
-    enableDamping
-    autoRotate={$state !== "play"}
-  />
+  <OrbitControls bind:this={orbitControls} enableDamping autoRotate={stateMachine.current !== "play"} />
   <T.DirectionalLight position={[12, 36, -0]} intensity={Math.PI * 0.25} />
   <T.DirectionalLight position={[0, -4, 10]} intensity={Math.PI * 0.25} />
 </T.PerspectiveCamera>
@@ -75,15 +70,15 @@
 <T.Group
   autocenter
   position={[$center, $center, $center]}
-  on:pointerenter={(event) => {
+  onpointerenter={(event) => {
     highlight = event.object.userData.coord
     event.stopPropagation()
   }}
-  on:pointerleave={(event) => {
+  onpointerleave={(event) => {
     highlight = null
     event.stopPropagation()
   }}
-  on:click={(event) => {
+  onclick={(event) => {
     handleSelect(event)
   }}
 >
@@ -97,16 +92,10 @@
           {@const coord = new CoordVector(x, y, z)}
           {@const color = coord.toColor(difficulty)}
           <Instance
-            position={[
-              coord.x * $spaceFactor,
-              coord.y * $spaceFactor,
-              coord.z * $spaceFactor,
-            ]}
+            position={[coord.x * $spaceFactor, coord.y * $spaceFactor, coord.z * $spaceFactor]}
             userData={{ coord }}
             color={color.toString()}
-            scale={_.isEqual(highlight, coord)
-              ? [1.125, 1.125, 1.125]
-              : [1, 1, 1]}
+            scale={_.isEqual(highlight, coord) ? [1.125, 1.125, 1.125] : [1, 1, 1]}
           />
         {/each}
       {/each}
