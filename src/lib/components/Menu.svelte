@@ -6,7 +6,7 @@
   import Button from "$lib/components/Button.svelte";
   import Segmented from "$lib/components/Segmented.svelte";
 
-  let version = "beta v0.4";
+  let version = "beta v0.5";
 
   let {
     stateMachine,
