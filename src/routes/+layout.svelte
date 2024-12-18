@@ -1,12 +1,8 @@
-<script>
+<script lang="ts">
   import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit"
-  /**
-   * @typedef {Object} Props
-   * @property {import('svelte').Snippet} [children]
-   */
+  import type { Snippet } from "svelte"
 
-  /** @type {Props} */
-  let { children } = $props();
+  let { children }: {children : Snippet} = $props();
 
   injectSpeedInsights()
 </script>
