@@ -148,7 +148,7 @@
     </div>
   </div>
 
-  <div class="spacefactor-slider ignore-pointer">
+  <div class="spacefactor-slider">
     <Slider bind:value={$spaceFactor} />
   </div>
 
@@ -239,6 +239,9 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     padding: 1rem;
+
+    pointer-events: auto;
+    pointer-events: all;
   }
 
   .lives {
