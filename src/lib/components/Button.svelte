@@ -1,13 +1,14 @@
 <script lang="ts">
   import Shortcut from "$lib/components/Shortcut.svelte"
-  interface Props {
+  import type { Snippet } from "svelte"
+
+
+  let { onclick, shortcut = null, children, ...rest }: {
     onclick: (event: any) => void;
     shortcut?: string | null;
-    children?: import('svelte').Snippet;
-    [key: string]: any
-  }
-
-  let { onclick, shortcut = null, children, ...rest }: Props = $props();
+    children?: Snippet;
+    rest?: any
+  } = $props();
 </script>
 
 <button {onclick} {...rest}>

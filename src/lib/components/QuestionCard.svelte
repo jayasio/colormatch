@@ -4,11 +4,7 @@
   import { game } from "$lib/game"
   import { derived, type Writable } from "svelte/store"
 
-  interface Props {
-    question: Writable<CoordVector>
-  }
-
-  let { question }: Props = $props()
+  let { question }: { question: Writable<CoordVector> } = $props()
 
   let color = derived([question, game], ([$question, $game]) => $question.toColor($game.difficulty))
 

@@ -1,9 +1,9 @@
 <script lang="ts">
-  interface Props {
-    isDarkMode?: boolean;
-  }
-
-  let { isDarkMode = $bindable(false) }: Props = $props();
+  let {
+    isDarkMode = $bindable(false),
+  }: {
+    isDarkMode?: boolean
+  } = $props()
 </script>
 
 <button onclick={() => (isDarkMode = !isDarkMode)}>

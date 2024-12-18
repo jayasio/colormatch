@@ -3,12 +3,7 @@
   import { game } from "$lib/game"
   import type { Writable } from "svelte/store"
 
-  interface Props {
-    coord: CoordVector
-    mousePos: Writable<{ x: number; y: number }>
-  }
-
-  let { coord, mousePos }: Props = $props()
+  let { coord, mousePos }: { coord: CoordVector; mousePos: Writable<{ x: number; y: number }> } = $props()
 
   let color = $derived(coord.toColor($game.difficulty))
 </script>

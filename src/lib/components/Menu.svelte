@@ -8,12 +8,13 @@
 
   let version = "beta v0.4"
 
-  interface Props {
+  let {
+    stateMachine,
+    difficulty = $bindable(),
+  }: {
     stateMachine: any
     difficulty: Difficulty
-  }
-
-  let { stateMachine, difficulty = $bindable() }: Props = $props()
+  } = $props()
 
   let { wins } = $derived($game)
 </script>
