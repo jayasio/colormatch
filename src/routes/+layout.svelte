@@ -1,141 +1,54 @@
 <script lang="ts">
   import '$lib/styles/reset.css'
+  import '$lib/styles/global.css'
 
   import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit"
   import type { Snippet } from "svelte"
 
-  let { children }: {children : Snippet} = $props();
+  let { children }: {children : Snippet} = $props()
 
   injectSpeedInsights()
 </script>
 
 <svelte:head>
   <title>ColorMatch!</title>
-  <meta name="viewport" content="width=device-width, user-scalable=no" />
+
+  <meta
+    name="description"
+    content="Master RGB color coordinates by playing ColorMatch, an interactive 3D game designed to make learning colors fun and engaging."
+  />
+  <meta
+    name="keywords"
+    content="ColorMatch, RGB Colors, Learning Game, Educational Game, 3D Game, Color Identification"
+  />
+  <link rel="canonical" href="https://colormatch.jayas.me" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://colormatch.jayas.me" />
+  <meta property="og:title" content="ColorMatch!" />
+  <meta
+    property="og:description"
+    content="Master RGB color coordinates by playing ColorMatch, an interactive 3D game designed to make learning colors fun and engaging."
+  />
+  <meta property="og:image" content="/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://colormatch.jayas.me" />
+  <meta name="twitter:title" content="ColorMatch!" />
+  <meta
+    name="twitter:description"
+    content="Master RGB color coordinates by playing ColorMatch, an interactive 3D game designed to make learning colors fun and engaging."
+  />
+  <meta name="twitter:image" content="/og.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&display=swap" rel="stylesheet">
 </svelte:head>
 
 {@render children()}
-
-<style>
-  :global(*) {
-    user-select: none;
-  }
-
-  :root {
-    font-family:
-      "Geist",
-      system-ui,
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      Roboto,
-      Oxygen,
-      Ubuntu,
-      Cantarell,
-      "Open Sans",
-      "Helvetica Neue",
-      sans-serif;
-
-    /* Base color tokens */
-
-    --white-0: hsl(0, 0%, 100%);
-    --white-1: hsl(0, 0%, 95%);
-    --white-2: hsl(0, 0%, 90%);
-
-    --black-0: hsl(0, 0%, 5%);
-    --black-1: hsl(0, 0%, 10%);
-    --black-2: hsl(0, 0%, 15%);
-
-    --accent-light: hsl(212, 100%, 50%);
-    --accent-dark: hsl(182, 100%, 71%);
-
-    /* Base type tokens */
-
-    --font-6: 500 3.812rem/1.2 "Geist";
-    --font-5: 3.062rem/1.2 "Geist";
-    --font-4: 2.438rem/1.2 "Geist";
-    --font-3: 1.938rem/1.2 "Geist";
-    --font-2: 1.562rem/1.2 "Geist";
-    --font-1: 1.25rem/1.2 "Geist";
-    --font-0: 1rem/1.2 "Geist";
-    --font--1: 0.812rem/1.2 "Geist";
-    --font--2: 0.625rem/1.2 "Geist";
-
-    /* Semantic type tokens */
-
-    --heading-1: var(--font-6);
-    --heading-2: var(--font-5);
-    --heading-3: var(--font-4);
-    --heading-4: var(--font-3);
-    --heading-5: var(--font-2);
-    --heading-6: var(--font-1);
-    --body-1: var(--font-0);
-    --body-2: var(--font--1);
-    --caption: var(--font--2);
-  }
-
-  /* semantic color tokens */
-
-  /* @media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
-    :root {
-      --surface-0: var(--white-0);
-      --surface-1: var(--white-1);
-      --surface-2: var(--white-2);
-
-      --surface-inverse-0: var(--black-0);
-      --surface-inverse-1: var(--black-1);
-      --surface-inverse-2: var(--black-2);
-
-      --text-0: var(--black-0);
-      --text-1: var(--black-1);
-      --text-2: var(--black-2);
-
-      --text-inverse-0: var(--white-0);
-      --text-inverse-1: var(--white-1);
-      --text-inverse-2: var(--white-2);
-
-      --accent: var(--accent-light);
-    }
-  } */
-
-  @media (prefers-color-scheme: dark),
-    (prefers-color-scheme: light),
-    (prefers-color-scheme: no-preference) {
-    :root {
-      --surface-0: var(--black-0);
-      --surface-1: var(--black-1);
-      --surface-2: var(--black-2);
-
-      --surface-inverse-0: var(--white-0);
-      --surface-inverse-1: var(--white-1);
-      --surface-inverse-2: var(--white-2);
-
-      --text-0: var(--white-0);
-      --text-1: var(--white-1);
-      --text-2: var(--white-2);
-
-      --text-inverse-0: var(--black-0);
-      --text-inverse-1: var(--black-1);
-      --text-inverse-2: var(--black-2);
-
-      --accent: var(--accent-dark);
-    }
-  }
-
-  @media screen and (width < 768px) {
-    :root {
-      --font-6: 500 2.488rem/1.2 "Geist";
-      --font-5: 1.953rem/1.2 "Geist";
-      --font-4: 1.563rem/1.2 "Geist";
-      --font-3: 1.25rem/1.2 "Geist";
-      --font-2: 1rem/1.2 "Geist";
-      --font-1: 0.813rem/1.2 "Geist";
-      --font-0: 0.75rem/1.2 "Geist";
-      --font--1: 0.625rem/1.2 "Geist";
-      --font--2: 0.5rem/1.2 "Geist";
-    }
-  }
-</style>
