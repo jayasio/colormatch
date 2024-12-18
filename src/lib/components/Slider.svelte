@@ -1,9 +1,9 @@
 <script lang="ts">
-  interface Props {
+  let {
+    value = $bindable(),
+  }: {
     value: number;
-  }
-
-  let { value = $bindable() }: Props = $props();
+  } = $props();
 </script>
 
 <div class="wrapper">
