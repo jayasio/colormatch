@@ -1,27 +1,31 @@
 <script lang="ts">
-  import { fade, blur } from "svelte/transition"
-  import { game } from "$lib/game"
+  import { fade, blur } from "svelte/transition";
+  import { game } from "$lib/game";
 
-  import type { Difficulty } from "$lib/types"
-  import Button from "$lib/components/Button.svelte"
-  import Segmented from "$lib/components/Segmented.svelte"
+  import type { Difficulty } from "$lib/types";
+  import Button from "$lib/components/Button.svelte";
+  import Segmented from "$lib/components/Segmented.svelte";
 
-  let version = "beta v0.4"
+  let version = "beta v0.4";
 
   let {
     stateMachine,
     difficulty = $bindable(),
   }: {
-    stateMachine: any
-    difficulty: Difficulty
-  } = $props()
+    stateMachine: any;
+    difficulty: Difficulty;
+  } = $props();
 
-  let { wins } = $derived($game)
+  let { wins } = $derived($game);
 </script>
 
 <div class="menu-container">
   <div class="blur" transition:blur={{ duration: 400 }}></div>
-  <div class="menu" in:fade={{ delay: 100, duration: 100 }} out:fade={{ duration: 100 }}>
+  <div
+    class="menu"
+    in:fade={{ delay: 100, duration: 100 }}
+    out:fade={{ duration: 100 }}
+  >
     {#if stateMachine.current === "end"}
       <div class="title-end">
         <div class="logo">ColorMatch!</div>

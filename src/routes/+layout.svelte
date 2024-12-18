@@ -1,13 +1,13 @@
 <script lang="ts">
-  import '$lib/styles/reset.css'
-  import '$lib/styles/global.css'
+  import "$lib/styles/reset.css";
+  import "$lib/styles/global.css";
 
-  import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit"
-  import type { Snippet } from "svelte"
+  import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit";
+  import type { Snippet } from "svelte";
 
-  let { children }: {children : Snippet} = $props()
+  let { children }: { children: Snippet } = $props();
 
-  injectSpeedInsights()
+  injectSpeedInsights();
 </script>
 
 <svelte:head>
@@ -46,9 +46,16 @@
   />
   <meta name="twitter:image" content="/og.png" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin="anonymous"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&display=swap"
+    rel="stylesheet"
+  />
 </svelte:head>
 
 {@render children()}

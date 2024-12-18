@@ -1,125 +1,125 @@
 <script lang="ts">
-  import { Canvas } from "@threlte/core"
-  import _ from "lodash"
+  import { Canvas } from "@threlte/core";
+  import _ from "lodash";
 
-  import Toast from "$lib/components/Toast.svelte"
-  import Slider from "$lib/components/Slider.svelte"
-  import Menu from "$lib/components/Menu.svelte"
+  import Toast from "$lib/components/Toast.svelte";
+  import Slider from "$lib/components/Slider.svelte";
+  import Menu from "$lib/components/Menu.svelte";
 
-  import Scene from "./Scene.svelte"
-  import { game, resetGame } from "$lib/game"
+  import Scene from "./Scene.svelte";
+  import { game, resetGame } from "$lib/game";
 
-  import type { Difficulty, ToastStyle } from "$lib/types"
-  import QuestionCard from "$lib/components/QuestionCard.svelte"
-  import Button from "$lib/components/Button.svelte"
+  import type { Difficulty, ToastStyle } from "$lib/types";
+  import QuestionCard from "$lib/components/QuestionCard.svelte";
+  import Button from "$lib/components/Button.svelte";
 
-  import { FiniteStateMachine } from "runed"
+  import { FiniteStateMachine } from "runed";
 
-  let difficulty: Difficulty = $state("medium")
-  let difficultyNumber: number = $state(4)
+  let difficulty: Difficulty = $state("medium");
+  let difficultyNumber: number = $state(4);
 
   $effect(() => {
     if (difficulty === "easy") {
-      difficultyNumber = 3
+      difficultyNumber = 3;
     } else if (difficulty === "medium") {
-      difficultyNumber = 4
+      difficultyNumber = 4;
     } else {
-      difficultyNumber = 5
+      difficultyNumber = 5;
     }
-  })
+  });
 
-  let showToast = $state(false)
-  let toastMessage: string | undefined = $state()
-  let toastType: ToastStyle | undefined = $state()
+  let showToast = $state(false);
+  let toastMessage: string | undefined = $state();
+  let toastType: ToastStyle | undefined = $state();
 
   function toast(message: string, type: ToastStyle = "neutral") {
-    toastMessage = message
-    toastType = type
-    showToast = true
-    setTimeout(() => (showToast = false), 1000)
+    toastMessage = message;
+    toastType = type;
+    showToast = true;
+    setTimeout(() => (showToast = false), 1000);
   }
 
-  let { question, questionsList, spaceFactor } = $derived($game)
-  let { wins, strikes } = $derived($game)
+  let { question, questionsList, spaceFactor } = $derived($game);
+  let { wins, strikes } = $derived($game);
 
-  const maxStrikes = 3
+  const maxStrikes = 3;
 
   const stateMachine = new FiniteStateMachine("initial", {
     initial: {
       start: "play",
       setDifficulty: (difficultyLevel: Difficulty) => {
-        difficulty = difficultyLevel
+        difficulty = difficultyLevel;
       },
     },
     play: {
       _enter: () => {
-        resetGame(difficultyNumber)
+        resetGame(difficultyNumber);
       },
       space: (isIncrement) => {
         if (isIncrement && $spaceFactor < 3) {
-          $spaceFactor += 0.25
-          if ($spaceFactor > 3) $spaceFactor = 3
+          $spaceFactor += 0.25;
+          if ($spaceFactor > 3) $spaceFactor = 3;
         } else if (!isIncrement && $spaceFactor > 2) {
-          $spaceFactor -= 0.25
-          if ($spaceFactor < 2) $spaceFactor = 2
+          $spaceFactor -= 0.25;
+          if ($spaceFactor < 2) $spaceFactor = 2;
         }
       },
       score() {
-        $game.score()
-        toast("Nice!", "success")
+        $game.score();
+        toast("Nice!", "success");
       },
       strike() {
-        $game.strike()
-        if ($strikes >= maxStrikes) return "end"
+        $game.strike();
+        if ($strikes >= maxStrikes) return "end";
       },
       end: "end",
     },
     end: {
       _enter: () => {
-        toast("Game over :(", "failure")
+        toast("Game over :(", "failure");
       },
       start: "play",
       setDifficulty: (difficultyLevel: Difficulty) => {
-        difficulty = difficultyLevel
+        difficulty = difficultyLevel;
       },
     },
-  })
+  });
 
   function handleKeyDown(event: KeyboardEvent) {
     switch (event.key) {
       case "Enter":
-        stateMachine.send("start")
-        break
+        stateMachine.send("start");
+        break;
       case "Escape":
-        stateMachine.send("end")
-        break
+        stateMachine.send("end");
+        break;
       case "1":
-        stateMachine.send("setDifficulty", "easy")
-        break
+        stateMachine.send("setDifficulty", "easy");
+        break;
       case "2":
-        stateMachine.send("setDifficulty", "medium")
-        break
+        stateMachine.send("setDifficulty", "medium");
+        break;
       case "3":
-        stateMachine.send("setDifficulty", "hard")
-        break
+        stateMachine.send("setDifficulty", "hard");
+        break;
       case ".":
-        stateMachine.send("space", true)
-        break
+        stateMachine.send("space", true);
+        break;
       case ",":
-        stateMachine.send("space", false)
-        break
+        stateMachine.send("space", false);
+        break;
     }
   }
 
   function handleSelect(event: any) {
-    event.stopPropagation()
+    event.stopPropagation();
 
-    if (event.delta > 0) return
+    if (event.delta > 0) return;
 
-    const { coord } = event.object.userData
+    const { coord } = event.object.userData;
 
-    if (_.isEqual($question, coord)) stateMachine.send("score")
-    else stateMachine.send("strike")
+    if (_.isEqual($question, coord)) stateMachine.send("score");
+    else stateMachine.send("strike");
   }
 </script>
 
@@ -172,12 +172,6 @@
 {/if}
 
 <style>
-  :global(body),
-  .bg {
-    background-color: var(--surface-0);
-    color: var(--text-0);
-  }
-
   .bg {
     position: fixed;
     top: 0;
@@ -187,14 +181,16 @@
     z-index: -101;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :global(body),
-    .bg {
-      background: radial-gradient(ellipse at top, var(--surface-1), var(--surface-0)),
-        radial-gradient(ellipse at bottom, var(--surface-1), var(--surface-0));
-      background-color: transparent;
-      color: var(--text-0);
-    }
+  :global(body),
+  .bg {
+    background: radial-gradient(
+        ellipse at top,
+        var(--surface-1),
+        var(--surface-0)
+      ),
+      radial-gradient(ellipse at bottom, var(--surface-1), var(--surface-0));
+    background-color: transparent;
+    color: var(--text-0);
   }
 
   .container {

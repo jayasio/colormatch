@@ -1,13 +1,17 @@
 <script lang="ts">
-  import Shortcut from "$lib/components/Shortcut.svelte"
-  import type { Snippet } from "svelte"
+  import Shortcut from "$lib/components/Shortcut.svelte";
+  import type { Snippet } from "svelte";
 
-
-  let { onclick, shortcut = null, children, ...rest }: {
-    onclick: (event: any) => void;
+  let {
+    onclick,
+    shortcut = null,
+    children,
+    ...rest
+  }: {
+    onclick: () => void;
     shortcut?: string | null;
     children?: Snippet;
-    rest?: any
+    rest?: any;
   } = $props();
 </script>
 

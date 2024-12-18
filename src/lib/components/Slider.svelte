@@ -2,8 +2,8 @@
   let {
     value = $bindable(),
   }: {
-    value: number
-  } = $props()
+    value: number;
+  } = $props();
 </script>
 
 <div class="wrapper">

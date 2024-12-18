@@ -1,22 +1,28 @@
 <script lang="ts">
-  type T = $$Generic
+  type T = $$Generic;
 
   let {
     options,
     value = $bindable(),
   }: {
-    options: T[]
-    value: T
-  } = $props()
+    options: T[];
+    value: T;
+  } = $props();
 
-  let activeIndex = $derived(options.indexOf(value))
-  let count = $derived(options.length)
+  let activeIndex = $derived(options.indexOf(value));
+  let count = $derived(options.length);
 </script>
 
 <div class="segmented" style:--activeIndex={activeIndex} style:--count={count}>
   {#each options as option, index}
     <label for={`option${index}`}>
-      <input type="radio" id={`option${index}`} name={`option${index}`} value={option} bind:group={value} />
+      <input
+        type="radio"
+        id={`option${index}`}
+        name={`option${index}`}
+        value={option}
+        bind:group={value}
+      />
       {option}
     </label>
   {/each}

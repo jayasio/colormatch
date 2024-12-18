@@ -1,16 +1,20 @@
 <script lang="ts">
-  import type { CoordVector } from "$lib/Vector"
+  import type { CoordVector } from "$lib/Vector";
 
-  import { game } from "$lib/game"
-  import { derived, type Writable } from "svelte/store"
+  import { game } from "$lib/game";
+  import { derived, type Writable } from "svelte/store";
 
-  let { question }: { question: Writable<CoordVector> } = $props()
+  let { question }: { question: Writable<CoordVector> } = $props();
 
-  let color = derived([question, game], ([$question, $game]) => $question.toColor($game.difficulty))
+  let color = derived([question, game], ([$question, $game]) =>
+    $question.toColor($game.difficulty),
+  );
 
-  let percent = derived([question, game], ([$question, $game]) => $question.toPercent($game.difficulty))
+  let percent = derived([question, game], ([$question, $game]) =>
+    $question.toPercent($game.difficulty),
+  );
 
-  let hintAlways = $state(false)
+  let hintAlways = $state(false);
 </script>
 
 <div
@@ -19,9 +23,15 @@
   onclick={() => (hintAlways = !hintAlways)}
   class:hint-always={hintAlways}
   style:--question-color={$color.toString()}
-  style:--luminance-text-0={$color.getLuminance() === "light" ? "var(--black-0)" : "var(--white-0)"}
-  style:--luminance-text-1={$color.getLuminance() === "light" ? "var(--black-1)" : "var(--white-1)"}
-  style:--luminance-text-2={$color.getLuminance() === "light" ? "var(--black-2)" : "var(--white-2)"}
+  style:--luminance-text-0={$color.getLuminance() === "light"
+    ? "var(--black-0)"
+    : "var(--white-0)"}
+  style:--luminance-text-1={$color.getLuminance() === "light"
+    ? "var(--black-1)"
+    : "var(--white-1)"}
+  style:--luminance-text-2={$color.getLuminance() === "light"
+    ? "var(--black-2)"
+    : "var(--white-2)"}
 >
   <div style:flex={1}>
     <div class="rgb">{$color.toString()}</div>

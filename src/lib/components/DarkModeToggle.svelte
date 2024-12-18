@@ -2,8 +2,8 @@
   let {
     isDarkMode = $bindable(false),
   }: {
-    isDarkMode?: boolean
-  } = $props()
+    isDarkMode?: boolean;
+  } = $props();
 </script>
 
 <button onclick={() => (isDarkMode = !isDarkMode)}>

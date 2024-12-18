@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { fade } from "svelte/transition"
+  import { fade } from "svelte/transition";
 
   let {
     message,
     type = "neutral",
   }: {
-    message?: string
-    type?: "neutral" | "success" | "failure"
-  } = $props()
+    message?: string;
+    type?: "neutral" | "success" | "failure";
+  } = $props();
 </script>
 
 <div class="container" out:fade>
