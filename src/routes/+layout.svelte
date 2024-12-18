@@ -1,4 +1,6 @@
 <script lang="ts">
+  import '$lib/styles/reset.css'
+
   import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit"
   import type { Snippet } from "svelte"
 
@@ -9,7 +11,6 @@
 
 <svelte:head>
   <title>ColorMatch!</title>
-  <link rel="stylesheet" href="styles/reset.css" />
   <meta name="viewport" content="width=device-width, user-scalable=no" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
