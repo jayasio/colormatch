@@ -1,12 +1,11 @@
 <script lang="ts">
   import { fade, blur } from "svelte/transition";
   import { game } from "$lib/game";
+  import { version } from "$lib/version";
 
   import type { Difficulty } from "$lib/types";
   import Button from "$lib/components/Button.svelte";
   import Segmented from "$lib/components/Segmented.svelte";
-
-  let version = "beta v0.5";
 
   let {
     stateMachine,
