@@ -1,168 +1,128 @@
 <script lang="ts">
+  import { GameState, CubeState } from "$lib/state.svelte";
+  import type { Difficulty, ToastStyle } from "$lib/types";
+  import { FiniteStateMachine } from "runed";
   import { Canvas } from "@threlte/core";
+
   import _ from "lodash";
 
   import Toast from "$lib/components/Toast.svelte";
-  import Slider from "$lib/components/Slider.svelte";
   import Menu from "$lib/components/Menu.svelte";
-
-  import Scene from "./Scene.svelte";
-  import { game, resetGame } from "$lib/game";
-
-  import type { Difficulty, ToastStyle } from "$lib/types";
   import QuestionCard from "$lib/components/QuestionCard.svelte";
   import Button from "$lib/components/Button.svelte";
+  import Slider from "$lib/components/Slider.svelte";
 
-  import { FiniteStateMachine } from "runed";
+  import Scene from "./Scene.svelte";
+  import type { IntersectionEvent } from "@threlte/extras";
+  import { untrack } from "svelte";
 
-  let difficulty: Difficulty = $state("medium");
-  let difficultyNumber: number = $state(4);
-
-  $effect(() => {
-    if (difficulty === "easy") {
-      difficultyNumber = 3;
-    } else if (difficulty === "medium") {
-      difficultyNumber = 4;
-    } else {
-      difficultyNumber = 5;
-    }
+  const difficulties = ["easy", "medium", "hard", "insane"] as const;
+  let menuState: {
+    difficulty: Difficulty;
+  } = $state({
+    difficulty: "medium",
   });
+  let size = $derived(difficulties.indexOf(menuState.difficulty) + 3);
 
   let showToast = $state(false);
-  let toastMessage: string | undefined = $state();
-  let toastType: ToastStyle | undefined = $state();
+  let toastMessage = $state("");
+  let toastType: ToastStyle = $state("neutral");
 
-  function toast(message: string, type: ToastStyle = "neutral") {
+  function toast(message: string, type: ToastStyle) {
     toastMessage = message;
     toastType = type;
     showToast = true;
-    setTimeout(() => (showToast = false), 1000);
+    setTimeout(() => {
+      showToast = false;
+    }, 1000);
   }
 
-  let { question, questionsList, spaceFactor } = $derived($game);
-  let { wins, strikes } = $derived($game);
-
-  const maxStrikes = 3;
+  let gameState = $state(new GameState(untrack(() => size)));
+  let cubeState = $state(new CubeState(untrack(() => size)));
 
   const stateMachine = new FiniteStateMachine("initial", {
     initial: {
-      start: "play",
-      setDifficulty: (difficultyLevel: Difficulty) => {
-        difficulty = difficultyLevel;
-      },
+      start: "playing",
     },
-    play: {
+    playing: {
       _enter: () => {
-        resetGame(difficultyNumber);
+        gameState = new GameState(size);
+        cubeState = new CubeState(size);
       },
-      space: (isIncrement) => {
-        if (isIncrement && $spaceFactor < 3) {
-          $spaceFactor += 0.25;
-          if ($spaceFactor > 3) $spaceFactor = 3;
-        } else if (!isIncrement && $spaceFactor > 2) {
-          $spaceFactor -= 0.25;
-          if ($spaceFactor < 2) $spaceFactor = 2;
-        }
-      },
-      score() {
-        $game.score();
+      score: () => {
+        gameState.score();
         toast("Nice!", "success");
       },
-      strike() {
-        $game.strike();
-        if ($strikes >= maxStrikes) return "end";
+      strike: () => {
+        gameState.strike();
+        if (gameState.strikes >= 3) return "final";
+        toast("Oops!", "failure");
       },
-      end: "end",
+      end: "final",
     },
-    end: {
+    final: {
       _enter: () => {
         toast("Game over :(", "failure");
       },
-      start: "play",
-      setDifficulty: (difficultyLevel: Difficulty) => {
-        difficulty = difficultyLevel;
-      },
+      start: "playing",
     },
   });
 
-  function handleKeyDown(event: KeyboardEvent) {
-    switch (event.key) {
-      case "Enter":
-        stateMachine.send("start");
-        break;
-      case "Escape":
-        stateMachine.send("end");
-        break;
-      case "1":
-        stateMachine.send("setDifficulty", "easy");
-        break;
-      case "2":
-        stateMachine.send("setDifficulty", "medium");
-        break;
-      case "3":
-        stateMachine.send("setDifficulty", "hard");
-        break;
-      case ".":
-        stateMachine.send("space", true);
-        break;
-      case ",":
-        stateMachine.send("space", false);
-        break;
-    }
-  }
-
-  function handleSelect(event: any) {
+  function handleSelect(event: IntersectionEvent<PointerEvent>) {
     event.stopPropagation();
 
     if (event.delta > 0) return;
 
     const { coord } = event.object.userData;
 
-    if (_.isEqual($question, coord)) stateMachine.send("score");
+    if (_.isEqual(coord, gameState.latestQuestion)) stateMachine.send("score");
     else stateMachine.send("strike");
   }
 </script>
 
-<svelte:window onkeydown={handleKeyDown} />
-
-{#if stateMachine.current !== "play"}
-  <Menu {stateMachine} bind:difficulty />
+{#if stateMachine.current !== "playing"}
+  <Menu
+    {stateMachine}
+    wins={gameState.wins}
+    bind:difficulty={menuState.difficulty}
+  />
 {/if}
 
-{#if stateMachine.current === "play"}
+{#if stateMachine.current === "playing"}
   <div class="hud">
-    <QuestionCard {question} />
+    <QuestionCard {size} question={gameState.latestQuestion} />
 
     <div class="lives ignore-pointer">
-      {#each _.range($strikes, maxStrikes) as life}
+      {#each _.range(gameState.strikes, 3) as life}
         <div>❤️</div>
       {/each}
-      {#each _.range(0, $strikes) as strike}
+      {#each _.range(0, gameState.strikes) as strike}
         <div style:opacity={"25%"}>💔</div>
       {/each}
     </div>
 
     <div class="score-container ignore-pointer">
-      <span class="score">{$wins}</span>
+      <span class="score">{gameState.wins}</span>
       Score
     </div>
   </div>
 
   <div class="spacefactor-slider">
-    <Slider bind:value={$spaceFactor} />
+    <Slider bind:value={cubeState.spaceFactor.target} />
   </div>
 
   <Button
     onclick={() => stateMachine.send("end")}
     shortcut="Esc"
-    style="position: fixed; bottom: 0; right: 0; z-index: 200;">Exit</Button
-  >
+    style="position: fixed; bottom: 0; right: 0; z-index: 200;"
+    >Exit
+  </Button>
 {/if}
 
 <div class="container">
   <Canvas colorSpace="srgb" useLegacyLights={false} toneMapping={0}>
     <!-- TODO infer colorspace from media queries maybe -->
-    <Scene {handleSelect} {stateMachine} />
+    <Scene {handleSelect} {stateMachine} {cubeState} {size} />
   </Canvas>
   <div class="bg"></div>
 </div>
@@ -262,7 +222,7 @@
   }
 
   .score {
-    font: var(--heading-1);
+    font: var(--heading-2);
     margin: 0;
     padding: 0;
   }

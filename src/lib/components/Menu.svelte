@@ -1,6 +1,5 @@
 <script lang="ts">
   import { fade, blur } from "svelte/transition";
-  import { game } from "$lib/game";
   import { version } from "$lib/version";
 
   import type { Difficulty } from "$lib/types";
@@ -8,14 +7,14 @@
   import Segmented from "$lib/components/Segmented.svelte";
 
   let {
+    wins,
     stateMachine,
     difficulty = $bindable(),
   }: {
+    wins: number;
     stateMachine: any;
     difficulty: Difficulty;
   } = $props();
-
-  let { wins } = $derived($game);
 </script>
 
 <div class="menu-container">
@@ -25,7 +24,7 @@
     in:fade={{ delay: 100, duration: 100 }}
     out:fade={{ duration: 100 }}
   >
-    {#if stateMachine.current === "end"}
+    {#if stateMachine.current === "final"}
       <div class="title-end">
         <div class="logo">ColorMatch!</div>
         <div class="version">{version}</div>
@@ -37,11 +36,11 @@
       </div>
     {/if}
 
-    {#if stateMachine.current === "end"}
+    {#if stateMachine.current === "final"}
       <div class="score-card">
         You scored
         <div class="score">
-          {$wins}
+          {wins}
         </div>
         <!-- Questions:
         {#each $questionsList as question}
@@ -53,7 +52,10 @@
       </div>
     {/if}
 
-    <Segmented bind:value={difficulty} options={["easy", "medium", "hard"]} />
+    <Segmented
+      bind:value={difficulty}
+      options={["easy", "medium", "hard", "insane"]}
+    />
 
     <Button onclick={() => stateMachine.send("start")} shortcut="⮐">
       {#if stateMachine.current === "initial"}

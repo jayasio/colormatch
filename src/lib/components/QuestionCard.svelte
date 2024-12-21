@@ -1,18 +1,10 @@
 <script lang="ts">
   import type { CoordVector } from "$lib/Vector";
 
-  import { game } from "$lib/game";
-  import { derived, type Writable } from "svelte/store";
+  let { question, size }: { question: CoordVector; size: number } = $props();
 
-  let { question }: { question: Writable<CoordVector> } = $props();
-
-  let color = derived([question, game], ([$question, $game]) =>
-    $question.toColor($game.difficulty),
-  );
-
-  let percent = derived([question, game], ([$question, $game]) =>
-    $question.toPercent($game.difficulty),
-  );
+  let color = $derived(question.toColor(size));
+  let percent = $derived(question.toPercent(size));
 
   let hintAlways = $state(false);
 </script>
@@ -22,32 +14,32 @@
   role="presentation"
   onclick={() => (hintAlways = !hintAlways)}
   class:hint-always={hintAlways}
-  style:--question-color={$color.toString()}
-  style:--luminance-text-0={$color.getLuminance() === "light"
+  style:--question-color={color.toString()}
+  style:--luminance-text-0={color.getLuminance() === "light"
     ? "var(--black-0)"
     : "var(--white-0)"}
-  style:--luminance-text-1={$color.getLuminance() === "light"
+  style:--luminance-text-1={color.getLuminance() === "light"
     ? "var(--black-1)"
     : "var(--white-1)"}
-  style:--luminance-text-2={$color.getLuminance() === "light"
+  style:--luminance-text-2={color.getLuminance() === "light"
     ? "var(--black-2)"
     : "var(--white-2)"}
 >
   <div style:flex={1}>
-    <div class="rgb">{$color.toString()}</div>
+    <div class="rgb">{color.toString()}</div>
     <span class="hint">Click to turn {hintAlways ? "off" : "on"} hint</span>
   </div>
   <div class="channels">
     <div class="channel">
-      <div class="channel-percent">{$percent.x}%</div>
+      <div class="channel-percent">{percent.x}%</div>
       <div class="channel-label">Red</div>
     </div>
     <div class="channel">
-      <div class="channel-percent">{$percent.y}%</div>
+      <div class="channel-percent">{percent.y}%</div>
       <div class="channel-label">Green</div>
     </div>
     <div class="channel">
-      <div class="channel-percent">{$percent.z}%</div>
+      <div class="channel-percent">{percent.z}%</div>
       <div class="channel-label">Blue</div>
     </div>
   </div>
@@ -116,7 +108,7 @@
   }
 
   .channel-label {
-    font: var(body-2);
+    font: var(--body-2);
     color: var(--text-2);
   }
 </style>

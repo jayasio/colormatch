@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { ToastStyle } from "$lib/types";
   import { fade } from "svelte/transition";
 
   let {
@@ -6,26 +7,40 @@
     type = "neutral",
   }: {
     message?: string;
-    type?: "neutral" | "success" | "failure";
+    type?: ToastStyle;
   } = $props();
+
+  let backgroundColor = $derived.by(() => {
+    switch (type) {
+      case "neutral":
+        return "hsl(0, 0%, 95%)";
+      case "failure":
+        return "rgb(247, 74, 6)";
+      case "success":
+        return "hsl(0, 0%, 95%)";
+    }
+  });
+
+  let color = $derived.by(() => {
+    switch (type) {
+      case "neutral":
+        return "black";
+      case "failure":
+        return "white";
+      case "success":
+        return "black";
+    }
+  });
 </script>
 
-<div class="container" out:fade>
-  <div
-    class="toast"
-    style:background-color={type === "neutral"
-      ? "hsl(0, 0%, 95%)"
-      : type === "failure"
-        ? "rgb(247, 74, 6)"
-        : "hsl(182, 100%, 71%)"}
-    style:color={type === "failure" ? "white" : "black"}
-  >
+<div class="wrapper" out:fade>
+  <div class="toast" style:background-color={backgroundColor} style:color>
     {message}
   </div>
 </div>
 
 <style>
-  .container {
+  .wrapper {
     width: 100dvw;
     display: flex;
     flex-direction: column;

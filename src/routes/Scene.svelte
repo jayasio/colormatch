@@ -6,69 +6,56 @@
     OrbitControls,
     interactivity,
   } from "@threlte/extras";
+  import type { IntersectionEvent } from "@threlte/extras";
 
-  import { game } from "$lib/game";
-  import { spring } from "svelte/motion";
-  import _ from "lodash";
-  import { onMount } from "svelte";
+  import { Spring } from "svelte/motion";
+
   import { CoordVector } from "$lib/Vector";
+  import { CubeState } from "$lib/state.svelte";
+  import type { FiniteStateMachine } from "runed";
 
-  let { spaceFactor, center, difficulty } = $derived($game);
+  let {
+    size,
+    cubeState,
+    stateMachine,
+    handleSelect,
+  }: {
+    size: number;
+    cubeState: CubeState;
+    stateMachine: FiniteStateMachine<string, string>;
+    handleSelect: (event: IntersectionEvent<PointerEvent>) => void;
+  } = $props();
 
-  interface Props {
-    handleSelect: (event: any) => void;
-    stateMachine: any;
-  }
-
-  let { handleSelect, stateMachine }: Props = $props();
-
-  let cameraPositionX = spring(0);
-  let cameraPositionY = spring(0);
-  let cameraPositionZ = spring(10);
+  let cameraPositionX = new Spring(0);
+  let cameraPositionY = new Spring(0);
+  let cameraPositionZ = new Spring(10);
 
   $effect(() => {
-    if (stateMachine.current === "play") {
-      cameraPositionX.set($game.difficulty * (5 / 2));
-      cameraPositionY.set($game.difficulty * (5 / 2));
-      cameraPositionZ.set($game.difficulty * (5 / 2));
+    if (stateMachine.current === "playing") {
+      cameraPositionX.target = size * (5 / 2);
+      cameraPositionY.target = size * (5 / 2);
+      cameraPositionZ.target = size * (5 / 2);
     } else {
-      cameraPositionX.set($game.difficulty * (-2 / 4));
-      cameraPositionY.set($game.difficulty * (5 / 4));
-      cameraPositionZ.set($game.difficulty * (5 / 4));
+      cameraPositionX.target = size * (-2 / 4);
+      cameraPositionY.target = size * (5 / 4);
+      cameraPositionZ.target = size * (5 / 4);
     }
   });
 
   let highlight: CoordVector | null | undefined = $state();
 
   interactivity();
-
-  let orbitControls: OrbitControls | undefined = $state();
-
-  onMount(() => {
-    orbitControls?.ref.listenToKeyEvents(window);
-    orbitControls!.ref.keys = {
-      LEFT: "KeyW",
-      UP: "KeyA",
-      RIGHT: "KeyS",
-      BOTTOM: "KeyD",
-    };
-
-    return () => {
-      orbitControls?.ref.stopListenToKeyEvents();
-    };
-  });
 </script>
 
 <T.PerspectiveCamera
   makeDefault
-  position.x={$cameraPositionX}
-  position.y={$cameraPositionY}
-  position.z={$cameraPositionZ}
+  position.x={cameraPositionX.current}
+  position.y={cameraPositionY.current}
+  position.z={cameraPositionZ.current}
 >
   <OrbitControls
-    bind:this={orbitControls}
     enableDamping
-    autoRotate={stateMachine.current !== "play"}
+    autoRotate={stateMachine.current !== "playing"}
   />
   <T.DirectionalLight position={[12, 36, -0]} intensity={Math.PI * 0.25} />
   <T.DirectionalLight position={[0, -4, 10]} intensity={Math.PI * 0.25} />
@@ -78,16 +65,16 @@
 
 <T.Group
   autocenter
-  position={[$center, $center, $center]}
-  onpointerenter={(event) => {
+  position={[cubeState.center, cubeState.center, cubeState.center]}
+  onpointerenter={(event: IntersectionEvent<PointerEvent>) => {
     highlight = event.object.userData.coord;
     event.stopPropagation();
   }}
-  onpointerleave={(event) => {
+  onpointerleave={(event: IntersectionEvent<PointerEvent>) => {
     highlight = null;
     event.stopPropagation();
   }}
-  onclick={(event) => {
+  onclick={(event: IntersectionEvent<PointerEvent>) => {
     handleSelect(event);
   }}
 >
@@ -95,20 +82,23 @@
     <T.SphereGeometry />
     <T.MeshLambertMaterial />
 
-    {#each $game.range as x}
-      {#each $game.range as y}
-        {#each $game.range as z}
+    {#each cubeState.range as x}
+      {#each cubeState.range as y}
+        {#each cubeState.range as z}
           {@const coord = new CoordVector(x, y, z)}
-          {@const color = coord.toColor(difficulty)}
+          {@const color = coord.toColor(size)}
           <Instance
             position={[
-              coord.x * $spaceFactor,
-              coord.y * $spaceFactor,
-              coord.z * $spaceFactor,
+              coord.x * cubeState.spaceFactor.current,
+              coord.y * cubeState.spaceFactor.current,
+              coord.z * cubeState.spaceFactor.current,
             ]}
             userData={{ coord }}
             color={color.toString()}
-            scale={_.isEqual(highlight, coord)
+            scale={highlight &&
+            highlight.x === coord.x &&
+            highlight.y === coord.y &&
+            highlight.z === coord.z
               ? [1.125, 1.125, 1.125]
               : [1, 1, 1]}
           />
