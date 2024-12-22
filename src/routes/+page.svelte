@@ -40,6 +40,10 @@
   let gameState = $state(new GameState(untrack(() => size)));
   let cubeState = $state(new CubeState(untrack(() => size)));
 
+  $effect(() => {
+    if (gameState.strikes >= 3) stateMachine.send("end");
+  });
+
   const stateMachine = new FiniteStateMachine("initial", {
     initial: {
       start: "playing",
@@ -55,15 +59,17 @@
       },
       strike: () => {
         gameState.strike();
-        if (gameState.strikes >= 3) return "final";
         toast("Oops!", "failure");
       },
-      end: "final",
+      end: () => {
+        toast("Game over :(", "failure");
+        return "final";
+      },
+      exit: () => {
+        return "final";
+      },
     },
     final: {
-      _enter: () => {
-        toast("Game over :(", "failure");
-      },
       start: "playing",
     },
   });
@@ -112,9 +118,8 @@
   </div>
 
   <Button
-    onclick={() => stateMachine.send("end")}
-    shortcut="Esc"
-    style="position: fixed; bottom: 0; right: 0; z-index: 200;"
+    onclick={() => stateMachine.send("exit")}
+    style="position: fixed; bottom: 0; right: 0; z-index: 200; margin-top: calc(1.25rem + env(safe-area-inset-top)); margin-right: calc(1.25rem + env(safe-area-inset-right)); margin-bottom: calc(1.25rem + env(safe-area-inset-bottom)); margin-left: calc(1.25rem + env(safe-area-inset-left));"
     >Exit
   </Button>
 {/if}
@@ -169,10 +174,10 @@
     width: 100%;
     z-index: 10;
     justify-content: start;
-    padding-top: calc(1rem + env(safe-area-inset-top));
-    padding-right: calc(1rem + env(safe-area-inset-right));
-    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
-    padding-left: calc(1rem + env(safe-area-inset-left));
+    padding-top: calc(1.25rem + env(safe-area-inset-top));
+    padding-right: calc(1.25rem + env(safe-area-inset-right));
+    padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+    padding-left: calc(1.25rem + env(safe-area-inset-left));
   }
 
   .ignore-pointer {
@@ -194,7 +199,7 @@
     align-items: start;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    padding: 1rem;
+    padding: 1.25rem;
 
     pointer-events: auto;
     pointer-events: all;
