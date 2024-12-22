@@ -1,5 +1,5 @@
 import { Spring } from "svelte/motion";
-import { CoordVector } from "$lib/Vector";
+import { CoordVector } from "$lib/vector";
 
 export class GameState {
   wins: number = $state(0);

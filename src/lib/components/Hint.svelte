@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { CoordVector } from "$lib/Vector";
+  import type { CoordVector } from "$lib/vector";
 
   let {
     coord,

@@ -10,7 +10,7 @@
 
   import { Spring } from "svelte/motion";
 
-  import { CoordVector } from "$lib/Vector";
+  import { CoordVector } from "$lib/vector";
   import { CubeState } from "$lib/state.svelte";
   import type { FiniteStateMachine } from "runed";
 

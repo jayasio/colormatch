@@ -81,8 +81,9 @@
 
     const { coord } = event.object.userData;
 
-    if (_.isEqual(coord, gameState.latestQuestion)) stateMachine.send("score");
-    else stateMachine.send("strike");
+    coord.isEqualTo(gameState.latestQuestion)
+      ? stateMachine.send("score")
+      : stateMachine.send("strike");
   }
 </script>
 

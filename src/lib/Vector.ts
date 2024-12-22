@@ -8,6 +8,10 @@ class Vector {
     this.y = y;
     this.z = z;
   }
+
+  isEqualTo(other: Vector) {
+    return this.x === other.x && this.y === other.y && this.z === other.z;
+  }
 }
 
 export class CoordVector extends Vector {
