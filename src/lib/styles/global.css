@@ -20,16 +20,16 @@
 
   /* Base color tokens */
 
-  --white-0: hsl(0, 0%, 100%);
-  --white-1: hsl(0, 0%, 95%);
-  --white-2: hsl(0, 0%, 90%);
+  --white-0: hsl(0 0% 100%);
+  --white-1: hsl(0 0% 95%);
+  --white-2: hsl(0 0% 90%);
 
-  --black-0: hsl(0, 0%, 5%);
-  --black-1: hsl(0, 0%, 10%);
-  --black-2: hsl(0, 0%, 15%);
+  --black-0: hsl(0 0% 5%);
+  --black-1: hsl(0 0% 10%);
+  --black-2: hsl(0 0% 15%);
 
-  --accent-light: hsl(212, 100%, 50%);
-  --accent-dark: hsl(182, 100%, 71%);
+  --accent-light: hsl(212 100% 50%);
+  --accent-dark: hsl(182 100% 71%);
 
   /* Base type tokens */
 

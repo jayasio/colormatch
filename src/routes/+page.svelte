@@ -16,7 +16,7 @@
   import type { IntersectionEvent } from "@threlte/extras";
   import { untrack } from "svelte";
 
-  const difficulties = ["easy", "medium", "hard", "insane"] as const;
+  const difficulties = ["easy", "medium", "hard"] as const;
   let menuState: {
     difficulty: Difficulty;
   } = $state({
@@ -81,9 +81,11 @@
 
     const { coord } = event.object.userData;
 
-    coord.isEqualTo(gameState.latestQuestion)
-      ? stateMachine.send("score")
-      : stateMachine.send("strike");
+    if (coord.isEqualTo(gameState.latestQuestion)) {
+      stateMachine.send("score");
+    } else {
+      stateMachine.send("strike");
+    }
   }
 </script>
 
@@ -201,9 +203,6 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     padding: 1.25rem;
-
-    pointer-events: auto;
-    pointer-events: all;
   }
 
   .lives {

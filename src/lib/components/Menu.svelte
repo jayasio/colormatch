@@ -54,10 +54,10 @@
 
     <Segmented
       bind:value={difficulty}
-      options={["easy", "medium", "hard", "insane"]}
+      options={["easy", "medium", "hard"] as const}
     />
 
-    <Button onclick={() => stateMachine.send("start")} shortcut="⮐">
+    <Button onclick={() => stateMachine.send("start")}>
       {#if stateMachine.current === "initial"}
         Play
       {:else}
