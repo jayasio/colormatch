@@ -4,6 +4,8 @@
   import { FiniteStateMachine } from "runed";
   import { Canvas } from "@threlte/core";
 
+  import { LogOut, CircleHelp } from "lucide-svelte";
+
   import _ from "lodash";
 
   import Toast from "$lib/components/Toast.svelte";
@@ -120,11 +122,14 @@
     <Slider bind:value={cubeState.spaceFactor.target} />
   </div>
 
-  <Button
-    onclick={() => stateMachine.send("exit")}
-    style="position: fixed; bottom: 0; right: 0; z-index: 200; margin-top: calc(1.25rem + env(safe-area-inset-top)); margin-right: calc(1.25rem + env(safe-area-inset-right)); margin-bottom: calc(1.25rem + env(safe-area-inset-bottom)); margin-left: calc(1.25rem + env(safe-area-inset-left));"
-    >Exit
-  </Button>
+  <div class="actions">
+    <!-- <Button type="secondary" onclick={() => stateMachine.send("exit")}>
+      <CircleHelp />
+    </Button> -->
+    <Button type="secondary" onclick={() => stateMachine.send("exit")}>
+      <LogOut />
+    </Button>
+  </div>
 {/if}
 
 <div class="container">
@@ -230,5 +235,19 @@
     font: var(--heading-2);
     margin: 0;
     padding: 0;
+  }
+
+  .actions {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 200;
+    margin-top: calc(1.25rem + env(safe-area-inset-top));
+    margin-right: calc(1.25rem + env(safe-area-inset-right));
+    margin-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+    margin-left: calc(1.25rem + env(safe-area-inset-left));
+
+    display: flex;
+    gap: 0.5rem;
   }
 </style>

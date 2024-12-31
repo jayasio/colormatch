@@ -1,6 +1,7 @@
 <script lang="ts">
   import { T } from "@threlte/core";
   import {
+    HTML,
     Instance,
     InstancedMesh,
     OrbitControls,
@@ -62,6 +63,50 @@
 </T.PerspectiveCamera>
 
 <T.AmbientLight intensity={Math.PI * 0.75} />
+
+<T.Group position={[-size, -size, -size]}>
+  <!-- X axis (red) -->
+  <T.Line position={[0, 0, 0]}>
+    <T.BufferGeometry>
+      <T.Float32BufferAttribute
+        attach="attributes.position"
+        args={[new Float32Array([0, 0, 0, size * 2, 0, 0]), 3]}
+      />
+    </T.BufferGeometry>
+    <T.LineBasicMaterial color="red" />
+  </T.Line>
+  <HTML occlude position={[size * 2.2, 0, 0]}>
+    <p style="opacity: 0.6">Red</p>
+  </HTML>
+
+  <!-- Y axis (green) -->
+  <T.Line position={[0, 0, 0]}>
+    <T.BufferGeometry>
+      <T.Float32BufferAttribute
+        attach="attributes.position"
+        args={[new Float32Array([0, 0, 0, 0, size * 2, 0]), 3]}
+      />
+    </T.BufferGeometry>
+    <T.LineBasicMaterial color="green" />
+  </T.Line>
+  <HTML occlude position={[0, size * 2.2, 0]}>
+    <p style="opacity: 0.6">Green</p>
+  </HTML>
+
+  <!-- Z axis (blue) -->
+  <T.Line position={[0, 0, 0]}>
+    <T.BufferGeometry>
+      <T.Float32BufferAttribute
+        attach="attributes.position"
+        args={[new Float32Array([0, 0, 0, 0, 0, size * 2]), 3]}
+      />
+    </T.BufferGeometry>
+    <T.LineBasicMaterial color="blue" />
+  </T.Line>
+  <HTML occlude position={[0, 0, size * 2.2]}>
+    <p style="opacity: 0.6">Blue</p>
+  </HTML>
+</T.Group>
 
 <T.Group
   autocenter
