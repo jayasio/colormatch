@@ -10,9 +10,11 @@
 
   import Toast from "$lib/components/Toast.svelte";
   import Menu from "$lib/components/Menu.svelte";
-  import QuestionCard from "$lib/components/QuestionCard.svelte";
   import Button from "$lib/components/Button.svelte";
   import Slider from "$lib/components/Slider.svelte";
+  import Actions from "$lib/components/Actions.svelte";
+  import GameCard from "$lib/components/GameCard.svelte";
+  import ScoreCard from "$lib/components/ScoreCard.svelte";
 
   import Scene from "./Scene.svelte";
   import type { IntersectionEvent } from "@threlte/extras";
@@ -100,36 +102,25 @@
 {/if}
 
 {#if stateMachine.current === "playing"}
-  <div class="hud">
-    <QuestionCard {size} question={gameState.latestQuestion} />
-
-    <div class="lives ignore-pointer">
-      {#each _.range(gameState.strikes, 3) as life}
-        <div>❤️</div>
-      {/each}
-      {#each _.range(0, gameState.strikes) as strike}
-        <div style:opacity={"25%"}>💔</div>
-      {/each}
-    </div>
-
-    <div class="score-container ignore-pointer">
-      <span class="score">{gameState.wins}</span>
-      Score
-    </div>
-  </div>
-
-  <div class="spacefactor-slider">
-    <Slider bind:value={cubeState.spaceFactor.target} />
-  </div>
-
-  <div class="actions">
-    <!-- <Button type="secondary" onclick={() => stateMachine.send("exit")}>
-      <CircleHelp />
-    </Button> -->
-    <Button type="secondary" onclick={() => stateMachine.send("exit")}>
-      <LogOut />
-    </Button>
-  </div>
+  <GameCard
+    {size}
+    question={gameState.latestQuestion}
+    style="position: fixed; top: 0.5rem; left: 0.5rem;"
+  />
+  <ScoreCard
+    wins={gameState.wins}
+    strikes={gameState.strikes}
+    maxStrikes={3}
+    style="position: fixed; top: 0.5rem; right: 0.5rem;"
+  />
+  <Slider
+    bind:value={cubeState.spaceFactor.target}
+    style="position: fixed; bottom: 0.5rem; left: 0.5rem;"
+  />
+  <Actions
+    {stateMachine}
+    style="position: fixed; bottom: 0.5rem; right: 0.5rem;"
+  />
 {/if}
 
 <div class="container">
@@ -173,81 +164,5 @@
     width: 100dvw;
     height: 100dvh;
     overflow: hidden;
-  }
-
-  .spacefactor-slider {
-    position: fixed;
-    bottom: 0;
-    display: flex;
-    width: 100%;
-    z-index: 10;
-    justify-content: start;
-    padding-top: calc(1.25rem + env(safe-area-inset-top));
-    padding-right: calc(1.25rem + env(safe-area-inset-right));
-    padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
-    padding-left: calc(1.25rem + env(safe-area-inset-left));
-  }
-
-  .ignore-pointer {
-    pointer-events: none;
-
-    & > * {
-      pointer-events: auto;
-      pointer-events: all;
-    }
-  }
-
-  .hud {
-    position: fixed;
-    top: 0;
-    display: flex;
-    z-index: 10;
-    justify-content: space-between;
-    width: 100%;
-    align-items: start;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    padding: 1.25rem;
-  }
-
-  .lives {
-    margin: 0;
-    padding: 0;
-    gap: 0;
-    display: flex;
-    font-family: system-ui;
-    font-size: 2rem;
-    align-items: center;
-    justify-content: center;
-    justify-self: center;
-  }
-
-  .score-container {
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    gap: 0;
-  }
-
-  .score {
-    font: var(--heading-2);
-    margin: 0;
-    padding: 0;
-  }
-
-  .actions {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    z-index: 200;
-    margin-top: calc(1.25rem + env(safe-area-inset-top));
-    margin-right: calc(1.25rem + env(safe-area-inset-right));
-    margin-bottom: calc(1.25rem + env(safe-area-inset-bottom));
-    margin-left: calc(1.25rem + env(safe-area-inset-left));
-
-    display: flex;
-    gap: 0.5rem;
   }
 </style>

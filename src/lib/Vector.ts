@@ -58,7 +58,7 @@ export class ColorVector extends Vector {
   }
 
   toString() {
-    return `rgb(${this.x}, ${this.y}, ${this.z})`;
+    return `rgb(${this.x},${this.y},${this.z})`;
   }
 
   getLuminance() {

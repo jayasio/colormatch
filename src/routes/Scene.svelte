@@ -75,8 +75,8 @@
     </T.BufferGeometry>
     <T.LineBasicMaterial color="red" />
   </T.Line>
-  <HTML occlude position={[size * 2.2, 0, 0]}>
-    <p style="opacity: 0.6">Red</p>
+  <HTML occlude position={[size * 2.15, 0, 0]}>
+    <p style="opacity: 0.6; font: var(--font--1)">RED</p>
   </HTML>
 
   <!-- Y axis (green) -->
@@ -89,8 +89,8 @@
     </T.BufferGeometry>
     <T.LineBasicMaterial color="green" />
   </T.Line>
-  <HTML occlude position={[0, size * 2.2, 0]}>
-    <p style="opacity: 0.6">Green</p>
+  <HTML occlude position={[0, size * 2.15, 0]}>
+    <p style="opacity: 0.6; font: var(--font--1)">GREEN</p>
   </HTML>
 
   <!-- Z axis (blue) -->
@@ -103,8 +103,8 @@
     </T.BufferGeometry>
     <T.LineBasicMaterial color="blue" />
   </T.Line>
-  <HTML occlude position={[0, 0, size * 2.2]}>
-    <p style="opacity: 0.6">Blue</p>
+  <HTML occlude position={[0, 0, size * 2.15]}>
+    <p style="opacity: 0.6; font: var(--font--1)">BLUE</p>
   </HTML>
 </T.Group>
 
