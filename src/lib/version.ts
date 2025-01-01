@@ -1,4 +1,4 @@
-const CHANNEL = "beta";
-const VERSION = "0.5";
+const CHANNEL = "BETA";
+const VERSION = "0.6";
 
 export const version = `${CHANNEL} v${VERSION}`;

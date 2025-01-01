@@ -30,7 +30,7 @@
 
 <style>
   .segmented {
-    height: 3rem;
+    height: 2rem;
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
@@ -57,8 +57,8 @@
     padding: 0 1rem;
     display: grid;
     place-items: center;
-    font-weight: 500;
-    text-transform: capitalize;
+    font: var(--font--1);
+    text-transform: uppercase;
     color: var(--text-2);
     cursor: pointer;
     border-radius: 0.25rem;

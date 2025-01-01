@@ -39,6 +39,14 @@ export class CoordVector extends Vector {
     );
   }
 
+  toFraction(max: number) {
+    return {
+      x: `${this.x}/${max - 1}`,
+      y: `${this.y}/${max - 1}`,
+      z: `${this.z}/${max - 1}`,
+    };
+  }
+
   toColor(max: number) {
     function calcColor(val: number, max: number) {
       return Math.ceil((val / (max - 1)) * 255);
