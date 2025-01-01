@@ -8,6 +8,7 @@
   }>();
 
   let color: ColorVector = $derived(question.toColor(size));
+  let fraction = $derived(question.toFraction(size));
   let percent: PercentVector = $derived(question.toPercent(size));
 
   let showHint = $state(false);
@@ -27,15 +28,21 @@
       style:color={color.getLuminance() === "light" ? "#000" : "#fff"}
     >
       <div class="card card-shell">
-        <div class="value">{percent.x}%</div>
+        <div class="value">
+          {question.x}/{size - 1}
+        </div>
         <div class="label">Red</div>
       </div>
       <div class="card card-shell">
-        <div class="value">{percent.y}%</div>
+        <div class="value">
+          {question.y}/{size - 1}
+        </div>
         <div class="label">Green</div>
       </div>
       <div class="card card-shell">
-        <div class="value">{percent.z}%</div>
+        <div class="value">
+          {question.z}/{size - 1}
+        </div>
         <div class="label">Blue</div>
       </div>
     </div>
@@ -80,7 +87,5 @@
     font: var(--font--1);
     opacity: 0.6;
     text-transform: uppercase;
-    te
-    te
   }
 </style>
