@@ -27,20 +27,36 @@
     handleSelect: (event: IntersectionEvent<PointerEvent>) => void;
   } = $props();
 
-  let cameraPositionX = new Spring(0, { stiffness: 0.08, damping: 0.8 });
-  let cameraPositionY = new Spring(0, { stiffness: 0.08, damping: 0.8 });
-  let cameraPositionZ = new Spring(10, { stiffness: 0.08, damping: 0.8 });
+  let cameraPositionX = new Spring(0, {
+    stiffness: 0.06,
+    damping: 0.8,
+  });
+  let cameraPositionY = new Spring(0, {
+    stiffness: 0.06,
+    damping: 0.8,
+  });
+  let cameraPositionZ = new Spring(10, {
+    stiffness: 0.06,
+    damping: 0.8,
+  });
 
+  let orbitControls: typeof OrbitControls = $state();
+
+  let isTransitioning = $state(false);
   $effect(() => {
+    isTransitioning = true;
     if (stateMachine.current === "playing") {
-      cameraPositionX.target = size * (5 / 2);
-      cameraPositionY.target = size * (5 / 2);
-      cameraPositionZ.target = size * (5 / 2);
+      cameraPositionX.set(size * (5 / 2));
+      cameraPositionY.set(size * (5 / 2));
+      cameraPositionZ.set(size * (5 / 2));
     } else {
-      cameraPositionX.target = size * (-2 / 4);
-      cameraPositionY.target = size * (5 / 4);
-      cameraPositionZ.target = size * (5 / 4);
+      cameraPositionX.set(size * (-2 / 4));
+      cameraPositionY.set(size * (5 / 4));
+      cameraPositionZ.set(size * (5 / 4));
     }
+    setTimeout(() => {
+      isTransitioning = false;
+    }, 1000);
   });
 
   let highlight: CoordVector | null | undefined = $state();
@@ -55,8 +71,17 @@
   position.z={cameraPositionZ.current}
 >
   <OrbitControls
+    bind:this={orbitControls}
     enableDamping
     autoRotate={stateMachine.current !== "playing"}
+    onchange={(event) => {
+      if (stateMachine.current === "playing" && !isTransitioning) {
+        cameraPositionX.set(event.target.object.position.x, { instant: true });
+        cameraPositionY.set(event.target.object.position.y, { instant: true });
+        cameraPositionZ.set(event.target.object.position.z, { instant: true });
+      }
+    }}
+    }}
   />
   <T.DirectionalLight position={[12, 36, -0]} intensity={Math.PI * 0.25} />
   <T.DirectionalLight position={[0, -4, 10]} intensity={Math.PI * 0.25} />
@@ -65,7 +90,6 @@
 <T.AmbientLight intensity={Math.PI * 0.75} />
 
 <T.Group position={[-size, -size, -size]}>
-  <!-- X axis (red) -->
   <T.Line position={[0, 0, 0]}>
     <T.BufferGeometry>
       <T.Float32BufferAttribute
@@ -79,7 +103,6 @@
     <p style="opacity: 0.6; font: var(--font--1);">RED</p>
   </HTML>
 
-  <!-- Y axis (green) -->
   <T.Line position={[0, 0, 0]}>
     <T.BufferGeometry>
       <T.Float32BufferAttribute
@@ -93,7 +116,6 @@
     <p style="opacity: 0.6; font: var(--font--1);">GREEN</p>
   </HTML>
 
-  <!-- Z axis (blue) -->
   <T.Line position={[0, 0, 0]}>
     <T.BufferGeometry>
       <T.Float32BufferAttribute

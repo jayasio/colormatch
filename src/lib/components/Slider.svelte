@@ -44,9 +44,8 @@
   /******** Chrome, Safari, Opera and Edge Chromium styles ********/
   /* slider track */
   input[type="range"]::-webkit-slider-runnable-track {
-    background-color: #ffffff11;
+    background-color: #ffffff1f;
     /* background-color: hsla(0, 0%, 60%, 60%); */
-    backdrop-filter: blur(24px);
     border-radius: 1rem;
     height: 1rem;
   }
@@ -74,9 +73,8 @@
   /*********** Firefox styles ***********/
   /* slider track */
   input[type="range"]::-moz-range-track {
-    background-color: #ffffff11;
+    background-color: #ffffff1f;
     /* background-color: hsla(0, 0%, 60%, 60%); */
-    backdrop-filter: blur(24px);
     border-radius: 1rem;
     height: 1rem;
   }
