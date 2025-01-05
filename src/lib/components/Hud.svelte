@@ -32,15 +32,15 @@
 {#if stateMachine.current === "playing"}
   <div
     class="top-left"
-    in:fly={{ y: -100, duration: 400, delay: 100 }}
-    out:fly={{ y: -100, duration: 400 }}
+    in:fly={{ y: -100, duration: 500, delay: 100 }}
+    out:fly={{ y: -100, duration: 500 }}
   >
     <GameCard {size} question={gameState.latestQuestion} />
   </div>
   <div
     class="top-right"
-    in:fly={{ y: -100, duration: 400, delay: 100 }}
-    out:fly={{ y: -100, duration: 400 }}
+    in:fly={{ y: -100, duration: 500, delay: 100 }}
+    out:fly={{ y: -100, duration: 500 }}
   >
     <ScoreCard
       wins={gameState.wins}
@@ -50,15 +50,15 @@
   </div>
   <div
     class="bottom-left"
-    in:fly={{ y: 100, duration: 400, delay: 100 }}
-    out:fly={{ y: 100, duration: 400 }}
+    in:fly={{ y: 100, duration: 500, delay: 100 }}
+    out:fly={{ y: 100, duration: 500 }}
   >
     <Slider bind:value={cubeState.spaceFactor.target} />
   </div>
   <div
     class="bottom-right"
-    in:fly={{ y: 100, duration: 400, delay: 100 }}
-    out:fly={{ y: 100, duration: 400 }}
+    in:fly={{ y: 100, duration: 500, delay: 100 }}
+    out:fly={{ y: 100, duration: 500 }}
   >
     <Actions {stateMachine} bind:showTutorial />
   </div>

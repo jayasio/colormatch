@@ -27,9 +27,9 @@
     handleSelect: (event: IntersectionEvent<PointerEvent>) => void;
   } = $props();
 
-  let cameraPositionX = new Spring(0);
-  let cameraPositionY = new Spring(0);
-  let cameraPositionZ = new Spring(10);
+  let cameraPositionX = new Spring(0, { stiffness: 0.08, damping: 0.8 });
+  let cameraPositionY = new Spring(0, { stiffness: 0.08, damping: 0.8 });
+  let cameraPositionZ = new Spring(10, { stiffness: 0.08, damping: 0.8 });
 
   $effect(() => {
     if (stateMachine.current === "playing") {
@@ -76,11 +76,7 @@
     <T.LineBasicMaterial color="red" />
   </T.Line>
   <HTML occlude position={[size * 2.15, 0, 0]}>
-    <p
-      style="opacity: 0.6; font: var(--font--1); font-family: 'Geist Mono', monospace"
-    >
-      RED
-    </p>
+    <p style="opacity: 0.6; font: var(--font--1);">RED</p>
   </HTML>
 
   <!-- Y axis (green) -->
@@ -94,11 +90,7 @@
     <T.LineBasicMaterial color="green" />
   </T.Line>
   <HTML occlude position={[0, size * 2.15, 0]}>
-    <p
-      style="opacity: 0.6; font: var(--font--1); font-family: 'Geist Mono', monospace"
-    >
-      GREEN
-    </p>
+    <p style="opacity: 0.6; font: var(--font--1);">GREEN</p>
   </HTML>
 
   <!-- Z axis (blue) -->
@@ -112,11 +104,7 @@
     <T.LineBasicMaterial color="blue" />
   </T.Line>
   <HTML occlude position={[0, 0, size * 2.15]}>
-    <p
-      style="opacity: 0.6; font: var(--font--1); font-family: 'Geist Mono', monospace"
-    >
-      BLUE
-    </p>
+    <p style="opacity: 0.6; font: var(--font--1);">BLUE</p>
   </HTML>
 </T.Group>
 
