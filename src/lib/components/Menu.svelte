@@ -4,19 +4,19 @@
 
   import { fade, blur } from "svelte/transition";
   import Segmented from "$lib/components/Segmented.svelte";
-  import Onboarding from "$lib/components/Onboarding.svelte";
+  import Tutorial from "$lib/components/Tutorial.svelte";
 
   let {
     wins,
     stateMachine,
     difficulty = $bindable(),
+    showTutorial = $bindable(),
   } = $props<{
     wins: number;
     stateMachine: FiniteStateMachine<string, string>;
     difficulty: Difficulty;
+    showTutorial: boolean;
   }>();
-
-  let showTutorial = $state(false);
 </script>
 
 <div class="wrapper">
@@ -25,56 +25,47 @@
     in:fade={{ delay: 100, duration: 100 }}
     out:fade={{ duration: 100 }}
   >
-    {#if showTutorial}
-      <Onboarding bind:show={showTutorial} />
-    {:else}
-      <div class="header">
-        <h1>
-          Colormatch!
-          {#if stateMachine.current === "final"}
-            <br />Score is {wins}
-          {/if}
-        </h1>
-        {#if stateMachine.current !== "final"}
-          <p class="description">
-            Guess the color and score points!<br />Explore colors in 3D space
-            and gain an intuition for the RGB color model.
-            <button class="tertiary" onclick={() => (showTutorial = true)}>
-              Learn more
-            </button>
-          </p>
-        {/if}
-      </div>
-
-      <div class="actions">
-        <Segmented
-          options={["easy", "medium", "hard"]}
-          bind:value={difficulty}
-        />
-
-        <button onclick={() => stateMachine.send("start")}>
-          {#if stateMachine.current === "final"}
-            Play again
-          {:else}
-            Play
-          {/if}
-        </button>
-
+    <div class="header">
+      <h1>
+        Colormatch!
         {#if stateMachine.current === "final"}
-          <button
-            class="tertiary"
-            style="padding: 1rem 2rem; color: black"
-            onclick={() => (showTutorial = true)}
-          >
+          <br />Score is {wins}
+        {/if}
+      </h1>
+      {#if stateMachine.current !== "final"}
+        <p class="description">
+          Guess the color and score points!<br />Explore colors in 3D space and
+          gain an intuition for the RGB color model.
+          <button class="tertiary" onclick={() => (showTutorial = true)}>
             Learn more
           </button>
+        </p>
+      {/if}
+    </div>
+
+    <div class="actions">
+      <Segmented options={["easy", "medium", "hard"]} bind:value={difficulty} />
+
+      <button onclick={() => stateMachine.send("start")}>
+        {#if stateMachine.current === "final"}
+          Play again
+        {:else}
+          Play
         {/if}
-      </div>
-    {/if}
+      </button>
+
+      {#if stateMachine.current === "final"}
+        <button
+          class="tertiary"
+          style="padding: 1rem 2rem; color: black"
+          onclick={() => (showTutorial = true)}
+        >
+          Learn more
+        </button>
+      {/if}
+    </div>
   </div>
 </div>
-
-<div class="blur" transition:blur={{ duration: 400 }}></div>
 
 <style>
   .wrapper {
@@ -129,15 +120,5 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-  }
-
-  .blur {
-    position: fixed;
-    top: 0;
-    width: 100dvw;
-    height: 100dvh;
-    background-color: #ffffff33;
-    backdrop-filter: blur(60px);
-    -webkit-backdrop-filter: blur(60px);
   }
 </style>

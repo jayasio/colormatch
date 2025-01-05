@@ -6,7 +6,7 @@
     ...props
   }: {
     value: number;
-    props: unknown;
+    props?: unknown;
   } = $props();
 </script>
 

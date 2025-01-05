@@ -1,35 +1,37 @@
 <script lang="ts">
-  import additive from "$lib/assets/onboarding/additive.mov";
-  import variants from "$lib/assets/onboarding/variants.mov";
-  import grid from "$lib/assets/onboarding/grid.mov";
-  import strikes from "$lib/assets/onboarding/strikes.mov";
+  import additive from "$lib/assets//tutorial/additive.mov";
+  import variants from "$lib/assets//tutorial/variants.mov";
+  import grid from "$lib/assets//tutorial/grid.mov";
+  import strikes from "$lib/assets//tutorial/strikes.mov";
 
-  let { show = $bindable() } = $props<{ show: boolean }>();
+  let { dismiss } = $props<{
+    dismiss: () => void;
+  }>();
 
   let steps = [
     {
       title:
-        "In the digital world, all colors are built from three base colors. ",
+        "All colors in the digital world are built from Red, Green, and Blue (RGB).",
       description:
-        'Red, Green, and Blue (RGB) combine to create all colors through "additive mixing".',
+        "These three base hues combine through 'additive mixing' to create the entire spectrum of colors.",
       video: additive,
     },
     {
-      title: "Mixing colors creates new shades. ",
+      title: "Mixing the three creates new colors.",
       description:
-        "Each base color's intensity ranges from none (0) to its maximum (255). Colors are written as rgb(red, green, blue) values - for instance, pure red is rgb(255, 0, 0).",
+        "Each base hue's intensity ranges from none (0) to its maximum (255). Colors are represented as rgb(red, green, blue) values—for instance, pure red is rgb(255, 0, 0).",
       video: variants,
     },
     {
-      title: "In this game, the base hues map to three axes of a cube. ",
+      title: "In this game, the base hues map to the three axes of a cube.",
       description:
-        "X = Red, Y = Green, Z = Blue. Move along these axes to mix colors. Where they meet determines the final color.",
+        "X = Red, Y = Green, Z = Blue. Move along these axes to mix hues. Their intersection determines the final color.",
       video: grid,
     },
     {
-      title: "Your goal: identify the target color. ",
+      title: "Your goal: identify the target color.",
       description:
-        "Score points for correct guesses. Three strikes, and the game ends!",
+        "Score points for correct guesses. But beware—three strikes, and the game ends!",
       video: strikes,
     },
   ];
@@ -62,7 +64,7 @@
       </button>
     {/if}
   </div>
-  <button class="secondary" onclick={() => (show = false)}> Done </button>
+  <button class="secondary" onclick={dismiss}> Done </button>
 </div>
 
 <style>
@@ -70,11 +72,11 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+    z-index: 100;
   }
   .wrapper {
     width: 25dvw;
     height: 50dvh;
-    z-index: 100;
 
     display: flex;
     flex-direction: column;

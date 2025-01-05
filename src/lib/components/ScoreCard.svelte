@@ -6,7 +6,7 @@
     wins: number;
     strikes: number;
     maxStrikes: number;
-    props: unknown;
+    props?: unknown;
   }>();
 </script>
 

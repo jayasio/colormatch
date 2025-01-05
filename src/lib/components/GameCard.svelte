@@ -4,7 +4,7 @@
   let { question, size, ...props } = $props<{
     question: CoordVector;
     size: number;
-    props: unknown;
+    props?: unknown;
   }>();
 
   let color: ColorVector = $derived(question.toColor(size));
