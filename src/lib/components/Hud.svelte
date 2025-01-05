@@ -31,36 +31,32 @@
 
 {#if stateMachine.current === "playing"}
   <div
-    class="top-left"
+    class="top"
     in:fly={{ y: -100, duration: 500, delay: 100 }}
     out:fly={{ y: -100, duration: 500 }}
   >
-    <GameCard {size} question={gameState.latestQuestion} />
-  </div>
-  <div
-    class="top-right"
-    in:fly={{ y: -100, duration: 500, delay: 100 }}
-    out:fly={{ y: -100, duration: 500 }}
-  >
+    <GameCard
+      {size}
+      question={gameState.latestQuestion}
+      style="pointer-events: all"
+    />
     <ScoreCard
       wins={gameState.wins}
       strikes={gameState.strikes}
       maxStrikes={3}
+      style="pointer-events: all"
     />
   </div>
   <div
-    class="bottom-left"
+    class="bottom"
     in:fly={{ y: 100, duration: 500, delay: 100 }}
     out:fly={{ y: 100, duration: 500 }}
   >
-    <Slider bind:value={cubeState.spaceFactor.target} />
-  </div>
-  <div
-    class="bottom-right"
-    in:fly={{ y: 100, duration: 500, delay: 100 }}
-    out:fly={{ y: 100, duration: 500 }}
-  >
-    <Actions {stateMachine} bind:showTutorial />
+    <Slider
+      bind:value={cubeState.spaceFactor.target}
+      style="pointer-events: all"
+    />
+    <Actions {stateMachine} bind:showTutorial style="pointer-events: all" />
   </div>
 {/if}
 
@@ -88,25 +84,23 @@
 {/if}
 
 <style>
-  .top-left {
+  .top,
+  .bottom {
+    width: 100dvw;
+    height: fit-content;
     position: fixed;
-    top: 1rem;
-    left: 1rem;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    gap: 0.25rem;
+    pointer-events: none;
   }
-  .top-right {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
+  .top {
+    top: 0;
   }
-  .bottom-left {
-    position: fixed;
-    bottom: 1rem;
-    left: 1rem;
-  }
-  .bottom-right {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
+  .bottom {
+    bottom: 0;
   }
 
   .tutorial-container {

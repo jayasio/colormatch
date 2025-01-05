@@ -70,4 +70,10 @@
     object-fit: contain;
     object-position: top;
   }
+  @media screen and (max-width: 768px) {
+    img {
+      height: 1rem;
+      width: 0.813rem;
+    }
+  }
 </style>

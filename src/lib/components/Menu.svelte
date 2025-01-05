@@ -2,9 +2,8 @@
   import type { FiniteStateMachine } from "runed";
   import type { Difficulty } from "$lib/types";
 
-  import { fade, blur } from "svelte/transition";
+  import { fade } from "svelte/transition";
   import Segmented from "$lib/components/Segmented.svelte";
-  import Tutorial from "$lib/components/Tutorial.svelte";
 
   let {
     wins,
