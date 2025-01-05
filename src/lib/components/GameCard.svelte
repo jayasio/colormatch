@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { CoordVector, ColorVector, PercentVector } from "$lib/vector";
+  import type { CoordVector, ColorVector } from "$lib/vector";
 
   let { question, size, ...props } = $props<{
     question: CoordVector;
@@ -8,8 +8,6 @@
   }>();
 
   let color: ColorVector = $derived(question.toColor(size));
-  let fraction = $derived(question.toFraction(size));
-  let percent: PercentVector = $derived(question.toPercent(size));
 
   let showHint = $state(false);
 </script>
@@ -66,7 +64,7 @@
     gap: 0.5rem;
     background-color: #26262699;
     backdrop-filter: blur(16px);
-    border-radius: 0.25rem;
+    border-radius: 1rem;
   }
   .card-composite {
     flex-direction: row;
@@ -81,10 +79,12 @@
   }
   .value {
     font: var(--font-1);
+    font-family: "Geist Mono", monospace;
     font-weight: semibold;
   }
   .label {
     font: var(--font--1);
+    font-family: "Geist Mono", monospace;
     opacity: 0.6;
     text-transform: uppercase;
   }

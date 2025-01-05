@@ -1,5 +1,6 @@
 <script lang="ts">
   import "$lib/styles/reset.css";
+  import "$lib/styles/tokens.css";
   import "$lib/styles/global.css";
 
   import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit";
@@ -11,11 +12,11 @@
 </script>
 
 <svelte:head>
-  <title>ColorMatch!</title>
+  <title>Colormatch!</title>
 
   <meta
     name="description"
-    content="Master RGB color coordinates by playing ColorMatch, an interactive 3D game designed to make learning colors fun and engaging."
+    content="Guess the color and score points! Explore colors in 3D space and gain an intuition for the RGB color model."
   />
   <meta
     name="keywords"
@@ -30,7 +31,7 @@
   <meta property="og:title" content="ColorMatch!" />
   <meta
     property="og:description"
-    content="Master RGB color coordinates by playing ColorMatch, an interactive 3D game designed to make learning colors fun and engaging."
+    content="Guess the color and score points! Explore colors in 3D space and gain an intuition for the RGB color model."
   />
   <meta property="og:image" content="/og.png" />
   <meta property="og:image:width" content="1200" />
@@ -42,7 +43,7 @@
   <meta name="twitter:title" content="ColorMatch!" />
   <meta
     name="twitter:description"
-    content="Master RGB color coordinates by playing ColorMatch, an interactive 3D game designed to make learning colors fun and engaging."
+    content="Guess the color and score points! Explore colors in 3D space and gain an intuition for the RGB color model."
   />
   <meta name="twitter:image" content="/og.png" />
 

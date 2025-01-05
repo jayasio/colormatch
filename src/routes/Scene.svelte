@@ -76,7 +76,11 @@
     <T.LineBasicMaterial color="red" />
   </T.Line>
   <HTML occlude position={[size * 2.15, 0, 0]}>
-    <p style="opacity: 0.6; font: var(--font--1)">RED</p>
+    <p
+      style="opacity: 0.6; font: var(--font--1); font-family: 'Geist Mono', monospace"
+    >
+      RED
+    </p>
   </HTML>
 
   <!-- Y axis (green) -->
@@ -90,7 +94,11 @@
     <T.LineBasicMaterial color="green" />
   </T.Line>
   <HTML occlude position={[0, size * 2.15, 0]}>
-    <p style="opacity: 0.6; font: var(--font--1)">GREEN</p>
+    <p
+      style="opacity: 0.6; font: var(--font--1); font-family: 'Geist Mono', monospace"
+    >
+      GREEN
+    </p>
   </HTML>
 
   <!-- Z axis (blue) -->
@@ -104,7 +112,11 @@
     <T.LineBasicMaterial color="blue" />
   </T.Line>
   <HTML occlude position={[0, 0, size * 2.15]}>
-    <p style="opacity: 0.6; font: var(--font--1)">BLUE</p>
+    <p
+      style="opacity: 0.6; font: var(--font--1); font-family: 'Geist Mono', monospace"
+    >
+      BLUE
+    </p>
   </HTML>
 </T.Group>
 

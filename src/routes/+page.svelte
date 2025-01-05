@@ -4,13 +4,8 @@
   import { FiniteStateMachine } from "runed";
   import { Canvas } from "@threlte/core";
 
-  import { LogOut, CircleHelp } from "lucide-svelte";
-
-  import _ from "lodash";
-
   import Toast from "$lib/components/Toast.svelte";
   import Menu from "$lib/components/Menu.svelte";
-  import Button from "$lib/components/Button.svelte";
   import Slider from "$lib/components/Slider.svelte";
   import Actions from "$lib/components/Actions.svelte";
   import GameCard from "$lib/components/GameCard.svelte";
@@ -94,6 +89,11 @@
 </script>
 
 {#if stateMachine.current !== "playing"}
+  <!-- <Menu
+    {stateMachine}
+    wins={gameState.wins}
+    bind:difficulty={menuState.difficulty}
+  /> -->
   <Menu
     {stateMachine}
     wins={gameState.wins}
@@ -105,22 +105,19 @@
   <GameCard
     {size}
     question={gameState.latestQuestion}
-    style="position: fixed; top: 0.5rem; left: 0.5rem;"
+    style="position: fixed; top: 1rem; left: 1rem;"
   />
   <ScoreCard
     wins={gameState.wins}
     strikes={gameState.strikes}
     maxStrikes={3}
-    style="position: fixed; top: 0.5rem; right: 0.5rem;"
+    style="position: fixed; top: 1rem; right: 1rem;"
   />
   <Slider
     bind:value={cubeState.spaceFactor.target}
-    style="position: fixed; bottom: 0.5rem; left: 0.5rem;"
+    style="position: fixed; bottom: 1rem; left: 1rem;"
   />
-  <Actions
-    {stateMachine}
-    style="position: fixed; bottom: 0.5rem; right: 0.5rem;"
-  />
+  <Actions {stateMachine} style="position: fixed; bottom: 1rem; right: 1rem;" />
 {/if}
 
 <div class="container">

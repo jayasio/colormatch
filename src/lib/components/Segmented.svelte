@@ -1,6 +1,4 @@
-<script lang="ts">
-  type T = $$Generic;
-
+<script lang="ts" generics="T">
   let {
     options,
     value = $bindable(),
@@ -30,12 +28,11 @@
 
 <style>
   .segmented {
-    height: 2rem;
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
-    background: var(--surface-1);
-    border-radius: 0.25rem;
+    background-color: #00000099;
+    border-radius: 10rem;
     position: relative;
     overflow: hidden;
 
@@ -44,7 +41,7 @@
       width: calc(100% / var(--count));
       height: 100%;
       background: var(--accent);
-      border-radius: 0.25rem;
+      border-radius: 0rem;
       position: absolute;
       mix-blend-mode: difference;
       transition: transform 0.25s;
@@ -54,26 +51,28 @@
 
   label {
     height: 100%;
-    padding: 0 1rem;
+    padding: 1.5rem 2rem;
     display: grid;
     place-items: center;
-    font: var(--font--1);
-    text-transform: uppercase;
+    /* font: var(--font--1); */
+    text-transform: capitalize;
+    font-family: "Geist", sans-serif;
+    font-weight: medium;
+    font-size: 1rem;
     color: var(--text-2);
     cursor: pointer;
-    border-radius: 0.25rem;
+    border-radius: 0rem;
     transition:
       background-color 0.25s,
       color 0.25s,
       opacity 0.25s;
 
-    &:has(input:not(:checked)) {
+    /* &:has(input:not(:checked)) {
       opacity: 0.75;
-    }
+    } */
 
     &:hover:has(input:not(:checked)) {
-      opacity: 1;
-      background-color: var(--surface-2);
+      background-color: #00000033;
     }
   }
 

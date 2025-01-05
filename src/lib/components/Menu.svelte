@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { fade, blur } from "svelte/transition";
-  import { version } from "$lib/version";
-
+  import type { FiniteStateMachine } from "runed";
   import type { Difficulty } from "$lib/types";
+
+  import { fade, blur } from "svelte/transition";
   import Segmented from "$lib/components/Segmented.svelte";
   import Onboarding from "$lib/components/Onboarding.svelte";
 
@@ -10,187 +10,134 @@
     wins,
     stateMachine,
     difficulty = $bindable(),
-  }: {
+  } = $props<{
     wins: number;
-    stateMachine: any;
+    stateMachine: FiniteStateMachine<string, string>;
     difficulty: Difficulty;
-  } = $props();
+  }>();
 
-  let showOnboarding = $state(false);
+  let showTutorial = $state(false);
 </script>
 
 <div class="wrapper">
-  <div class="blur" transition:blur={{ duration: 400 }}></div>
   <div
-    class="container"
+    class="main-content"
     in:fade={{ delay: 100, duration: 100 }}
     out:fade={{ duration: 100 }}
   >
-    <!-- <div class="menu" style:flex={1}>
-      {#if stateMachine.current === "final"}
-        <div class="title-end">
-          <div class="logo">ColorMatch!</div>
-          <div class="version">{version}</div>
-        </div>
-      {:else}
-        <div class="title">
-          <div class="logo">Color<br />Match!</div>
-          <div class="version">{version}</div>
-        </div>
-      {/if}
-
-      {#if stateMachine.current === "final"}
-        <div class="score-card">
-          You scored
-          <div class="score">
-            {wins}
-          </div>
-          <!-- Questions:
-      {#each $questionsList as question}
-        <div>
-          <div style:background-color={question.color} />
-          {question.color}
-        </div>
-      {/each}
-        </div>
-      {/if}
-    </div> -->
-
-    <Onboarding {stateMachine} bind:showOnboarding />
-
-    <div class="menu">
-      <Segmented
-        bind:value={difficulty}
-        options={["easy", "medium", "hard"] as const}
-      />
-
-      <button onclick={() => stateMachine.send("start")} class="primary">
-        {#if stateMachine.current === "initial"}
-          Play
-        {:else}
-          Play again
+    {#if showTutorial}
+      <Onboarding bind:show={showTutorial} />
+    {:else}
+      <div class="header">
+        <h1>
+          Colormatch!
+          {#if stateMachine.current === "final"}
+            <br />Score is {wins}
+          {/if}
+        </h1>
+        {#if stateMachine.current !== "final"}
+          <p class="description">
+            Guess the color and score points!<br />Explore colors in 3D space
+            and gain an intuition for the RGB color model.
+            <button class="tertiary" onclick={() => (showTutorial = true)}>
+              Learn more
+            </button>
+          </p>
         {/if}
-      </button>
-    </div>
+      </div>
+
+      <div class="actions">
+        <Segmented
+          options={["easy", "medium", "hard"]}
+          bind:value={difficulty}
+        />
+
+        <button onclick={() => stateMachine.send("start")}>
+          {#if stateMachine.current === "final"}
+            Play again
+          {:else}
+            Play
+          {/if}
+        </button>
+
+        {#if stateMachine.current === "final"}
+          <button
+            class="tertiary"
+            style="padding: 1rem 2rem; color: black"
+            onclick={() => (showTutorial = true)}
+          >
+            Learn more
+          </button>
+        {/if}
+      </div>
+    {/if}
   </div>
 </div>
 
+<div class="blur" transition:blur={{ duration: 400 }}></div>
+
 <style>
   .wrapper {
+    position: fixed;
+    top: 0;
+    z-index: 1;
     width: 100dvw;
     height: 100dvh;
-    z-index: 100;
+
     display: flex;
-    justify-content: center;
     align-items: center;
-    gap: 0.125rem;
+    justify-content: center;
+
+    padding: 4rem;
+  }
+
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    gap: 3rem;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .description {
+    max-width: 32ch;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    letter-spacing: -1%;
+    color: black;
+
+    text-align: center;
+  }
+
+  h1 {
+    color: black;
+    font-size: 5rem;
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -3%;
+    text-align: center;
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
   }
 
   .blur {
-    position: absolute;
+    position: fixed;
+    top: 0;
     width: 100dvw;
     height: 100dvh;
-    z-index: 10;
+    background-color: #ffffff33;
     backdrop-filter: blur(60px);
     -webkit-backdrop-filter: blur(60px);
-  }
-
-  .container {
-    width: 35dvw;
-    max-width: 400px;
-    /* height: 60dvh; */
-    z-index: 100;
-
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-  }
-
-  .menu {
-    display: flex;
-    flex-direction: column;
-    padding: 0.25rem;
-    gap: 0.25rem;
-
-    background-color: var(--surface-0);
-    border-radius: 0.5rem;
-  }
-
-  .title {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: start;
-    gap: 0.25rem;
-    /* padding: 0.25rem; */
-    padding-bottom: 5rem;
-
-    & > .logo {
-      font: var(--heading-4);
-      font-family: "Geist";
-      line-height: 1.1;
-    }
-  }
-
-  .title-end {
-    flex: 1;
-    display: flex;
-    justify-content: start;
-    align-items: end;
-    gap: 0.25rem;
-    padding: 0.5rem;
-
-    & > .logo {
-      font: var(--body-1);
-      font-family: "Geist";
-      line-height: 1.1;
-    }
-  }
-
-  .version {
-    font: var(--caption);
-    color: var(--white-0);
-
-    font-weight: 500;
-
-    padding: 0.25rem;
-    border-radius: 0.25rem;
-    background-color: rgb(247, 74, 6);
-  }
-
-  .score {
-    font: var(--heading-1);
-    margin: 0;
-    padding: 0;
-  }
-
-  .score-card {
-    width: 100%;
-    padding: 1rem;
-    background-color: var(--surface-1);
-    border-radius: 0.5rem;
-  }
-
-  .logo {
-    margin: 0;
-    padding: 0;
-  }
-
-  button {
-    padding: 0.6rem 1rem;
-    background: none;
-    border: none;
-    border-radius: 0.25rem;
-    color: white;
-    font: var(--font--1);
-    font-family: "Geist Mono";
-    text-transform: uppercase;
-    cursor: pointer;
-  }
-
-  button.primary {
-    background: white;
-    color: black;
   }
 </style>
