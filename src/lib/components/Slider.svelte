@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { tight, loose } from "$lib/assets/icons/index";
+  import tight from "$lib/assets/icons/tight.svg";
+  import loose from "$lib/assets/icons/loose.svg";
 
   let {
     value = $bindable(),

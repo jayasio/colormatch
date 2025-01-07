@@ -20,15 +20,15 @@
   />
   <meta
     name="keywords"
-    content="ColorMatch, RGB Colors, Learning Game, Educational Game, 3D Game, Color Identification"
+    content="Colormatch, RGB Colors, Learning Game, Educational Game, 3D Game, Color Identification, Color Guessing, Color Space, RGB Model, Color Matching Game, Color Theory, Interactive Learning, Color Intuition, Color Points, Web Game"
   />
   <link rel="canonical" href="https://colormatch.jayas.me" />
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="all" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://colormatch.jayas.me" />
-  <meta property="og:title" content="ColorMatch!" />
+  <meta property="og:title" content="Colormatch!" />
   <meta
     property="og:description"
     content="Guess the color and score points! Explore colors in 3D space and gain an intuition for the RGB color model."
@@ -39,8 +39,9 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:domain" content="colormatch.jayas.me" />
   <meta name="twitter:url" content="https://colormatch.jayas.me" />
-  <meta name="twitter:title" content="ColorMatch!" />
+  <meta name="twitter:title" content="Colormatch!" />
   <meta
     name="twitter:description"
     content="Guess the color and score points! Explore colors in 3D space and gain an intuition for the RGB color model."

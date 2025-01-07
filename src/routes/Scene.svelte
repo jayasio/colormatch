@@ -9,6 +9,7 @@
   } from "@threlte/extras";
   import type { IntersectionEvent } from "@threlte/extras";
 
+  import { MediaQuery } from "svelte/reactivity";
   import { Spring } from "svelte/motion";
 
   import { CoordVector } from "$lib/vector";
@@ -42,13 +43,21 @@
 
   let orbitControls: typeof OrbitControls = $state();
 
+  const isMobile = new MediaQuery("max-width: 768px");
+
   let isTransitioning = $state(false);
   $effect(() => {
     isTransitioning = true;
     if (stateMachine.current === "playing") {
-      cameraPositionX.set(size * (5 / 2));
-      cameraPositionY.set(size * (5 / 2));
-      cameraPositionZ.set(size * (5 / 2));
+      if (isMobile.current) {
+        cameraPositionX.set(size * 5);
+        cameraPositionY.set(size * 5);
+        cameraPositionZ.set(size * 5);
+      } else {
+        cameraPositionX.set(size * (5 / 2));
+        cameraPositionY.set(size * (5 / 2));
+        cameraPositionZ.set(size * (5 / 2));
+      }
     } else {
       cameraPositionX.set(size * (-2 / 4));
       cameraPositionY.set(size * (5 / 4));
@@ -56,7 +65,7 @@
     }
     setTimeout(() => {
       isTransitioning = false;
-    }, 1000);
+    }, 1500);
   });
 
   let highlight: CoordVector | null | undefined = $state();

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import additive from "$lib/assets//tutorial/additive.mov";
-  import variants from "$lib/assets//tutorial/variants.mov";
-  import grid from "$lib/assets//tutorial/grid.mov";
-  import strikes from "$lib/assets//tutorial/strikes.mov";
+  import additive from "$lib/assets//tutorial/additive.mp4";
+  import variants from "$lib/assets//tutorial/variants.mp4";
+  import grid from "$lib/assets//tutorial/grid.mp4";
+  import strikes from "$lib/assets//tutorial/strikes.mp4";
 
   let { dismiss } = $props<{
     dismiss: () => void;
@@ -44,10 +44,12 @@
     <video
       src={steps[currentStep].video}
       autoplay
+      playsinline
       loop
-      preload="auto"
-      style="width: auto; border-radius: 2.25rem 2.25rem 0.5rem 0.5rem; aspect-ratio: 4/3;"
       muted
+      controls={false}
+      preload="auto"
+      style="width: auto; border-radius: 2.25rem 2.25rem 0.5rem 0.5rem; aspect-ratio: 4/3; object-fit: fill;"
     ></video>
     <div class="text">
       <span class="title">{steps[currentStep].title}</span>
@@ -69,19 +71,22 @@
 
 <style>
   .big-wrapper {
+    height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
     gap: 0.25rem;
+    padding: 1rem;
     z-index: 100;
   }
   .wrapper {
     width: 25dvw;
-    height: 50dvh;
+    min-height: 50dvh;
 
     display: flex;
     flex-direction: column;
     padding: 0.25rem;
-    gap: 1rem;
 
     background-color: #00000099;
     border-radius: 2.5rem;
@@ -90,7 +95,7 @@
   .text {
     flex: 1;
     line-height: 1.5;
-    padding: 0 1rem;
+    padding: 1rem;
   }
   .title {
     line-height: 1.2;
@@ -109,6 +114,14 @@
     & button {
       flex: 1;
       width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .wrapper {
+      flex: 1;
+      width: 100%;
+      height: fit-content;
     }
   }
 </style>

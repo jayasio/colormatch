@@ -66,6 +66,11 @@
   </div>
 </div>
 
+<div class="colophon">
+  <div>v0.6</div>
+  <a href="https://jayas.me" target="_blank">Made by @jayas.me</a>
+</div>
+
 <style>
   .wrapper {
     position: fixed;
@@ -119,5 +124,43 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+  }
+
+  .colophon {
+    z-index: 1000;
+    position: fixed;
+    bottom: 0;
+    width: 100dvw;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    gap: 0.5rem;
+
+    color: #000000aa;
+    font-size: 0.8rem;
+    font-weight: 450;
+    line-height: 1;
+
+    transition: color 0.2s ease-out;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    &:hover {
+      color: #000000;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    h1 {
+      font-size: 3rem;
+    }
+    .description {
+      font-size: 1.1rem;
+    }
   }
 </style>
