@@ -1,8 +1,8 @@
 <script lang="ts">
-  import additive from "$lib/assets//tutorial/additive.mp4";
-  import variants from "$lib/assets//tutorial/variants.mp4";
-  import grid from "$lib/assets//tutorial/grid.mp4";
-  import strikes from "$lib/assets//tutorial/strikes.mp4";
+  import additive from "$lib/assets/tutorial/additive.mp4";
+  import variants from "$lib/assets/tutorial/variants.mp4";
+  import grid from "$lib/assets/tutorial/grid.mp4";
+  import strikes from "$lib/assets/tutorial/strikes.mp4";
 
   let { dismiss } = $props<{
     dismiss: () => void;

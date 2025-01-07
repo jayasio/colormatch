@@ -17,16 +17,16 @@
     gameState,
     cubeState,
     difficulty = $bindable(),
+    showTutorial = $bindable(),
     size,
   } = $props<{
     stateMachine: FiniteStateMachine<string, string>;
     gameState: GameState;
     cubeState: CubeState;
     difficulty: Difficulty;
+    showTutorial: boolean;
     size: number;
   }>();
-
-  let showTutorial = $state(false);
 </script>
 
 {#if stateMachine.current === "playing"}

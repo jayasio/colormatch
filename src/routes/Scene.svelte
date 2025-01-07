@@ -15,16 +15,19 @@
   import { CoordVector } from "$lib/vector";
   import { CubeState } from "$lib/state.svelte";
   import type { FiniteStateMachine } from "runed";
+  import { untrack } from "svelte";
 
   let {
     size,
     cubeState,
     stateMachine,
+    showTutorial,
     handleSelect,
   }: {
     size: number;
     cubeState: CubeState;
     stateMachine: FiniteStateMachine<string, string>;
+    showTutorial: boolean;
     handleSelect: (event: IntersectionEvent<PointerEvent>) => void;
   } = $props();
 
@@ -41,28 +44,65 @@
     damping: 0.8,
   });
 
-  let orbitControls: typeof OrbitControls = $state();
+  let stored: {
+    x: number | null;
+    y: number | null;
+    z: number | null;
+    spaceFactor: number | null;
+  } = {
+    x: null,
+    y: null,
+    z: null,
+    spaceFactor: null,
+  };
 
   const isMobile = new MediaQuery("max-width: 768px");
 
   let isTransitioning = $state(false);
+
   $effect(() => {
     isTransitioning = true;
-    if (stateMachine.current === "playing") {
-      if (isMobile.current) {
-        cameraPositionX.set(size * 5);
-        cameraPositionY.set(size * 5);
-        cameraPositionZ.set(size * 5);
-      } else {
-        cameraPositionX.set(size * (5 / 2));
-        cameraPositionY.set(size * (5 / 2));
-        cameraPositionZ.set(size * (5 / 2));
-      }
+
+    if (stateMachine.current === "playing" && !showTutorial) {
+      const multiplier = isMobile.current ? 5 : 5 / 2;
+
+      cameraPositionX.set(size * multiplier);
+      cameraPositionY.set(size * multiplier);
+      cameraPositionZ.set(size * multiplier);
     } else {
       cameraPositionX.set(size * (-2 / 4));
       cameraPositionY.set(size * (5 / 4));
       cameraPositionZ.set(size * (5 / 4));
+      cubeState.spaceFactor.set(2);
     }
+
+    if (showTutorial) {
+      stored.x = untrack(() => cameraPositionX.current);
+      stored.y = untrack(() => cameraPositionY.current);
+      stored.z = untrack(() => cameraPositionZ.current);
+      stored.spaceFactor = untrack(() => cubeState.spaceFactor.current);
+    }
+
+    if (stateMachine.current === "final") {
+      stored.x = null;
+      stored.y = null;
+      stored.z = null;
+      stored.spaceFactor = null;
+    }
+
+    if (
+      !showTutorial &&
+      stored.x &&
+      stored.y &&
+      stored.z &&
+      stored.spaceFactor
+    ) {
+      cameraPositionX.set(stored.x);
+      cameraPositionY.set(stored.y);
+      cameraPositionZ.set(stored.z);
+      cubeState.spaceFactor.set(stored.spaceFactor);
+    }
+
     setTimeout(() => {
       isTransitioning = false;
     }, 1500);
@@ -80,9 +120,8 @@
   position.z={cameraPositionZ.current}
 >
   <OrbitControls
-    bind:this={orbitControls}
     enableDamping
-    autoRotate={stateMachine.current !== "playing"}
+    autoRotate={stateMachine.current !== "playing" || showTutorial}
     onchange={(event) => {
       if (stateMachine.current === "playing" && !isTransitioning) {
         cameraPositionX.set(event.target.object.position.x, { instant: true });

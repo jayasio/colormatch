@@ -23,6 +23,8 @@
   let toastMessage = $state("");
   let toastType: ToastStyle = $state("neutral");
 
+  let showTutorial = $state(false);
+
   function toast(message: string, type: ToastStyle) {
     toastMessage = message;
     toastType = type;
@@ -89,13 +91,14 @@
   {gameState}
   {cubeState}
   {size}
+  bind:showTutorial
   bind:difficulty={menuState.difficulty}
 />
 
 <div class="container">
   <Canvas colorSpace="srgb" useLegacyLights={false} toneMapping={0}>
     <!-- TODO infer colorspace from media queries maybe -->
-    <Scene {handleSelect} {stateMachine} {cubeState} {size} />
+    <Scene {handleSelect} {stateMachine} {cubeState} {size} {showTutorial} />
   </Canvas>
   <div class="bg"></div>
 </div>
