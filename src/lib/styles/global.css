@@ -11,19 +11,68 @@
   --font-stack-mono: "Geist Mono", ui-monospace, "Cascadia Code",
     "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
 
+  --accent: hsl(182 100% 71%);
+
   font-family: var(--font-stack-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
 .mono {
   font-family: var(--font-stack-mono);
 }
 
-h1 {
+.text-heading-1 {
+  color: black;
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.1rem;
+  letter-spacing: -3%;
+  text-wrap: balance;
+}
+
+.text-heading-2 {
+  color: black;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03rem;
+  letter-spacing: -1%;
+  text-wrap: balance;
+}
+
+.text-body-para {
+  color: black;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  letter-spacing: -0.01rem;
+  letter-spacing: -1%;
+}
+
+.text-body-line {
+  color: black;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  letter-spacing: -0.01rem;
+  letter-spacing: -1%;
+}
+
+.text-label {
+  font-family: var(--font-stack-mono);
+  font-size: 0.812rem;
+  line-height: 1;
+  opacity: 0.6;
+  text-transform: uppercase;
 }
 
 button {
   padding: 1.5rem 2rem;
   cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 
   background-color: black;
   border: none;
@@ -31,25 +80,27 @@ button {
 
   color: white;
   font-weight: semibold;
-  font-size: 1rem;
 
   transition: background-color 0.25s;
 
   &:hover {
-    background-color: #222222;
+    background-color: hsl(0 0% 13%);
   }
 
   &.secondary {
-    background-color: #00000099;
+    background-color: hsl(0 0% 0% / 60%);
 
     &:hover {
-      background-color: #000000aa;
+      background-color: hsl(0 0% 0% / 75%);
     }
   }
 
   &.tertiary {
     display: inline-block;
-    padding: 0;
+
+    &:not(.tertiary-block) {
+      padding: 0;
+    }
 
     background-color: transparent;
     border-radius: 0;
@@ -59,12 +110,54 @@ button {
     font-size: inherit;
     text-decoration: underline;
     text-underline-offset: 0.25rem;
-    text-decoration-color: #00000044;
+    text-decoration-color: hsl(0 0% 0% / 25%);
 
     transition: text-underline-offset 0.25s ease-out;
 
     &:hover {
       text-underline-offset: 0.5rem;
     }
+  }
+}
+
+@media screen and (width <= 960px) {
+  .text-heading-1 {
+    font-size: 4rem;
+  }
+  .text-heading-2 {
+    font-size: 2rem;
+  }
+  .text-body-para {
+    font-size: 1.125rem;
+  }
+  .text-body-line {
+    font-size: 1.125rem;
+  }
+  .text-label {
+    font-size: 0.8rem;
+  }
+  button {
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+@media screen and (width <= 480px) {
+  .text-heading-1 {
+    font-size: 3rem;
+  }
+  .text-heading-2 {
+    font-size: 1.5rem;
+  }
+  .text-body-para {
+    font-size: 1rem;
+  }
+  .text-body-line {
+    font-size: 1rem;
+  }
+  .text-label {
+    font-size: 0.75rem;
+  }
+  button {
+    padding: 1rem 1.25rem;
   }
 }

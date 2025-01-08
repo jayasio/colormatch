@@ -28,44 +28,50 @@
 
 <style>
   .segmented {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 1fr;
-    background-color: #00000099;
-    border-radius: 10rem;
     position: relative;
     overflow: hidden;
 
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+
+    background-color: #00000099;
+    border-radius: 10rem;
+
     &::after {
       content: "";
+
+      position: absolute;
       width: calc(100% / var(--count));
       height: 100%;
-      background: var(--accent);
-      border-radius: 0rem;
-      position: absolute;
-      mix-blend-mode: difference;
-      transition: transform 0.25s;
       transform: translateX(calc(var(--activeIndex) * 100%));
+
+      background: var(--accent);
+      mix-blend-mode: difference;
+      border-radius: 0rem;
+
+      transition: transform 0.25s;
     }
   }
 
   label {
     height: 100%;
-    padding: 1.5rem 2rem;
+
     display: grid;
     place-items: center;
-    /* font: var(--font--1); */
+    padding: 1.5rem 2rem;
+
     text-transform: capitalize;
     font-family: "Geist", sans-serif;
     font-weight: medium;
     font-size: 1rem;
-    color: var(--text-2);
+    color: hsl(0 0% 90%);
+
     cursor: pointer;
+
     border-radius: 0rem;
-    transition:
-      background-color 0.25s,
-      color 0.25s,
-      opacity 0.25s;
+
+    transition: background-color 0.25s;
 
     /* &:has(input:not(:checked)) {
       opacity: 0.75;
@@ -78,5 +84,17 @@
 
   input[type="radio"] {
     display: none;
+  }
+
+  @media screen and (width <= 960px) {
+    label {
+      padding: 1.25rem 1.5rem;
+    }
+  }
+
+  @media screen and (width <= 480px) {
+    label {
+      padding: 1rem 1.25rem;
+    }
   }
 </style>

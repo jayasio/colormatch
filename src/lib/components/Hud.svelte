@@ -18,6 +18,7 @@
     cubeState,
     difficulty = $bindable(),
     showTutorial = $bindable(),
+    showHint = $bindable(),
     size,
   } = $props<{
     stateMachine: FiniteStateMachine<string, string>;
@@ -25,6 +26,7 @@
     cubeState: CubeState;
     difficulty: Difficulty;
     showTutorial: boolean;
+    showHint: boolean;
     size: number;
   }>();
 </script>
@@ -38,6 +40,7 @@
     <GameCard
       {size}
       question={gameState.latestQuestion}
+      bind:showHint
       style="pointer-events: all"
     />
     <ScoreCard
@@ -114,6 +117,7 @@
   }
 
   .blur {
+    z-index: 50;
     position: fixed;
     top: 0;
     left: 0;
@@ -122,5 +126,21 @@
     background-color: #ffffff33;
     backdrop-filter: blur(60px);
     -webkit-backdrop-filter: blur(60px);
+  }
+
+  @media screen and (width <= 960px) {
+    .top,
+    .bottom {
+      padding: 0.75rem;
+      gap: 0.15rem;
+    }
+  }
+
+  @media screen and (width <= 480px) {
+    .top,
+    .bottom {
+      padding: 0.5rem;
+      gap: 0.125rem;
+    }
   }
 </style>

@@ -22,12 +22,14 @@
     cubeState,
     stateMachine,
     showTutorial,
+    showHint,
     handleSelect,
   }: {
     size: number;
     cubeState: CubeState;
     stateMachine: FiniteStateMachine<string, string>;
     showTutorial: boolean;
+    showHint: boolean;
     handleSelect: (event: IntersectionEvent<PointerEvent>) => void;
   } = $props();
 
@@ -56,40 +58,68 @@
     spaceFactor: null,
   };
 
-  const isMobile = new MediaQuery("max-width: 768px");
+  const isMobile = new MediaQuery("width <= 480px");
+  const isTablet = new MediaQuery("width <= 960px");
 
   let isTransitioning = $state(false);
 
-  $effect(() => {
+  function queueTransition(callback: () => void, delay: number = 1500) {
     isTransitioning = true;
+    callback();
+    setTimeout(() => (isTransitioning = false), delay);
+  }
 
+  $effect(() => {
     if (stateMachine.current === "playing" && !showTutorial) {
-      const multiplier = isMobile.current ? 5 : 5 / 2;
-
-      cameraPositionX.set(size * multiplier);
-      cameraPositionY.set(size * multiplier);
-      cameraPositionZ.set(size * multiplier);
-    } else {
-      cameraPositionX.set(size * (-2 / 4));
-      cameraPositionY.set(size * (5 / 4));
-      cameraPositionZ.set(size * (5 / 4));
-      cubeState.spaceFactor.set(2);
+      queueTransition(() => {
+        const multiplier = isMobile.current ? 5 : isTablet.current ? 4 : 5 / 2;
+        cameraPositionX.set(size * multiplier);
+        cameraPositionY.set(size * multiplier);
+        cameraPositionZ.set(size * multiplier);
+      });
     }
+  });
 
-    if (showTutorial) {
-      stored.x = untrack(() => cameraPositionX.current);
-      stored.y = untrack(() => cameraPositionY.current);
-      stored.z = untrack(() => cameraPositionZ.current);
-      stored.spaceFactor = untrack(() => cubeState.spaceFactor.current);
+  $effect(() => {
+    if (!(stateMachine.current === "playing" && !showTutorial)) {
+      queueTransition(() => {
+        cameraPositionX.set(size * (-2 / 4));
+        cameraPositionY.set(size * (5 / 4));
+        cameraPositionZ.set(size * (5 / 4));
+        cubeState.spaceFactor.set(2);
+      });
     }
+  });
 
-    if (stateMachine.current === "final") {
-      stored.x = null;
-      stored.y = null;
-      stored.z = null;
-      stored.spaceFactor = null;
+  $effect(() => {
+    if (stateMachine.current === "playing" && showTutorial) {
+      queueTransition(() => {
+        stored.x = untrack(() => cameraPositionX.current);
+        stored.y = untrack(() => cameraPositionY.current);
+        stored.z = untrack(() => cameraPositionZ.current);
+        stored.spaceFactor = untrack(() => cubeState.spaceFactor.current);
+      });
     }
+  });
 
+  $effect(() => {
+    if (
+      stateMachine.current === "final" &&
+      stored.x &&
+      stored.y &&
+      stored.z &&
+      stored.spaceFactor
+    ) {
+      queueTransition(() => {
+        stored.x = null;
+        stored.y = null;
+        stored.z = null;
+        stored.spaceFactor = null;
+      });
+    }
+  });
+
+  $effect(() => {
     if (
       !showTutorial &&
       stored.x &&
@@ -97,15 +127,13 @@
       stored.z &&
       stored.spaceFactor
     ) {
-      cameraPositionX.set(stored.x);
-      cameraPositionY.set(stored.y);
-      cameraPositionZ.set(stored.z);
-      cubeState.spaceFactor.set(stored.spaceFactor);
+      queueTransition(() => {
+        cameraPositionX.set(stored.x);
+        cameraPositionY.set(stored.y);
+        cameraPositionZ.set(stored.z);
+        cubeState.spaceFactor.set(stored.spaceFactor);
+      });
     }
-
-    setTimeout(() => {
-      isTransitioning = false;
-    }, 1500);
   });
 
   let highlight: CoordVector | null | undefined = $state();
@@ -121,14 +149,13 @@
 >
   <OrbitControls
     enableDamping
-    autoRotate={stateMachine.current !== "playing" || showTutorial}
+    autoRotate={stateMachine.current !== "playing" && !showTutorial}
     onchange={(event) => {
       if (stateMachine.current === "playing" && !isTransitioning) {
         cameraPositionX.set(event.target.object.position.x, { instant: true });
         cameraPositionY.set(event.target.object.position.y, { instant: true });
         cameraPositionZ.set(event.target.object.position.z, { instant: true });
       }
-    }}
     }}
   />
   <T.DirectionalLight position={[12, 36, -0]} intensity={Math.PI * 0.25} />
@@ -137,46 +164,156 @@
 
 <T.AmbientLight intensity={Math.PI * 0.75} />
 
-<T.Group position={[-size, -size, -size]}>
-  <T.Line position={[0, 0, 0]}>
-    <T.BufferGeometry>
-      <T.Float32BufferAttribute
-        attach="attributes.position"
-        args={[new Float32Array([0, 0, 0, size * 2, 0, 0]), 3]}
-      />
-    </T.BufferGeometry>
-    <T.LineBasicMaterial color="red" />
-  </T.Line>
-  <HTML occlude position={[size * 2.15, 0, 0]}>
-    <p style="opacity: 0.6; font: var(--font--1);">RED</p>
-  </HTML>
+{#if stateMachine.current === "playing" && !showTutorial}
+  <T.Group
+    position={[
+      size * -1 * (1 + (cubeState.spaceFactor.current - 2) / 2),
+      size * -1 * (1 + (cubeState.spaceFactor.current - 2) / 2),
+      size * -1 * (1 + (cubeState.spaceFactor.current - 2) / 2),
+    ]}
+  >
+    <T.Line position={[0, 0, 0]}>
+      <T.BufferGeometry>
+        <T.Float32BufferAttribute
+          attach="attributes.position"
+          args={[
+            new Float32Array([
+              0,
+              0,
+              0,
+              size * (2 + (cubeState.spaceFactor.current - 2) / 1.5),
+              0,
+              0,
+            ]),
+            3,
+          ]}
+        />
+      </T.BufferGeometry>
+      <T.LineBasicMaterial color="red" />
+    </T.Line>
+    <HTML
+      occlude={!showHint}
+      position={[
+        size * (2.15 + (cubeState.spaceFactor.current - 2) / 1.5),
+        0,
+        0,
+      ]}
+    >
+      <p class="text-label">RED</p>
+    </HTML>
+    {#if showHint}
+      {#each { length: size }, i}
+        <HTML
+          class="text-label"
+          position={[
+            2 * i +
+              1 +
+              (size * (i / (size - 1)) * (cubeState.spaceFactor.current - 2)) /
+                1.5,
+            0,
+            0,
+          ]}
+        >
+          {Math.ceil((255 * i) / (size - 1))}
+        </HTML>
+      {/each}
+    {/if}
 
-  <T.Line position={[0, 0, 0]}>
-    <T.BufferGeometry>
-      <T.Float32BufferAttribute
-        attach="attributes.position"
-        args={[new Float32Array([0, 0, 0, 0, size * 2, 0]), 3]}
-      />
-    </T.BufferGeometry>
-    <T.LineBasicMaterial color="green" />
-  </T.Line>
-  <HTML occlude position={[0, size * 2.15, 0]}>
-    <p style="opacity: 0.6; font: var(--font--1);">GREEN</p>
-  </HTML>
+    <T.Line position={[0, 0, 0]}>
+      <T.BufferGeometry>
+        <T.Float32BufferAttribute
+          attach="attributes.position"
+          args={[
+            new Float32Array([
+              0,
+              0,
+              0,
+              0,
+              size * (2 + (cubeState.spaceFactor.current - 2) / 1.5),
+              0,
+            ]),
+            3,
+          ]}
+        />
+      </T.BufferGeometry>
+      <T.LineBasicMaterial color="green" />
+    </T.Line>
+    <HTML
+      occlude={!showHint}
+      position={[
+        0,
+        size * (2.15 + (cubeState.spaceFactor.current - 2) / 1.5),
+        0,
+      ]}
+    >
+      <p class="text-label">GREEN</p>
+    </HTML>
+    {#if showHint}
+      {#each { length: size }, i}
+        <HTML
+          class="text-label"
+          position={[
+            0,
+            2 * i +
+              1 +
+              (size * (i / (size - 1)) * (cubeState.spaceFactor.current - 2)) /
+                1.5,
+            0,
+          ]}
+        >
+          {Math.ceil((255 * i) / (size - 1))}
+        </HTML>
+      {/each}
+    {/if}
 
-  <T.Line position={[0, 0, 0]}>
-    <T.BufferGeometry>
-      <T.Float32BufferAttribute
-        attach="attributes.position"
-        args={[new Float32Array([0, 0, 0, 0, 0, size * 2]), 3]}
-      />
-    </T.BufferGeometry>
-    <T.LineBasicMaterial color="blue" />
-  </T.Line>
-  <HTML occlude position={[0, 0, size * 2.15]}>
-    <p style="opacity: 0.6; font: var(--font--1);">BLUE</p>
-  </HTML>
-</T.Group>
+    <T.Line position={[0, 0, 0]}>
+      <T.BufferGeometry>
+        <T.Float32BufferAttribute
+          attach="attributes.position"
+          args={[
+            new Float32Array([
+              0,
+              0,
+              0,
+              0,
+              0,
+              size * (2 + (cubeState.spaceFactor.current - 2) / 1.5),
+            ]),
+            3,
+          ]}
+        />
+      </T.BufferGeometry>
+      <T.LineBasicMaterial color="blue" />
+    </T.Line>
+    <HTML
+      occlude={!showHint}
+      position={[
+        0,
+        0,
+        size * (2.15 + (cubeState.spaceFactor.current - 2) / 1.5),
+      ]}
+    >
+      <p class="text-label">BLUE</p>
+    </HTML>
+    {#if showHint}
+      {#each { length: size }, i}
+        <HTML
+          class="text-label"
+          position={[
+            0,
+            0,
+            2 * i +
+              1 +
+              (size * (i / (size - 1)) * (cubeState.spaceFactor.current - 2)) /
+                1.5,
+          ]}
+        >
+          {Math.ceil((255 * i) / (size - 1))}
+        </HTML>
+      {/each}
+    {/if}
+  </T.Group>
+{/if}
 
 <T.Group
   autocenter

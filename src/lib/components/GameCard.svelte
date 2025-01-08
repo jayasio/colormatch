@@ -1,15 +1,19 @@
 <script lang="ts">
   import type { CoordVector, ColorVector } from "$lib/vector";
 
-  let { question, size, ...props } = $props<{
+  let {
+    question,
+    size,
+    showHint = $bindable(),
+    ...props
+  } = $props<{
     question: CoordVector;
     size: number;
+    showHint: boolean;
     props?: unknown;
   }>();
 
   let color: ColorVector = $derived(question.toColor(size));
-
-  let showHint = $state(false);
 </script>
 
 <div
@@ -23,31 +27,37 @@
     <div
       class="card card-composite"
       style:background-color={color.toString()}
-      style:color={color.getLuminance() === "light" ? "#000" : "#fff"}
+      style:--color={color.getLuminance() === "light" ? "#000" : "#fff"}
     >
       <div class="card card-shell">
-        <div class="value">
-          {question.x}/{size - 1}
+        <div class="value text-body-para">
+          {(question.x * 255) / (size - 1)}
         </div>
-        <div class="label">Red</div>
+        <div class="text-label">
+          Red:<span>{question.toPercent(size).x}%</span>
+        </div>
       </div>
       <div class="card card-shell">
-        <div class="value">
-          {question.y}/{size - 1}
+        <div class="value text-body-para">
+          {(question.y * 255) / (size - 1)}
         </div>
-        <div class="label">Green</div>
+        <div class="text-label">
+          Green:<span>{question.toPercent(size).y}%</span>
+        </div>
       </div>
       <div class="card card-shell">
-        <div class="value">
-          {question.z}/{size - 1}
+        <div class="value text-body-para">
+          {(question.z * 255) / (size - 1)}
         </div>
-        <div class="label">Blue</div>
+        <div class="text-label">
+          Blue:<span>{question.toPercent(size).z}%</span>
+        </div>
       </div>
     </div>
   {:else}
     <div class="card">
-      <div class="value">{color.toString()}</div>
-      <div class="label">Hover for hint</div>
+      <div class="value text-body-line">{color.toString()}</div>
+      <div class="text-label">Hover for hint</div>
     </div>
   {/if}
 </div>
@@ -78,14 +88,12 @@
     border-radius: 0;
   }
   .value {
-    font: var(--font-1);
-    font-family: "Geist Mono", monospace;
+    color: var(--color, white);
+    font-family: var(--font-stack-mono);
     font-weight: semibold;
+    line-height: 1.2;
   }
-  .label {
-    font: var(--font--1);
-    font-family: "Geist Mono", monospace;
-    opacity: 0.6;
-    text-transform: uppercase;
+  .text-label {
+    color: var(--color, white);
   }
 </style>

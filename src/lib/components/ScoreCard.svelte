@@ -11,18 +11,12 @@
 </script>
 
 <div class="wrapper" {...props}>
-  <div
-    class="card"
-    style="border-top-right-radius:0.25rem; border-bottom-right-radius:0.25rem;"
-  >
-    <div class="value">{wins}</div>
-    <div class="label">Score</div>
+  <div class="card" style="border-radius: 1rem 0.25rem 0.25rem 1rem;">
+    <div class="value text-body-line">{wins}</div>
+    <div class="text-label">Score</div>
   </div>
-  <div
-    class="card"
-    style="border-top-left-radius:0.25rem; border-bottom-left-radius:0.25rem;"
-  >
-    <div class="value">
+  <div class="card" style="border-radius: 0.25rem 1rem 1rem 0.25rem;">
+    <div class="value strikes text-body-line">
       {#each { length: maxStrikes - strikes }, i}
         <img src={heart} alt="❤️" />
       {/each}
@@ -34,7 +28,7 @@
         />
       {/each}
     </div>
-    <div class="label">Strikes</div>
+    <div class="text-label">Strikes</div>
   </div>
 </div>
 
@@ -53,16 +47,12 @@
     border-radius: 1rem;
   }
   .value {
-    font: var(--font-1);
+    color: white;
     font-weight: semibold;
+  }
+  .strikes {
     display: flex;
     gap: 2px;
-  }
-  .label {
-    font: var(--font--1);
-    font-family: "Geist Mono", monospace;
-    opacity: 0.6;
-    text-transform: uppercase;
   }
   img {
     height: 1.5rem;
@@ -70,10 +60,16 @@
     object-fit: contain;
     object-position: top;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (width <= 960px) {
     img {
-      height: 1rem;
-      width: 0.813rem;
+      height: 1.35rem;
+      width: 1.125rem;
+    }
+  }
+  @media screen and (width <= 480px) {
+    img {
+      height: 1.2rem;
+      width: 1rem;
     }
   }
 </style>

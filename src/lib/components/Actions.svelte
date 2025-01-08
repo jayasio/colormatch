@@ -36,16 +36,4 @@
     backdrop-filter: blur(16px);
     border-radius: 5rem;
   }
-  button {
-    width: 100%;
-    padding: 0.6rem 1rem;
-    background: none;
-    border: none;
-    border-radius: 0.25rem;
-    color: white;
-    font: var(--font--1);
-    font-family: "Geist Mono";
-    text-transform: uppercase;
-    cursor: pointer;
-  }
 </style>

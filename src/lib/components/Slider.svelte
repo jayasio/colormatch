@@ -24,6 +24,7 @@
     justify-content: center;
     padding: 1rem;
     gap: 1rem;
+
     background-color: #26262699;
     backdrop-filter: blur(16px);
     border-radius: 5rem;
@@ -56,7 +57,7 @@
     -webkit-appearance: none; /* Override default look */
     appearance: none;
     margin-top: 0px; /* Centers thumb on the track */
-    background-color: var(--surface-inverse-0);
+    background-color: white;
 
     height: 1rem;
     width: 1rem;
@@ -82,7 +83,7 @@
 
   /* slider thumb */
   input[type="range"]::-moz-range-thumb {
-    background-color: var(--surface-inverse-0);
+    background-color: white;
     border: none; /*Removes extra border that FF applies*/
 
     height: 1rem;

@@ -1,6 +1,5 @@
 <script lang="ts">
   import "$lib/styles/reset.css";
-  import "$lib/styles/tokens.css";
   import "$lib/styles/global.css";
 
   import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit";

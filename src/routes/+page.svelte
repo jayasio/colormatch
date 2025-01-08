@@ -24,6 +24,7 @@
   let toastType: ToastStyle = $state("neutral");
 
   let showTutorial = $state(false);
+  let showHint = $state(false);
 
   function toast(message: string, type: ToastStyle) {
     toastMessage = message;
@@ -92,13 +93,21 @@
   {cubeState}
   {size}
   bind:showTutorial
+  bind:showHint
   bind:difficulty={menuState.difficulty}
 />
 
 <div class="container">
   <Canvas colorSpace="srgb" useLegacyLights={false} toneMapping={0}>
     <!-- TODO infer colorspace from media queries maybe -->
-    <Scene {handleSelect} {stateMachine} {cubeState} {size} {showTutorial} />
+    <Scene
+      {handleSelect}
+      {stateMachine}
+      {cubeState}
+      {size}
+      {showTutorial}
+      {showHint}
+    />
   </Canvas>
   <div class="bg"></div>
 </div>
@@ -114,27 +123,23 @@
     left: 0;
     width: 100dvw;
     height: 100dvh;
-    z-index: -101;
+    z-index: -1;
   }
 
   :global(body),
   .bg {
-    background: radial-gradient(
-        ellipse at top,
-        var(--surface-1),
-        var(--surface-0)
-      ),
-      radial-gradient(ellipse at bottom, var(--surface-1), var(--surface-0));
-    background-color: transparent;
-    color: var(--text-0);
+    background: radial-gradient(ellipse at top, hsl(0 0% 6%), hsl(0 0% 4%)),
+      radial-gradient(ellipse at bottom, hsl(0 0% 6%), hsl(0 0% 4%));
+    background-color: black;
+    color: white;
   }
 
   .container {
     position: fixed;
     top: 0;
-    z-index: -100;
     width: 100dvw;
     height: 100dvh;
+    z-index: -1;
     overflow: hidden;
   }
 </style>

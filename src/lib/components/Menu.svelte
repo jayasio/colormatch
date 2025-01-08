@@ -25,14 +25,14 @@
     out:fade={{ duration: 100 }}
   >
     <div class="header">
-      <h1>
+      <h1 class="text-heading-1">
         Colormatch!
         {#if stateMachine.current === "final"}
           <br />Score is {wins}
         {/if}
       </h1>
       {#if stateMachine.current !== "final"}
-        <p class="description">
+        <p class="description text-body-para">
           Guess the color and score points!<br />Explore colors in 3D space and
           gain an intuition for the RGB color model.
           <button class="tertiary" onclick={() => (showTutorial = true)}>
@@ -55,8 +55,8 @@
 
       {#if stateMachine.current === "final"}
         <button
-          class="tertiary"
-          style="padding: 1rem 2rem; color: black"
+          class="tertiary tertiary-block"
+          style="color: black"
           onclick={() => (showTutorial = true)}
         >
           Learn more
@@ -67,15 +67,15 @@
 </div>
 
 <div class="colophon">
-  <div>v0.6</div>
+  <a href="https://github.com/jayasio/colormatch">v0.6 – Source</a>
   <a href="https://jayas.me" target="_blank">Made by @jayas.me</a>
 </div>
 
 <style>
   .wrapper {
+    z-index: 100;
     position: fixed;
     top: 0;
-    z-index: 1;
     width: 100dvw;
     height: 100dvh;
 
@@ -103,31 +103,23 @@
 
   .description {
     max-width: 32ch;
-    font-size: 1.25rem;
-    line-height: 1.6;
-    letter-spacing: -1%;
-    color: black;
-
     text-align: center;
   }
 
   h1 {
-    color: black;
-    font-size: 5rem;
-    font-weight: 800;
-    line-height: 0.9;
-    letter-spacing: -3%;
     text-align: center;
   }
 
   .actions {
+    width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: stretch;
     gap: 0.25rem;
   }
 
   .colophon {
-    z-index: 1000;
+    z-index: 100;
     position: fixed;
     bottom: 0;
     width: 100dvw;
@@ -155,12 +147,34 @@
     }
   }
 
-  @media screen and (max-width: 768px) {
-    h1 {
-      font-size: 3rem;
+  @media screen and (width <= 960px) {
+    .wrapper {
+      padding: 2rem;
     }
-    .description {
-      font-size: 1.1rem;
+    .main-content {
+      gap: 2.75rem;
+    }
+    .header {
+      gap: 1.325rem;
+    }
+    .colophon {
+      padding: 0.75rem;
+    }
+  }
+
+  @media screen and (width <= 480px) {
+    .wrapper {
+      padding: 1rem;
+    }
+    .main-content {
+      flex: 1;
+      gap: 2.5rem;
+    }
+    .header {
+      gap: 1.25rem;
+    }
+    .colophon {
+      padding: 0.5rem;
     }
   }
 </style>
