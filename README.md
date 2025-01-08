@@ -8,10 +8,10 @@ Check it out at [colormatch.jayas.me](https://colormatch.jayas.me)
 
 ## Built with
 
-- [Svelte](https://svelte.dev/) - Web framework with fine-grained reactivity (runes)
-- [TypeScript](https://www.typescriptlang.org/) - Typed JavaScript
-- [Threlte](https://threlte.xyz/) - Declarative wrapper over Three.js for Svelte
-- [Runed](https://runed.dev/) - Used the Finite State Machine for game flow
+- [Svelte](https://svelte.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Threlte](https://threlte.xyz/) - Declarative wrapper over Three.js, for Svelte
+- [Runed](https://runed.dev/) - Finite State Machine for game flow
 
 ## Screenshots
 
@@ -21,7 +21,9 @@ Check it out at [colormatch.jayas.me](https://colormatch.jayas.me)
 ---
 
 \* This project started as a weekend experiment with Threlte, a declarative API over Three.js.
-The 3D cube started as a quick prototype to explain someone the RGB color model.
+The 3D cube was as a quick prototype to explain someone the RGB color model.
 After a few more weekends, it evolved into a polished mini-game that helps players understand the RGB notation with a score/strike game mechanism.
+
+If nothing else, this project helped me explore designing with code, and building something end-to-end. I'm still relatively an amateur with bigger systems of code, any feedback or contributions are welcome!
 
 The source code is available under the [MIT license](LICENSE).
