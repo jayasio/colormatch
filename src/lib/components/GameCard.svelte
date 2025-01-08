@@ -31,7 +31,7 @@
     >
       <div class="card card-shell">
         <div class="value text-body-para">
-          {(question.x * 255) / (size - 1)}
+          {Math.ceil((question.x * 255) / (size - 1))}
         </div>
         <div class="text-label">
           Red:<span>{question.toPercent(size).x}%</span>
@@ -39,7 +39,7 @@
       </div>
       <div class="card card-shell">
         <div class="value text-body-para">
-          {(question.y * 255) / (size - 1)}
+          {Math.ceil((question.y * 255) / (size - 1))}
         </div>
         <div class="text-label">
           Green:<span>{question.toPercent(size).y}%</span>
@@ -47,7 +47,7 @@
       </div>
       <div class="card card-shell">
         <div class="value text-body-para">
-          {(question.z * 255) / (size - 1)}
+          {Math.ceil((question.z * 255) / (size - 1))}
         </div>
         <div class="text-label">
           Blue:<span>{question.toPercent(size).z}%</span>
