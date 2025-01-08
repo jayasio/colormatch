@@ -1,6 +1,7 @@
 * {
   user-select: none;
   -webkit-user-select: none;
+  cursor: default;
 }
 
 :root {
@@ -17,6 +18,10 @@
   -webkit-font-smoothing: antialiased;
 }
 
+::selection {
+  background-color: white;
+}
+
 .mono {
   font-family: var(--font-stack-mono);
 }
@@ -29,6 +34,8 @@
   letter-spacing: -0.1rem;
   letter-spacing: -3%;
   text-wrap: balance;
+  user-select: auto;
+  -webkit-user-select: auto;
 }
 
 .text-heading-2 {
@@ -39,6 +46,8 @@
   letter-spacing: -0.03rem;
   letter-spacing: -1%;
   text-wrap: balance;
+  user-select: auto;
+  -webkit-user-select: auto;
 }
 
 .text-body-para {
@@ -47,6 +56,8 @@
   line-height: 1.6;
   letter-spacing: -0.01rem;
   letter-spacing: -1%;
+  user-select: auto;
+  -webkit-user-select: auto;
 }
 
 .text-body-line {
@@ -160,4 +171,8 @@ button {
   button {
     padding: 1rem 1.25rem;
   }
+}
+
+a {
+  cursor: pointer;
 }

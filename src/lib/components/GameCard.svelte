@@ -92,6 +92,8 @@
     font-family: var(--font-stack-mono);
     font-weight: semibold;
     line-height: 1.2;
+    user-select: none;
+    -webkit-user-select: none;
   }
   .text-label {
     color: var(--color, white);

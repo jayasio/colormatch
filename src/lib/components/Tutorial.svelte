@@ -4,7 +4,7 @@
   import grid from "$lib/assets/tutorial/grid.mp4";
   import strikes from "$lib/assets/tutorial/strikes.mp4";
 
-  import { Check, ArrowRight, ArrowLeft } from "lucide-svelte";
+  import { Check } from "lucide-svelte";
 
   import { fade } from "svelte/transition";
 
@@ -149,7 +149,7 @@
     color: black;
   }
   .description {
-    opacity: 0.8;
+    color: hsl(0 0% 0% / 0.8);
   }
   .actions {
     width: 100%;
