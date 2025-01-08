@@ -8,6 +8,10 @@ class Vector {
     this.y = y;
     this.z = z;
   }
+
+  isEqualTo(other: Vector) {
+    return this.x === other.x && this.y === other.y && this.z === other.z;
+  }
 }
 
 export class CoordVector extends Vector {
@@ -35,6 +39,14 @@ export class CoordVector extends Vector {
     );
   }
 
+  toFraction(max: number) {
+    return {
+      x: `${this.x}/${max - 1}`,
+      y: `${this.y}/${max - 1}`,
+      z: `${this.z}/${max - 1}`,
+    };
+  }
+
   toColor(max: number) {
     function calcColor(val: number, max: number) {
       return Math.ceil((val / (max - 1)) * 255);
@@ -54,7 +66,7 @@ export class ColorVector extends Vector {
   }
 
   toString() {
-    return `rgb(${this.x}, ${this.y}, ${this.z})`;
+    return `rgb(${this.x},${this.y},${this.z})`;
   }
 
   getLuminance() {

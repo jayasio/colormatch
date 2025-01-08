@@ -1,15 +1,20 @@
 <script lang="ts">
+  import tight from "$lib/assets/icons/tight.svg";
+  import loose from "$lib/assets/icons/loose.svg";
+
   let {
     value = $bindable(),
+    ...props
   }: {
     value: number;
+    props?: unknown;
   } = $props();
 </script>
 
-<div class="wrapper">
-  <div>Together</div>
+<div class="wrapper card" {...props}>
+  <div><img src={tight} alt="Pack spheres together" /></div>
   <input type="range" min={2} max={3} step={0.1} bind:value />
-  <div>Apart</div>
+  <div><img src={loose} alt="Spread spheres apart" /></div>
 </div>
 
 <style>
@@ -17,8 +22,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 1rem;
     gap: 1rem;
-    font: var(--body-1);
+
+    background-color: #26262699;
+    backdrop-filter: blur(16px);
+    border-radius: 5rem;
   }
 
   /*********** Baseline, reset styles ***********/
@@ -37,11 +46,10 @@
   /******** Chrome, Safari, Opera and Edge Chromium styles ********/
   /* slider track */
   input[type="range"]::-webkit-slider-runnable-track {
-    background-color: var(--surface-2);
+    background-color: #ffffff1f;
     /* background-color: hsla(0, 0%, 60%, 60%); */
-    backdrop-filter: blur(24px);
-    border-radius: 0.25rem;
-    height: 2rem;
+    border-radius: 1rem;
+    height: 1rem;
   }
 
   /* slider thumb */
@@ -49,40 +57,46 @@
     -webkit-appearance: none; /* Override default look */
     appearance: none;
     margin-top: 0px; /* Centers thumb on the track */
-    background-color: var(--surface-inverse-0);
-    border-radius: 0.25rem;
-    height: 2rem;
-    width: 1.25rem;
+    background-color: white;
+
+    height: 1rem;
+    width: 1rem;
+
+    border-radius: 1rem;
   }
 
   input[type="range"]:focus::-webkit-slider-thumb {
     /* outline: 3px solid hsl(0, 0%, 60%); */
     /* outline-offset: 0.125rem; */
     outline: none;
+    border-radius: 1rem;
   }
 
   /*********** Firefox styles ***********/
   /* slider track */
   input[type="range"]::-moz-range-track {
-    background-color: var(--surface-2);
+    background-color: #ffffff1f;
     /* background-color: hsla(0, 0%, 60%, 60%); */
-    backdrop-filter: blur(24px);
-    border-radius: 0.25rem;
-    height: 2rem;
+    border-radius: 1rem;
+    height: 1rem;
   }
 
   /* slider thumb */
   input[type="range"]::-moz-range-thumb {
-    background-color: var(--surface-inverse-0);
+    background-color: white;
     border: none; /*Removes extra border that FF applies*/
-    border-radius: 0.25rem;
-    height: 2rem;
-    width: 1.25rem;
+
+    height: 1rem;
+    width: 1rem;
+
+    border-radius: 1rem;
   }
 
   input[type="range"]:focus::-moz-range-thumb {
     /* outline: 3px solid hsl(0, 0%, 60%); */
     /* outline-offset: 0.125rem; */
     outline: none;
+
+    border-radius: 1rem;
   }
 </style>

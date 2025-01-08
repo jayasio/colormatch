@@ -1,75 +1,29 @@
-# Color match!
+# Colormatch!
 
-A color matching game built over weekends\*.
+![Thumbnail](static/og.png)
 
-## Tasks
+A color matching game built over the weekends\*. Aims to familiarize players with the RGB color model.
 
-> Legend
->
-> 🟡 Ongoing
->
-> 🟢 Completed
+Check it out at [colormatch.jayas.me](https://colormatch.jayas.me)
 
-### Features
+## Built with
 
-- [ ] 🟡 When game ends, user can review the questions
-- [ ] Helpful feedback when wrong color is selected
-- [ ] CMYK mode: use CMYK coordinates
-  - more research required on color theory
-  - Check out `device-cmyk()`
-- [ ] Tutorial: Introduction for new users
-- [ ] Tutorial: Visualise how to see RGB
-- [ ] Tutorial: Show color on hover, maybe using `<HTML>` from `@threlte/extras`
-- [ ] Shortcut: key help `⌘ ?`
-- [ ] Shortcut: background color
+- [Svelte](https://svelte.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Threlte](https://threlte.xyz/) - Declarative wrapper over Three.js, for Svelte
+- [Runed](https://runed.dev/) - Finite State Machine for game flow
 
-### Experience
+## Screenshots
 
-- [ ] 🟡 Better User Interface
-- [ ] Since game is based on colors, plus we now have luminance based colors, menu can be a random color everytime (? will it look good on top of blurred scene)
-- [ ] Audio effects
-  - Mute button
-- [ ] Transitions and microinteractions
-- [ ] Add select success / failure feedback in scene
-  - 🟢 Added mechanism to highlight on click
-- [ ] Better difficulty input
-  - Visual representation
-  - 🟢 Transition for difficulty input
-- [x] 🟢 Better question generator
-  - 🟢 Ignore immediate repeats
-- [x] 🟢 Add hover feedback in scene
-- [x] 🟢 Transition scene to blur background on menu
+![Screenshot of the game](static/screenshot_1.png)
+![Screenshot of the main menu](static/screenshot_2.png)
 
-### Code hygiene
+---
 
-- [ ] 🟡 Consistent design system
-- [ ] Alpha based color variants
-- [ ] Extract `state` to its own store
-- [ ] 🟡 Add Open Graph attributes
-- [ ] Camera jumps when transitioning: use a moving camera instead of `OrbitControls`, would also help in maybe implementing key-based scene manipulation
-- [ ] Better components
-- [ ] Upgrade to Svelte 5
-- [~] Use slots for `Menu` end state
-- [x] 🟢 Extract `color` logic to its own utility
-- [x] 🟢 Better types
-- [x] 🟢 Remove `Button` to its own component
-- [x] 🟢 Remove duplication of `Difficulty` enum
-- [x] 🟢 Standardise toast
-- [x] 🟢 Restructure `game.ts`
+\* This project started as a weekend experiment with Threlte, a declarative API over Three.js.
+The 3D cube was a quick prototype to explain the RGB color model to someone.
+After a few more weekends, it evolved into a polished mini-game that helps players understand the RGB notation with a score/strike game mechanism.
 
-### Bugs
+If nothing else, this project helped me explore designing with code and building something end-to-end. I'm still relatively an amateur with bigger systems of code, so any feedback or contributions are welcome!
 
-- [ ] Sometimes after a rotate, click randomly stops working until mouse is moved; suspicious on damping on `OrbitControls`
-- [ ] Clicking on `Slider` causes random jumps in scene sometimes
-- [ ] Change `Play again` to `Play` when difficulty is changed
-- [ ] Reset scene pan on `esc`
-- [x] 🟢 Dynamic text color based on bg in `QuestionCard`
-- [x] 🟢 `.ignore-pointer` for allowing pointer passthrough in layout divs
-  - ~~Use css `pointer-events: none` to allow pointer passthrough in layout divs~~
-  - ~~DOM elements should be minimal to avoid obstruction of pointer on scene~~
-- [x] 🟢 iOS fix - single click is select; clicks with delta > 0 are ignored
-- [x] 🟢 Color space issues (NoToneMapping improved color fidelity significantly)
-
-## References
-
-- [ ] [https://developer.chrome.com/docs/css-ui/css-color-mix](Related to CSS colors)
+The source code is available under the [MIT license](LICENSE).

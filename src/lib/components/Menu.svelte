@@ -1,155 +1,182 @@
 <script lang="ts">
-  import { fade, blur } from "svelte/transition";
-  import { game } from "$lib/game";
-
+  import type { FiniteStateMachine } from "runed";
   import type { Difficulty } from "$lib/types";
-  import Button from "$lib/components/Button.svelte";
+
+  import { fade } from "svelte/transition";
   import Segmented from "$lib/components/Segmented.svelte";
 
-  let version = "beta v0.5";
-
   let {
+    wins,
     stateMachine,
     difficulty = $bindable(),
-  }: {
-    stateMachine: any;
+    showTutorial = $bindable(),
+  } = $props<{
+    wins: number;
+    stateMachine: FiniteStateMachine<string, string>;
     difficulty: Difficulty;
-  } = $props();
-
-  let { wins } = $derived($game);
+    showTutorial: boolean;
+  }>();
 </script>
 
-<div class="menu-container">
-  <div class="blur" transition:blur={{ duration: 400 }}></div>
+<div class="wrapper">
   <div
-    class="menu"
+    class="main-content"
     in:fade={{ delay: 100, duration: 100 }}
     out:fade={{ duration: 100 }}
   >
-    {#if stateMachine.current === "end"}
-      <div class="title-end">
-        <div class="logo">ColorMatch!</div>
-        <div class="version">{version}</div>
-      </div>
-    {:else}
-      <div class="title">
-        <div class="logo">Color<br />Match!</div>
-        <div class="version">{version}</div>
-      </div>
-    {/if}
-
-    {#if stateMachine.current === "end"}
-      <div class="score-card">
-        You scored
-        <div class="score">
-          {$wins}
-        </div>
-        <!-- Questions:
-        {#each $questionsList as question}
-          <div>
-            <div style:background-color={question.color} />
-            {question.color}
-          </div>
-        {/each} -->
-      </div>
-    {/if}
-
-    <Segmented bind:value={difficulty} options={["easy", "medium", "hard"]} />
-
-    <Button onclick={() => stateMachine.send("start")} shortcut="⮐">
-      {#if stateMachine.current === "initial"}
-        Play
-      {:else}
-        Play again
+    <div class="header">
+      <h1 class="text-heading-1">
+        Colormatch!
+        {#if stateMachine.current === "final"}
+          <br />Score is {wins}
+        {/if}
+      </h1>
+      {#if stateMachine.current !== "final"}
+        <p class="description text-body-para">
+          Guess the color and score points!<br />Explore colors in 3D space and
+          gain an intuition for the RGB color model.
+          <button class="tertiary" onclick={() => (showTutorial = true)}>
+            Learn more
+          </button>
+        </p>
       {/if}
-    </Button>
+    </div>
+
+    <div class="actions">
+      <Segmented options={["easy", "medium", "hard"]} bind:value={difficulty} />
+
+      <button onclick={() => stateMachine.send("start")}>
+        {#if stateMachine.current === "final"}
+          Play again
+        {:else}
+          Play
+        {/if}
+      </button>
+
+      {#if stateMachine.current === "final"}
+        <button
+          class="tertiary tertiary-block"
+          style="color: black"
+          onclick={() => (showTutorial = true)}
+        >
+          Learn more
+        </button>
+      {/if}
+    </div>
   </div>
 </div>
 
+<div class="colophon">
+  <a href="https://github.com/jayasio/colormatch" target="_blank">
+    v0.6 – Source
+  </a>
+  <a href="https://jayas.me" target="_blank"> Made by @jayas.me </a>
+</div>
+
 <style>
-  .menu-container {
+  .wrapper {
+    z-index: 100;
+    position: fixed;
+    top: 0;
     width: 100dvw;
     height: 100dvh;
-    z-index: 100;
+
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+
+    padding: 4rem;
   }
 
-  .blur {
-    position: absolute;
-    width: 100dvw;
-    height: 100dvh;
-    z-index: 10;
-    backdrop-filter: blur(60px);
-    -webkit-backdrop-filter: blur(60px);
-  }
-
-  .menu {
-    max-width: max(800px, 20vw);
-    background-color: var(--surface-0);
-    padding: 0.5rem;
-    border-radius: 0.75rem;
+  .main-content {
     display: flex;
     flex-direction: column;
-    z-index: 100;
-    gap: 0.5rem;
+    justify-content: center;
+    align-items: stretch;
+    gap: 3rem;
   }
 
-  .title {
+  .header {
     display: flex;
     flex-direction: column;
-    justify-content: start;
-    align-items: start;
-    gap: 0.25rem;
-    /* padding: 0.25rem; */
-    padding-bottom: 5rem;
-
-    & > .logo {
-      font: var(--heading-4);
-      line-height: 1.1;
-    }
+    align-items: center;
+    gap: 1.5rem;
   }
 
-  .title-end {
-    display: flex;
-    justify-content: start;
-    align-items: end;
-    gap: 0.25rem;
-    padding: 0.5rem;
-
-    & > .logo {
-      font: var(--body-1);
-      line-height: 1.1;
-    }
+  .description {
+    max-width: 32ch;
+    text-align: center;
   }
 
-  .version {
-    font: var(--caption);
-    color: var(--white-0);
-
-    font-weight: 500;
-
-    padding: 0.25rem;
-    border-radius: 0.25rem;
-    background-color: rgb(247, 74, 6);
+  h1 {
+    text-align: center;
   }
 
-  .score {
-    font: var(--heading-1);
-    margin: 0;
-    padding: 0;
-  }
-
-  .score-card {
+  .actions {
     width: 100%;
-    padding: 1rem;
-    background-color: var(--surface-1);
-    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
   }
 
-  .logo {
-    margin: 0;
-    padding: 0;
+  .colophon {
+    z-index: 100;
+    position: fixed;
+    bottom: 0;
+    width: 100dvw;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    gap: 0.5rem;
+
+    color: #000000aa;
+    font-size: 0.8rem;
+    font-weight: 450;
+    line-height: 1;
+
+    transition: color 0.2s ease-out;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    &:hover {
+      color: #000000;
+    }
+  }
+
+  @media screen and (width <= 960px) {
+    .wrapper {
+      padding: 2rem;
+    }
+    .main-content {
+      gap: 2.75rem;
+    }
+    .header {
+      gap: 1.325rem;
+    }
+    .colophon {
+      padding: 0.75rem;
+    }
+  }
+
+  @media screen and (width <= 480px) {
+    .wrapper {
+      padding: 1rem;
+    }
+    .main-content {
+      flex: 1;
+      gap: 2.5rem;
+    }
+    .header {
+      gap: 1.25rem;
+    }
+    .colophon {
+      padding: 0.5rem;
+    }
   }
 </style>
