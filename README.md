@@ -2,7 +2,7 @@
 
 ![Thumbnail](static/og.png)
 
-A color matching game built over the weekends\*. Aims to familiarise players with the RGB color model.
+A color matching game built over the weekends\*. Aims to familiarize players with the RGB color model.
 
 Check it out at [colormatch.jayas.me](https://colormatch.jayas.me)
 
@@ -21,9 +21,9 @@ Check it out at [colormatch.jayas.me](https://colormatch.jayas.me)
 ---
 
 \* This project started as a weekend experiment with Threlte, a declarative API over Three.js.
-The 3D cube was as a quick prototype to explain someone the RGB color model.
+The 3D cube was a quick prototype to explain the RGB color model to someone.
 After a few more weekends, it evolved into a polished mini-game that helps players understand the RGB notation with a score/strike game mechanism.
 
-If nothing else, this project helped me explore designing with code, and building something end-to-end. I'm still relatively an amateur with bigger systems of code, any feedback or contributions are welcome!
+If nothing else, this project helped me explore designing with code and building something end-to-end. I'm still relatively an amateur with bigger systems of code, so any feedback or contributions are welcome!
 
 The source code is available under the [MIT license](LICENSE).
