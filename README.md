@@ -27,3 +27,7 @@ After a few more weekends, it evolved into a polished mini-game that helps playe
 If nothing else, this project helped me explore designing with code and building something end-to-end. I'm still relatively an amateur with bigger systems of code, so any feedback or contributions are welcome!
 
 The source code is available under the [MIT license](LICENSE).
+
+## Acknowledgments
+
+- This project uses [Fluent Emoji](https://github.com/microsoft/fluentui-emoji), © Microsoft Corporation, under the MIT License. Fluent Emoji is a trademark of Microsoft Corporation.
