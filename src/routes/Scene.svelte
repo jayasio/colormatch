@@ -33,37 +33,31 @@
     handleSelect: (event: IntersectionEvent<PointerEvent>) => void;
   } = $props();
 
-  let cameraPositionX = new Spring(0, {
-    stiffness: 0.06,
-    damping: 0.8,
-  });
-  let cameraPositionY = new Spring(0, {
-    stiffness: 0.06,
-    damping: 0.8,
-  });
-  let cameraPositionZ = new Spring(10, {
-    stiffness: 0.06,
-    damping: 0.8,
-  });
-
-  let stored: {
-    x: number | null;
-    y: number | null;
-    z: number | null;
-    spaceFactor: number | null;
-  } = {
-    x: null,
-    y: null,
-    z: null,
-    spaceFactor: null,
-  };
-
   const isMobile = new MediaQuery("width <= 480px");
   const isTablet = new MediaQuery("width <= 960px");
 
-  let multiplier = $derived(
-    isMobile.current ? 5 : isTablet.current ? 4 : 5 / 2,
-  );
+  let multiplier = $derived.by(() => {
+    if (isMobile.current) {
+      return 5;
+    } else if (isTablet.current) {
+      return 4;
+    } else {
+      return 5 / 2;
+    }
+  });
+
+  let cameraPositionX = new Spring(size * untrack(() => multiplier), {
+    stiffness: 0.06,
+    damping: 0.8,
+  });
+  let cameraPositionY = new Spring(size * untrack(() => multiplier), {
+    stiffness: 0.06,
+    damping: 0.8,
+  });
+  let cameraPositionZ = new Spring(size * untrack(() => multiplier), {
+    stiffness: 0.06,
+    damping: 0.8,
+  });
 
   let isDemoState = $derived(
     stateMachine.current !== "playing" || showTutorial,
@@ -73,8 +67,12 @@
 
   function queueTransition(callback: () => void, delay: number = 1500) {
     isTransitioning = true;
+
     callback();
-    setTimeout(() => (isTransitioning = false), delay);
+
+    setTimeout(() => {
+      isTransitioning = false;
+    }, delay);
   }
 
   $effect(() => {
@@ -122,156 +120,142 @@
 
 <T.AmbientLight intensity={Math.PI * 0.75} />
 
-{#if stateMachine.current === "playing" && !showTutorial}
-  <T.Group
-    position={[
-      size * -1 * (1 + (cubeState.spaceFactor.current - 2) / 2),
-      size * -1 * (1 + (cubeState.spaceFactor.current - 2) / 2),
-      size * -1 * (1 + (cubeState.spaceFactor.current - 2) / 2),
-    ]}
+<T.Group
+  position={[
+    size * -1 * (1 + (cubeState.spaceFactor.current - 2) / 2),
+    size * -1 * (1 + (cubeState.spaceFactor.current - 2) / 2),
+    size * -1 * (1 + (cubeState.spaceFactor.current - 2) / 2),
+  ]}
+>
+  <T.Line position={[0, 0, 0]}>
+    <T.BufferGeometry>
+      <T.Float32BufferAttribute
+        attach="attributes.position"
+        args={[
+          new Float32Array([
+            0,
+            0,
+            0,
+            size * (2 + (cubeState.spaceFactor.current - 2) / 1.5),
+            0,
+            0,
+          ]),
+          3,
+        ]}
+      />
+    </T.BufferGeometry>
+    <T.LineBasicMaterial color="red" />
+  </T.Line>
+  <HTML
+    occlude={!showHint}
+    position={[size * (2.15 + (cubeState.spaceFactor.current - 2) / 1.5), 0, 0]}
   >
-    <T.Line position={[0, 0, 0]}>
-      <T.BufferGeometry>
-        <T.Float32BufferAttribute
-          attach="attributes.position"
-          args={[
-            new Float32Array([
-              0,
-              0,
-              0,
-              size * (2 + (cubeState.spaceFactor.current - 2) / 1.5),
-              0,
-              0,
-            ]),
-            3,
-          ]}
-        />
-      </T.BufferGeometry>
-      <T.LineBasicMaterial color="red" />
-    </T.Line>
-    <HTML
-      occlude={!showHint}
-      position={[
-        size * (2.15 + (cubeState.spaceFactor.current - 2) / 1.5),
-        0,
-        0,
-      ]}
-    >
-      <p class="text-label">RED</p>
-    </HTML>
-    {#if showHint}
-      {#each { length: size }, i}
-        <HTML
-          class="text-label"
-          position={[
-            2 * i +
-              1 +
-              (size * (i / (size - 1)) * (cubeState.spaceFactor.current - 2)) /
-                1.5,
-            0,
-            0,
-          ]}
-        >
-          {Math.ceil((255 * i) / (size - 1))}
-        </HTML>
-      {/each}
-    {/if}
+    <p class="text-label">RED</p>
+  </HTML>
+  {#if showHint}
+    {#each { length: size }, i}
+      <HTML
+        class="text-label"
+        position={[
+          2 * i +
+            1 +
+            (size * (i / (size - 1)) * (cubeState.spaceFactor.current - 2)) /
+              1.5,
+          0,
+          0,
+        ]}
+      >
+        {Math.ceil((255 * i) / (size - 1))}
+      </HTML>
+    {/each}
+  {/if}
 
-    <T.Line position={[0, 0, 0]}>
-      <T.BufferGeometry>
-        <T.Float32BufferAttribute
-          attach="attributes.position"
-          args={[
-            new Float32Array([
-              0,
-              0,
-              0,
-              0,
-              size * (2 + (cubeState.spaceFactor.current - 2) / 1.5),
-              0,
-            ]),
-            3,
-          ]}
-        />
-      </T.BufferGeometry>
-      <T.LineBasicMaterial color="green" />
-    </T.Line>
-    <HTML
-      occlude={!showHint}
-      position={[
-        0,
-        size * (2.15 + (cubeState.spaceFactor.current - 2) / 1.5),
-        0,
-      ]}
-    >
-      <p class="text-label">GREEN</p>
-    </HTML>
-    {#if showHint}
-      {#each { length: size }, i}
-        <HTML
-          class="text-label"
-          position={[
+  <T.Line position={[0, 0, 0]}>
+    <T.BufferGeometry>
+      <T.Float32BufferAttribute
+        attach="attributes.position"
+        args={[
+          new Float32Array([
             0,
-            2 * i +
-              1 +
-              (size * (i / (size - 1)) * (cubeState.spaceFactor.current - 2)) /
-                1.5,
             0,
-          ]}
-        >
-          {Math.ceil((255 * i) / (size - 1))}
-        </HTML>
-      {/each}
-    {/if}
+            0,
+            0,
+            size * (2 + (cubeState.spaceFactor.current - 2) / 1.5),
+            0,
+          ]),
+          3,
+        ]}
+      />
+    </T.BufferGeometry>
+    <T.LineBasicMaterial color="green" />
+  </T.Line>
+  <HTML
+    occlude={!showHint}
+    position={[0, size * (2.15 + (cubeState.spaceFactor.current - 2) / 1.5), 0]}
+  >
+    <p class="text-label">GREEN</p>
+  </HTML>
+  {#if showHint}
+    {#each { length: size }, i}
+      <HTML
+        class="text-label"
+        position={[
+          0,
+          2 * i +
+            1 +
+            (size * (i / (size - 1)) * (cubeState.spaceFactor.current - 2)) /
+              1.5,
+          0,
+        ]}
+      >
+        {Math.ceil((255 * i) / (size - 1))}
+      </HTML>
+    {/each}
+  {/if}
 
-    <T.Line position={[0, 0, 0]}>
-      <T.BufferGeometry>
-        <T.Float32BufferAttribute
-          attach="attributes.position"
-          args={[
-            new Float32Array([
-              0,
-              0,
-              0,
-              0,
-              0,
-              size * (2 + (cubeState.spaceFactor.current - 2) / 1.5),
-            ]),
-            3,
-          ]}
-        />
-      </T.BufferGeometry>
-      <T.LineBasicMaterial color="blue" />
-    </T.Line>
-    <HTML
-      occlude={!showHint}
-      position={[
-        0,
-        0,
-        size * (2.15 + (cubeState.spaceFactor.current - 2) / 1.5),
-      ]}
-    >
-      <p class="text-label">BLUE</p>
-    </HTML>
-    {#if showHint}
-      {#each { length: size }, i}
-        <HTML
-          class="text-label"
-          position={[
+  <T.Line position={[0, 0, 0]}>
+    <T.BufferGeometry>
+      <T.Float32BufferAttribute
+        attach="attributes.position"
+        args={[
+          new Float32Array([
             0,
             0,
-            2 * i +
-              1 +
-              (size * (i / (size - 1)) * (cubeState.spaceFactor.current - 2)) /
-                1.5,
-          ]}
-        >
-          {Math.ceil((255 * i) / (size - 1))}
-        </HTML>
-      {/each}
-    {/if}
-  </T.Group>
-{/if}
+            0,
+            0,
+            0,
+            size * (2 + (cubeState.spaceFactor.current - 2) / 1.5),
+          ]),
+          3,
+        ]}
+      />
+    </T.BufferGeometry>
+    <T.LineBasicMaterial color="blue" />
+  </T.Line>
+  <HTML
+    occlude={!showHint}
+    position={[0, 0, size * (2.15 + (cubeState.spaceFactor.current - 2) / 1.5)]}
+  >
+    <p class="text-label">BLUE</p>
+  </HTML>
+  {#if showHint}
+    {#each { length: size }, i}
+      <HTML
+        class="text-label"
+        position={[
+          0,
+          0,
+          2 * i +
+            1 +
+            (size * (i / (size - 1)) * (cubeState.spaceFactor.current - 2)) /
+              1.5,
+        ]}
+      >
+        {Math.ceil((255 * i) / (size - 1))}
+      </HTML>
+    {/each}
+  {/if}
+</T.Group>
 
 <T.Group
   autocenter
