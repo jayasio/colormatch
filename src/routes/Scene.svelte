@@ -61,6 +61,14 @@
   const isMobile = new MediaQuery("width <= 480px");
   const isTablet = new MediaQuery("width <= 960px");
 
+  let multiplier = $derived(
+    isMobile.current ? 5 : isTablet.current ? 4 : 5 / 2,
+  );
+
+  let isDemoState = $derived(
+    stateMachine.current !== "playing" || showTutorial,
+  );
+
   let isTransitioning = $state(false);
 
   function queueTransition(callback: () => void, delay: number = 1500) {
@@ -70,68 +78,18 @@
   }
 
   $effect(() => {
-    if (stateMachine.current === "playing" && !showTutorial) {
-      queueTransition(() => {
-        const multiplier = isMobile.current ? 5 : isTablet.current ? 4 : 5 / 2;
-        cameraPositionX.set(size * multiplier);
-        cameraPositionY.set(size * multiplier);
-        cameraPositionZ.set(size * multiplier);
-      });
-    }
-  });
-
-  $effect(() => {
-    if (!(stateMachine.current === "playing" && !showTutorial)) {
+    if (isDemoState) {
       queueTransition(() => {
         cameraPositionX.set(size * (-2 / 4));
         cameraPositionY.set(size * (5 / 4));
         cameraPositionZ.set(size * (5 / 4));
         cubeState.spaceFactor.set(2);
       });
-    }
-  });
-
-  $effect(() => {
-    if (stateMachine.current === "playing" && showTutorial) {
+    } else {
       queueTransition(() => {
-        stored.x = untrack(() => cameraPositionX.current);
-        stored.y = untrack(() => cameraPositionY.current);
-        stored.z = untrack(() => cameraPositionZ.current);
-        stored.spaceFactor = untrack(() => cubeState.spaceFactor.current);
-      });
-    }
-  });
-
-  $effect(() => {
-    if (
-      stateMachine.current === "final" &&
-      stored.x &&
-      stored.y &&
-      stored.z &&
-      stored.spaceFactor
-    ) {
-      queueTransition(() => {
-        stored.x = null;
-        stored.y = null;
-        stored.z = null;
-        stored.spaceFactor = null;
-      });
-    }
-  });
-
-  $effect(() => {
-    if (
-      !showTutorial &&
-      stored.x &&
-      stored.y &&
-      stored.z &&
-      stored.spaceFactor
-    ) {
-      queueTransition(() => {
-        cameraPositionX.set(stored.x);
-        cameraPositionY.set(stored.y);
-        cameraPositionZ.set(stored.z);
-        cubeState.spaceFactor.set(stored.spaceFactor);
+        cameraPositionX.set(size * multiplier);
+        cameraPositionY.set(size * multiplier);
+        cameraPositionZ.set(size * multiplier);
       });
     }
   });
@@ -149,7 +107,7 @@
 >
   <OrbitControls
     enableDamping
-    autoRotate={stateMachine.current !== "playing" && !showTutorial}
+    autoRotate={isDemoState}
     onchange={(event) => {
       if (stateMachine.current === "playing" && !isTransitioning) {
         cameraPositionX.set(event.target.object.position.x, { instant: true });
