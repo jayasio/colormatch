@@ -19,14 +19,14 @@
   });
   let size = $derived(difficulties.indexOf(menuState.difficulty) + 3);
 
-  let showToast = $state(false);
-  let toastMessage = $state("");
+  let showToast: boolean = $state(false);
+  let toastMessage: string | undefined = $state("");
   let toastType: ToastStyle = $state("neutral");
 
   let showTutorial = $state(false);
   let showHint = $state(false);
 
-  function toast(message: string, type: ToastStyle) {
+  function toast(type: ToastStyle, message: string | undefined = undefined) {
     toastMessage = message;
     toastType = type;
     showToast = true;
@@ -53,14 +53,14 @@
       },
       score: () => {
         gameState.score();
-        toast("Nice!", "success");
+        toast("success");
       },
       strike: () => {
         gameState.strike();
-        toast("Oops!", "failure");
+        toast("failure");
       },
       end: () => {
-        toast("Game over :(", "failure");
+        toast("failure", "Game over :(");
         return "final";
       },
       exit: () => {

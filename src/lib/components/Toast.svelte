@@ -10,6 +10,36 @@
     type?: ToastStyle;
   } = $props();
 
+  const successMessages: string[] = [
+    "Brilliant!",
+    "Spot on!",
+    "Hued it!",
+    "Spectral!",
+    "RGB rocks!",
+    "Bang on!",
+    "Chromatic!",
+    "Sharp eye!",
+    "Bright idea!",
+    "Right shade!",
+  ] as const;
+
+  const failureMessages: string[] = [
+    "Uh-oh!",
+    "Off-color!",
+    "Hue missed!",
+    "Nope!",
+    "Ouch!",
+    "Mis-tint!",
+    "Missed it!",
+    "Oopsie!",
+    "Off hue!",
+    "Dimmed out!",
+  ] as const;
+
+  function getRandomMessage(messages: string[]) {
+    return messages[Math.floor(Math.random() * messages.length)];
+  }
+
   let backgroundColor = $derived.by(() => {
     switch (type) {
       case "neutral":
@@ -35,7 +65,8 @@
 
 <div class="wrapper" out:fade>
   <div class="toast" style:background-color={backgroundColor} style:color>
-    {message}
+    {message ??
+      getRandomMessage(type === "success" ? successMessages : failureMessages)}
   </div>
 </div>
 
