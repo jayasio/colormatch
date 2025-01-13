@@ -2,7 +2,7 @@
 
 ![Thumbnail](static/og.png)
 
-A color matching game built over the weekends\*. Aims to familiarize players with the RGB color model.
+A color matching game built over the weekends\*. Aims to familiarize players with the RGB color model using 3D space.
 
 Check it out at [colormatch.jayas.me](https://colormatch.jayas.me)
 
