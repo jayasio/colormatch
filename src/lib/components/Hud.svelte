@@ -106,7 +106,7 @@
     bottom: 0;
     display: flex;
     justify-content: space-between;
-    padding: 3rem;
+    padding: 1rem;
     gap: 0.25rem;
     pointer-events: none;
   }
