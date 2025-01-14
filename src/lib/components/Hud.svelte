@@ -87,9 +87,11 @@
     <Tutorial
       dismiss={() => {
         showTutorial = false;
+
+        localStorage.setItem("new-player", "false");
+        newPlayer = "false";
+
         if (newPlayer && newPlayer === "true") {
-          localStorage.setItem("new-player", "false");
-          newPlayer = "false";
           stateMachine.send("start");
         }
       }}
