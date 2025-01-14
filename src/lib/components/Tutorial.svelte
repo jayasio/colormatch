@@ -2,6 +2,7 @@
   import additive from "$lib/assets/tutorial/additive.mp4";
   import variants from "$lib/assets/tutorial/variants.mp4";
   import grid from "$lib/assets/tutorial/grid.mp4";
+  import hint from "$lib/assets/tutorial/hint.mp4";
   import strikes from "$lib/assets/tutorial/strikes.mp4";
 
   import { Check } from "lucide-svelte";
@@ -35,7 +36,12 @@
     {
       title: "Your goal: identify the target color.",
       description:
-        "Score points for correct guesses. But beware—three strikes, and the game ends!",
+        "Hover over the question to see helpful hints. Eventually, try to guess without hints!",
+      video: hint,
+    },
+    {
+      title: "Score points for correct guesses.",
+      description: "But beware—three strikes, and the game ends!",
       video: strikes,
     },
   ];

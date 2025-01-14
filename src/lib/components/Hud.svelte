@@ -16,6 +16,7 @@
     stateMachine,
     gameState,
     cubeState,
+    newPlayer = $bindable(),
     difficulty = $bindable(),
     showTutorial = $bindable(),
     showHint = $bindable(),
@@ -24,6 +25,7 @@
     stateMachine: FiniteStateMachine<string, string>;
     gameState: GameState;
     cubeState: CubeState;
+    newPlayer: boolean;
     difficulty: Difficulty;
     showTutorial: boolean;
     showHint: boolean;
@@ -82,7 +84,16 @@
     in:fade={{ delay: 100, duration: 100 }}
     out:fade={{ duration: 100 }}
   >
-    <Tutorial dismiss={() => (showTutorial = false)} />
+    <Tutorial
+      dismiss={() => {
+        showTutorial = false;
+        if (newPlayer && newPlayer === "true") {
+          localStorage.setItem("new-player", "false");
+          newPlayer = "false";
+          stateMachine.send("start");
+        }
+      }}
+    />
   </div>
 {/if}
 
@@ -95,7 +106,7 @@
     bottom: 0;
     display: flex;
     justify-content: space-between;
-    padding: 1rem;
+    padding: 3rem;
     gap: 0.25rem;
     pointer-events: none;
   }

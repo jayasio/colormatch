@@ -10,6 +10,13 @@
   import Scene from "./Scene.svelte";
   import type { IntersectionEvent } from "@threlte/extras";
   import { untrack } from "svelte";
+  import { onMount } from "svelte";
+
+  let newPlayer = $state();
+
+  onMount(() => {
+    newPlayer = localStorage.getItem("new-player") ?? "true";
+  });
 
   const difficulties = ["easy", "medium", "hard"] as const;
   let menuState: {
@@ -44,7 +51,13 @@
 
   const stateMachine = new FiniteStateMachine("initial", {
     initial: {
-      start: "playing",
+      start: () => {
+        if (newPlayer && newPlayer === "true") {
+          showTutorial = true;
+        } else {
+          return "playing";
+        }
+      },
     },
     playing: {
       _enter: () => {
@@ -92,6 +105,7 @@
   {gameState}
   {cubeState}
   {size}
+  bind:newPlayer
   bind:showTutorial
   bind:showHint
   bind:difficulty={menuState.difficulty}
