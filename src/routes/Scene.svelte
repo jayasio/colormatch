@@ -130,15 +130,13 @@
   <T.Line position={[0, 0, 0]}>
     <T.BufferGeometry>
       <T.Float32BufferAttribute
-        attach="attributes.position"
+        attach={({ parent, ref }) => {
+          parent.setAttribute("position", ref);
+        }}
         args={[
           new Float32Array([
-            0,
-            0,
-            0,
-            size * (2 + (cubeState.spaceFactor.current - 2) / 1.5),
-            0,
-            0,
+            ...[0, 0, 0],
+            ...[size * (2 + (cubeState.spaceFactor.current - 2) / 1.5), 0, 0],
           ]),
           3,
         ]}
@@ -173,15 +171,13 @@
   <T.Line position={[0, 0, 0]}>
     <T.BufferGeometry>
       <T.Float32BufferAttribute
-        attach="attributes.position"
+        attach={({ parent, ref }) => {
+          parent.setAttribute("position", ref);
+        }}
         args={[
           new Float32Array([
-            0,
-            0,
-            0,
-            0,
-            size * (2 + (cubeState.spaceFactor.current - 2) / 1.5),
-            0,
+            ...[0, 0, 0],
+            ...[0, size * (2 + (cubeState.spaceFactor.current - 2) / 1.5), 0],
           ]),
           3,
         ]}
@@ -216,15 +212,13 @@
   <T.Line position={[0, 0, 0]}>
     <T.BufferGeometry>
       <T.Float32BufferAttribute
-        attach="attributes.position"
+        attach={({ parent, ref }) => {
+          parent.setAttribute("position", ref);
+        }}
         args={[
           new Float32Array([
-            0,
-            0,
-            0,
-            0,
-            0,
-            size * (2 + (cubeState.spaceFactor.current - 2) / 1.5),
+            ...[0, 0, 0],
+            ...[0, 0, size * (2 + (cubeState.spaceFactor.current - 2) / 1.5)],
           ]),
           3,
         ]}
