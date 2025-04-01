@@ -88,10 +88,14 @@
       dismiss={() => {
         showTutorial = false;
 
+        // Note: Taking a copy of newPlayer value before setting it to false, because the if check was earlier done on the original newPlayer value which would change before the if check
+        const player = newPlayer;
+
+        // This needs to be done before the if check tho, since the "start" event is going to check newPlayer
         localStorage.setItem("new-player", "false");
         newPlayer = "false";
 
-        if (newPlayer && newPlayer === "true") {
+        if (player === "true") {
           stateMachine.send("start");
         }
       }}
