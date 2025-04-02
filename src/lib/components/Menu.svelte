@@ -68,7 +68,7 @@
 
 <div class="colophon">
   <a href="https://github.com/jayasio/colormatch" target="_blank">
-    v1.1 – Source
+    v1.2 – Source
   </a>
   <a href="https://jayas.me" target="_blank"> Made by @jayas.me </a>
 </div>

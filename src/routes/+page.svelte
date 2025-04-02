@@ -12,7 +12,7 @@
   import { untrack } from "svelte";
   import { onMount } from "svelte";
 
-  let newPlayer = $state();
+  let newPlayer = $state("true");
 
   onMount(() => {
     newPlayer = localStorage.getItem("new-player") ?? "true";
