@@ -17,7 +17,7 @@
     <span style="line-height: 1rem; width: 1rem; font-size: 1rem;"> ? </span>
   </button>
 
-  <button class="card" onclick={() => stateMachine.send("exit")}>
+  <button class="card exit-btn" onclick={() => stateMachine.send("exit")}>
     <LogOut size="1rem" />
   </button>
 </div>
@@ -35,5 +35,8 @@
     background-color: #26262699;
     backdrop-filter: blur(16px);
     border-radius: 5rem;
+  }
+  .exit-btn:hover {
+    background-color: orangered;
   }
 </style>
