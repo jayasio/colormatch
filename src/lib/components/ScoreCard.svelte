@@ -50,7 +50,6 @@
   }
   .value {
     color: white;
-    font-weight: semibold;
   }
   .strikes {
     display: flex;
