@@ -1,6 +1,11 @@
 <script lang="ts">
   import { GameState, CubeState } from "$lib/state.svelte";
-  import type { Difficulty, ToastStyle } from "$lib/types";
+  import type {
+    Difficulty,
+    FsmEvents,
+    FsmStates,
+    ToastStyle,
+  } from "$lib/types";
   import { FiniteStateMachine } from "runed";
   import { Canvas } from "@threlte/core";
 
@@ -46,10 +51,10 @@
   let cubeState = $state(new CubeState(untrack(() => size)));
 
   $effect(() => {
-    if (gameState.strikes >= 3) stateMachine.send("end");
+    if (gameState.strikes >= 3) stateMachine.send("endByFailure");
   });
 
-  const stateMachine = new FiniteStateMachine("initial", {
+  const stateMachine = new FiniteStateMachine<FsmStates, FsmEvents>("initial", {
     initial: {
       start: () => {
         if (newPlayer && newPlayer === "true") {
@@ -72,11 +77,11 @@
         gameState.strike();
         toast("failure");
       },
-      end: () => {
+      endByFailure: () => {
         toast("failure", "Game over :(");
         return "final";
       },
-      exit: () => {
+      endManually: () => {
         return "final";
       },
     },
@@ -112,7 +117,7 @@
 />
 
 <div class="container">
-  <Canvas colorSpace="srgb" useLegacyLights={false} toneMapping={0}>
+  <Canvas colorSpace="srgb" toneMapping={0}>
     <!-- TODO infer colorspace from media queries maybe -->
     <Scene
       {handleSelect}
@@ -142,7 +147,8 @@
 
   :global(body),
   .bg {
-    background: radial-gradient(ellipse at top, hsl(0 0% 6%), hsl(0 0% 4%)),
+    background:
+      radial-gradient(ellipse at top, hsl(0 0% 6%), hsl(0 0% 4%)),
       radial-gradient(ellipse at bottom, hsl(0 0% 6%), hsl(0 0% 4%));
     background-color: black;
     color: white;

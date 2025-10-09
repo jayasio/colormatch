@@ -17,13 +17,18 @@
     <span style="line-height: 1rem; width: 1rem; font-size: 1rem;"> ? </span>
   </button>
 
-  <button class="card exit-btn" onclick={() => stateMachine.send("exit")}>
+  <button
+    class="card exit-btn"
+    onclick={() => stateMachine.send("endManually")}
+  >
     <LogOut size="1rem" />
   </button>
 </div>
 
 <style>
   .wrapper {
+    pointer-events: all;
+
     display: flex;
     gap: 0.25rem;
   }

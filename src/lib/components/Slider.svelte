@@ -19,6 +19,8 @@
 
 <style>
   .wrapper {
+    pointer-events: all;
+
     display: flex;
     align-items: center;
     justify-content: center;

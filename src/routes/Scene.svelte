@@ -16,6 +16,7 @@
   import { CubeState } from "$lib/state.svelte";
   import type { FiniteStateMachine } from "runed";
   import { untrack } from "svelte";
+  import type { FsmEvents, FsmStates } from "$lib/types";
 
   let {
     size,
@@ -27,7 +28,7 @@
   }: {
     size: number;
     cubeState: CubeState;
-    stateMachine: FiniteStateMachine<string, string>;
+    stateMachine: FiniteStateMachine<FsmStates, FsmEvents>;
     showTutorial: boolean;
     showHint: boolean;
     handleSelect: (event: IntersectionEvent<PointerEvent>) => void;
