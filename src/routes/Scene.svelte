@@ -132,7 +132,7 @@
     <T.BufferGeometry>
       <T.Float32BufferAttribute
         attach={({ parent, ref }) => {
-          parent.setAttribute("position", ref);
+          (parent as any).setAttribute("position", ref);
         }}
         args={[
           new Float32Array([
@@ -173,7 +173,7 @@
     <T.BufferGeometry>
       <T.Float32BufferAttribute
         attach={({ parent, ref }) => {
-          parent.setAttribute("position", ref);
+          (parent as any).setAttribute("position", ref);
         }}
         args={[
           new Float32Array([
@@ -214,7 +214,7 @@
     <T.BufferGeometry>
       <T.Float32BufferAttribute
         attach={({ parent, ref }) => {
-          parent.setAttribute("position", ref);
+          (parent as any).setAttribute("position", ref);
         }}
         args={[
           new Float32Array([
