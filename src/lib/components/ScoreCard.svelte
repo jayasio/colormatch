@@ -34,6 +34,8 @@
 
 <style>
   .wrapper {
+    pointer-events: all;
+
     display: flex;
     gap: 0.125rem;
   }
@@ -48,7 +50,6 @@
   }
   .value {
     color: white;
-    font-weight: semibold;
   }
   .strikes {
     display: flex;

@@ -16,6 +16,7 @@
   import { CubeState } from "$lib/state.svelte";
   import type { FiniteStateMachine } from "runed";
   import { untrack } from "svelte";
+  import type { FsmEvents, FsmStates } from "$lib/types";
 
   let {
     size,
@@ -27,7 +28,7 @@
   }: {
     size: number;
     cubeState: CubeState;
-    stateMachine: FiniteStateMachine<string, string>;
+    stateMachine: FiniteStateMachine<FsmStates, FsmEvents>;
     showTutorial: boolean;
     showHint: boolean;
     handleSelect: (event: IntersectionEvent<PointerEvent>) => void;
@@ -131,7 +132,7 @@
     <T.BufferGeometry>
       <T.Float32BufferAttribute
         attach={({ parent, ref }) => {
-          parent.setAttribute("position", ref);
+          (parent as any).setAttribute("position", ref);
         }}
         args={[
           new Float32Array([
@@ -172,7 +173,7 @@
     <T.BufferGeometry>
       <T.Float32BufferAttribute
         attach={({ parent, ref }) => {
-          parent.setAttribute("position", ref);
+          (parent as any).setAttribute("position", ref);
         }}
         args={[
           new Float32Array([
@@ -213,7 +214,7 @@
     <T.BufferGeometry>
       <T.Float32BufferAttribute
         attach={({ parent, ref }) => {
-          parent.setAttribute("position", ref);
+          (parent as any).setAttribute("position", ref);
         }}
         args={[
           new Float32Array([

@@ -10,7 +10,7 @@
 
   import type { FiniteStateMachine } from "runed";
   import type { GameState, CubeState } from "$lib/state.svelte";
-  import type { Difficulty } from "$lib/types";
+  import type { Difficulty, FsmEvents, FsmStates } from "$lib/types";
 
   let {
     stateMachine,
@@ -22,10 +22,10 @@
     showHint = $bindable(),
     size,
   } = $props<{
-    stateMachine: FiniteStateMachine<string, string>;
+    stateMachine: FiniteStateMachine<FsmStates, FsmEvents>;
     gameState: GameState;
     cubeState: CubeState;
-    newPlayer: boolean;
+    newPlayer: string;
     difficulty: Difficulty;
     showTutorial: boolean;
     showHint: boolean;
@@ -39,17 +39,11 @@
     in:fly={{ y: -100, duration: 500, delay: 100 }}
     out:fly={{ y: -100, duration: 500 }}
   >
-    <GameCard
-      {size}
-      question={gameState.latestQuestion}
-      bind:showHint
-      style="pointer-events: all"
-    />
+    <GameCard {size} question={gameState.latestQuestion} bind:showHint />
     <ScoreCard
       wins={gameState.wins}
       strikes={gameState.strikes}
       maxStrikes={3}
-      style="pointer-events: all"
     />
   </div>
   <div
@@ -57,11 +51,8 @@
     in:fly={{ y: 100, duration: 500, delay: 100 }}
     out:fly={{ y: 100, duration: 500 }}
   >
-    <Slider
-      bind:value={cubeState.spaceFactor.target}
-      style="pointer-events: all"
-    />
-    <Actions {stateMachine} bind:showTutorial style="pointer-events: all" />
+    <Slider bind:value={cubeState.spaceFactor.target} />
+    <Actions {stateMachine} bind:showTutorial />
   </div>
 {/if}
 

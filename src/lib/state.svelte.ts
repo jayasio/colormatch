@@ -32,12 +32,14 @@ export class GameState {
 export class CubeState {
   spaceFactor = new Spring(2.0);
 
-  range: number[];
-  center: number = $derived(
-    -1 * (this.size - 1 + ((this.spaceFactor.current - 2.0) * this.size) / 2),
-  );
+  range!: number[];
+  center!: number;
 
   constructor(public readonly size: number = 4) {
-    this.range = Array.from({ length: size }, (_, i) => i);
+    this.range = Array.from({ length: this.size }, (_, i) => i);
+
+    this.center = $derived(
+      -1 * (this.size - 1 + ((this.spaceFactor.current - 2.0) * this.size) / 2)
+    );
   }
 }
