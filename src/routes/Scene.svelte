@@ -47,15 +47,15 @@
     }
   });
 
-  let cameraPositionX = new Spring(size * untrack(() => multiplier), {
+  let cameraPositionX = new Spring(untrack(() => size * multiplier), {
     stiffness: 0.06,
     damping: 0.8,
   });
-  let cameraPositionY = new Spring(size * untrack(() => multiplier), {
+  let cameraPositionY = new Spring(untrack(() => size * multiplier), {
     stiffness: 0.06,
     damping: 0.8,
   });
-  let cameraPositionZ = new Spring(size * untrack(() => multiplier), {
+  let cameraPositionZ = new Spring(untrack(() => size * multiplier), {
     stiffness: 0.06,
     damping: 0.8,
   });
