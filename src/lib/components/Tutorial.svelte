@@ -88,13 +88,13 @@
   <div class="actions">
     {#if currentStep > 0}
       <button onclick={() => currentStep--}>
-        <span>{`<-`}</span>
+        <span>&lt;-</span>
       </button>
     {/if}
     {#if currentStep < steps.length - 1}
       <button onclick={() => currentStep++}>
         <span>Next</span>
-        <span>{`->`}</span>
+        <span>-&gt;</span>
       </button>
     {:else}
       <button onclick={dismiss}>

@@ -64,6 +64,8 @@
 
 <style>
   .wrapper {
+    pointer-events: all;
+
     display: flex;
     gap: 0.125rem;
   }

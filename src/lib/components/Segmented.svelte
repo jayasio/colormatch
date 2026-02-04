@@ -12,7 +12,7 @@
 </script>
 
 <div class="segmented" style:--activeIndex={activeIndex} style:--count={count}>
-  {#each options as option, index}
+  {#each options as option, index (option)}
     <label for={`option${index}`}>
       <input
         type="radio"
