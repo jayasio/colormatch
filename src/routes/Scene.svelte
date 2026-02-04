@@ -47,18 +47,27 @@
     }
   });
 
-  let cameraPositionX = new Spring(untrack(() => size * multiplier), {
-    stiffness: 0.06,
-    damping: 0.8,
-  });
-  let cameraPositionY = new Spring(untrack(() => size * multiplier), {
-    stiffness: 0.06,
-    damping: 0.8,
-  });
-  let cameraPositionZ = new Spring(untrack(() => size * multiplier), {
-    stiffness: 0.06,
-    damping: 0.8,
-  });
+  let cameraPositionX = new Spring(
+    untrack(() => size * multiplier),
+    {
+      stiffness: 0.06,
+      damping: 0.8,
+    },
+  );
+  let cameraPositionY = new Spring(
+    untrack(() => size * multiplier),
+    {
+      stiffness: 0.06,
+      damping: 0.8,
+    },
+  );
+  let cameraPositionZ = new Spring(
+    untrack(() => size * multiplier),
+    {
+      stiffness: 0.06,
+      damping: 0.8,
+    },
+  );
 
   let isDemoState = $derived(
     stateMachine.current !== "playing" || showTutorial,
@@ -132,6 +141,7 @@
     <T.BufferGeometry>
       <T.Float32BufferAttribute
         attach={({ parent, ref }) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (parent as any).setAttribute("position", ref);
         }}
         args={[
@@ -152,7 +162,7 @@
     <p class="text-label">RED</p>
   </HTML>
   {#if showHint}
-    {#each { length: size }, i}
+    {#each { length: size } as _, i (`red-${i}`)}
       <HTML
         class="text-label"
         position={[
@@ -173,6 +183,7 @@
     <T.BufferGeometry>
       <T.Float32BufferAttribute
         attach={({ parent, ref }) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (parent as any).setAttribute("position", ref);
         }}
         args={[
@@ -193,7 +204,7 @@
     <p class="text-label">GREEN</p>
   </HTML>
   {#if showHint}
-    {#each { length: size }, i}
+    {#each { length: size } as _, i (`green-${i}`)}
       <HTML
         class="text-label"
         position={[
@@ -214,6 +225,7 @@
     <T.BufferGeometry>
       <T.Float32BufferAttribute
         attach={({ parent, ref }) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (parent as any).setAttribute("position", ref);
         }}
         args={[
@@ -234,7 +246,7 @@
     <p class="text-label">BLUE</p>
   </HTML>
   {#if showHint}
-    {#each { length: size }, i}
+    {#each { length: size } as _, i (`blue-${i}`)}
       <HTML
         class="text-label"
         position={[
@@ -271,9 +283,9 @@
     <T.SphereGeometry />
     <T.MeshLambertMaterial />
 
-    {#each cubeState.range as x}
-      {#each cubeState.range as y}
-        {#each cubeState.range as z}
+    {#each cubeState.range as x (x)}
+      {#each cubeState.range as y (`${x}-${y}`)}
+        {#each cubeState.range as z (`${x}-${y}-${z}`)}
           {@const coord = new CoordVector(x, y, z)}
           {@const color = coord.toColor(size)}
           <Instance

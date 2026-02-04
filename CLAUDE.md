@@ -17,6 +17,7 @@ Colormatch is an interactive 3D color matching game that teaches players the RGB
 ## Commands
 
 ### Development
+
 ```bash
 pnpm dev              # Start dev server
 pnpm build            # Build for production
@@ -24,6 +25,7 @@ pnpm preview          # Preview production build
 ```
 
 ### Code Quality
+
 ```bash
 pnpm check            # Type-check with svelte-check
 pnpm check:watch      # Type-check in watch mode
@@ -36,6 +38,7 @@ pnpm format           # Format code with prettier
 ### State Management
 
 The application uses a **Finite State Machine** pattern with three states:
+
 - `initial` → `playing` → `final`
 - Transitions: `start`, `score`, `strike`, `end`, `exit`
 - State machine defined in `src/routes/+page.svelte:52-86`
@@ -43,11 +46,13 @@ The application uses a **Finite State Machine** pattern with three states:
 Game state is managed through two main classes in `src/lib/state.svelte.ts`:
 
 **GameState**
+
 - Tracks `wins`, `strikes`, and question history
 - Generates random color coordinates for each round
 - Size-dependent (3-5 based on difficulty)
 
 **CubeState**
+
 - Controls 3D visualization spacing via `spaceFactor` (Spring-animated)
 - Manages cube grid rendering with `range` and `center` calculations
 - Animates between compact (playing) and expanded (demo) states
@@ -57,11 +62,13 @@ Game state is managed through two main classes in `src/lib/state.svelte.ts`:
 Three vector classes handle coordinate/color transformations:
 
 **CoordVector** → Grid coordinates (0 to size-1)
+
 - `toPercent()` → PercentVector (0-100%)
 - `toColor()` → ColorVector (0-255 RGB)
 - `toFraction()` → Fraction string for display
 
 **ColorVector** → RGB values (0-255)
+
 - `toString()` → CSS rgb() string
 - `getLuminance()` → "light" or "dark" for contrast
 
@@ -70,12 +77,14 @@ Three vector classes handle coordinate/color transformations:
 ### Component Structure
 
 **Main Page** (`src/routes/+page.svelte`)
+
 - Top-level coordinator for game state, cube state, and FSM
 - Handles click events from Scene via `handleSelect()`
 - Manages toast notifications and tutorial flow
 - Difficulty settings: "easy" (3³), "medium" (4³), "hard" (5³)
 
 **Scene** (`src/routes/Scene.svelte`)
+
 - Threlte 3D rendering layer
 - Uses `InstancedMesh` to efficiently render size³ spheres
 - Camera transitions between demo mode (auto-rotate, expanded) and play mode (user-controlled, compact)
@@ -83,11 +92,13 @@ Three vector classes handle coordinate/color transformations:
 - Draws RGB axis lines with labels and optional hint values
 
 **Hud** (`src/lib/components/Hud.svelte`)
+
 - Overlay UI coordinator
 - Conditionally renders Menu, GameCard, ScoreCard, Actions based on FSM state
 - Manages Tutorial and Slider (spacing control) visibility
 
 **Components**
+
 - `GameCard` - Displays target color and hint toggle
 - `ScoreCard` - Shows wins and strikes (❤️ hearts)
 - `Menu` - Initial screen with difficulty selection
@@ -109,21 +120,25 @@ Three vector classes handle coordinate/color transformations:
 ### Key Patterns
 
 **Svelte 5 Runes**
+
 - Classes use `$state()` for reactive properties
 - `$derived()` for computed values (e.g., `latestQuestion`, `center`)
 - `$effect()` for side effects (e.g., game over detection)
 - `$props()` for component properties with destructuring
 
 **Spring Animations**
+
 - Camera position (`cameraPositionX/Y/Z`) and cube spacing (`spaceFactor`) use Svelte's `Spring` store
 - Provides smooth transitions between game states
 
 **Threlte Components**
+
 - `<T.>` prefix for Three.js objects (e.g., `<T.Group>`, `<T.SphereGeometry>`)
 - `<HTML>` for 3D-positioned DOM elements (axis labels)
 - `<InstancedMesh>` with `<Instance>` children for efficient sphere rendering
 
 **Interactivity**
+
 - `interactivity()` hook from `@threlte/extras` enables mouse events
 - Event handlers: `onpointerenter`, `onpointerleave`, `onclick`
 - Events carry `userData` from Three.js objects

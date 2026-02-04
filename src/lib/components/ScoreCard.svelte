@@ -17,10 +17,10 @@
   </div>
   <div class="card" style="border-radius: 0.25rem 1rem 1rem 0.25rem;">
     <div class="value strikes text-body-line">
-      {#each { length: maxStrikes - strikes }, i}
+      {#each { length: maxStrikes - strikes } as _, i (i)}
         <img src={heart} alt="❤️" />
       {/each}
-      {#each { length: strikes }, i}
+      {#each { length: strikes } as _, i (i + maxStrikes)}
         <img
           src={broken_heart}
           alt="💔"

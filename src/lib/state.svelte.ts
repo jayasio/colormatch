@@ -39,7 +39,7 @@ export class CubeState {
     this.range = Array.from({ length: this.size }, (_, i) => i);
 
     this.center = $derived(
-      -1 * (this.size - 1 + ((this.spaceFactor.current - 2.0) * this.size) / 2)
+      -1 * (this.size - 1 + ((this.spaceFactor.current - 2.0) * this.size) / 2),
     );
   }
 }
