@@ -39,6 +39,9 @@ export default ts.config(
         parser: ts.parser,
       },
     },
+    rules: {
+      "no-useless-assignment": "off",
+    },
   },
   {
     files: ["**/*.svelte.ts", "**/*.svelte.js"],
