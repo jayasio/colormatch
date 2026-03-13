@@ -1,15 +1,13 @@
 <script lang="ts">
+  import type { FiniteStateMachine } from "runed";
+  import { blur, fade, fly } from "svelte/transition";
+  import Actions from "$lib/components/Actions.svelte";
   import GameCard from "$lib/components/GameCard.svelte";
+  import Menu from "$lib/components/Menu.svelte";
   import ScoreCard from "$lib/components/ScoreCard.svelte";
   import Slider from "$lib/components/Slider.svelte";
-  import Actions from "$lib/components/Actions.svelte";
-  import Menu from "$lib/components/Menu.svelte";
   import Tutorial from "$lib/components/Tutorial.svelte";
-
-  import { blur, fade, fly } from "svelte/transition";
-
-  import type { FiniteStateMachine } from "runed";
-  import type { GameState, CubeState } from "$lib/state.svelte";
+  import type { CubeState, GameState } from "$lib/state.svelte";
   import type { Difficulty, FsmEvents, FsmStates } from "$lib/types";
 
   let {
@@ -97,14 +95,14 @@
 <style>
   .top,
   .bottom {
-    width: 100dvw;
-    height: fit-content;
     position: fixed;
     bottom: 0;
     display: flex;
-    justify-content: space-between;
-    padding: 1rem;
     gap: 0.25rem;
+    justify-content: space-between;
+    width: 100dvw;
+    height: fit-content;
+    padding: 1rem;
     pointer-events: none;
   }
   .top {
@@ -115,40 +113,40 @@
   }
 
   .tutorial-container {
-    width: 100dvw;
-    height: 100dvh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     gap: 3rem;
+    align-items: center;
+    justify-content: center;
+    width: 100dvw;
+    height: 100dvh;
   }
 
   .blur {
-    z-index: 50;
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 50;
     width: 100dvw;
     height: 100dvh;
     background-color: #ffffff33;
-    backdrop-filter: blur(60px);
     -webkit-backdrop-filter: blur(60px);
+    backdrop-filter: blur(60px);
   }
 
   @media screen and (width <= 960px) {
     .top,
     .bottom {
-      padding: 0.75rem;
       gap: 0.15rem;
+      padding: 0.75rem;
     }
   }
 
   @media screen and (width <= 480px) {
     .top,
     .bottom {
-      padding: 0.5rem;
       gap: 0.125rem;
+      padding: 0.5rem;
     }
   }
 </style>

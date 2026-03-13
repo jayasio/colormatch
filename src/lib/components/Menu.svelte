@@ -1,9 +1,8 @@
 <script lang="ts">
   import type { FiniteStateMachine } from "runed";
-  import type { Difficulty } from "$lib/types";
-
   import { fade } from "svelte/transition";
   import Segmented from "$lib/components/Segmented.svelte";
+  import type { Difficulty } from "$lib/types";
 
   let {
     wins,
@@ -28,14 +27,18 @@
       <h1 class="text-heading-1">
         Colormatch!
         {#if stateMachine.current === "final"}
-          <br />Score is {wins}
+          <br>Score is {wins}
         {/if}
       </h1>
       {#if stateMachine.current !== "final"}
         <p class="description text-body-para">
-          Guess the color and score points!<br />Explore colors in 3D space and
+          Guess the color and score points!<br>Explore colors in 3D space and
           gain an intuition for the RGB color model.
-          <button class="tertiary" onclick={() => (showTutorial = true)}>
+          <button
+            type="button"
+            class="tertiary"
+            onclick={() => (showTutorial = true)}
+          >
             Learn more
           </button>
         </p>
@@ -45,7 +48,7 @@
     <div class="actions">
       <Segmented options={["easy", "medium", "hard"]} bind:value={difficulty} />
 
-      <button onclick={() => stateMachine.send("start")}>
+      <button type="button" onclick={() => stateMachine.send("start")}>
         {#if stateMachine.current === "final"}
           Play again
         {:else}
@@ -55,6 +58,7 @@
 
       {#if stateMachine.current === "final"}
         <button
+          type="button"
           class="tertiary tertiary-block"
           style="color: black"
           onclick={() => (showTutorial = true)}
@@ -75,15 +79,15 @@
 
 <style>
   .wrapper {
-    z-index: 100;
     position: fixed;
     top: 0;
-    width: 100dvw;
-    height: 100dvh;
+    z-index: 100;
 
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100dvw;
+    height: 100dvh;
 
     padding: 4rem;
   }
@@ -91,16 +95,16 @@
   .main-content {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
     gap: 3rem;
+    align-items: stretch;
+    justify-content: center;
   }
 
   .header {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 1.5rem;
+    align-items: center;
   }
 
   .description {
@@ -113,35 +117,35 @@
   }
 
   .actions {
-    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
     gap: 0.25rem;
+    align-items: stretch;
+    width: 100%;
   }
 
   .colophon {
-    z-index: 100;
     position: fixed;
     bottom: 0;
-    width: 100dvw;
+    z-index: 100;
 
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
     gap: 0.5rem;
-
-    color: #000000aa;
+    align-items: center;
+    justify-content: space-between;
+    width: 100dvw;
+    padding: 1rem;
     font-size: 0.8rem;
     font-weight: 450;
     line-height: 1;
 
+    color: #000000aa;
+
     transition: color 0.2s ease-out;
 
     a {
-      text-decoration: none;
       color: inherit;
+      text-decoration: none;
     }
 
     &:hover {

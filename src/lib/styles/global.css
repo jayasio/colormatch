@@ -1,7 +1,7 @@
 * {
-  user-select: none;
-  -webkit-user-select: none;
   cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 :root {
@@ -28,43 +28,43 @@
 }
 
 .text-heading-1 {
-  color: black;
   font-size: 5rem;
   font-weight: 800;
   line-height: 0.9;
+  color: black;
   letter-spacing: -0.1rem;
   letter-spacing: -3%;
   text-wrap: balance;
-  user-select: auto;
   -webkit-user-select: auto;
+  user-select: auto;
 }
 
 .text-heading-2 {
-  color: black;
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 1.15;
+  color: black;
   letter-spacing: -0.03rem;
   letter-spacing: -1%;
   text-wrap: balance;
-  user-select: auto;
   -webkit-user-select: auto;
+  user-select: auto;
 }
 
 .text-body-para {
-  color: black;
   font-size: 1.25rem;
   line-height: 1.6;
+  color: black;
   letter-spacing: -0.01rem;
   letter-spacing: -1%;
-  user-select: auto;
   -webkit-user-select: auto;
+  user-select: auto;
 }
 
 .text-body-line {
-  color: black;
   font-size: 1.25rem;
   line-height: 1.2;
+  color: black;
   letter-spacing: -0.01rem;
   letter-spacing: -1%;
 }
@@ -73,24 +73,23 @@
   font-family: var(--font-stack-mono);
   font-size: 0.812rem;
   line-height: 1;
-  opacity: 0.6;
   text-transform: uppercase;
+  opacity: 0.6;
 }
 
 button {
-  padding: 1.5rem 2rem;
-  cursor: pointer;
-
   display: flex;
+  gap: 0.5rem;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  padding: 1.5rem 2rem;
+
+  color: white;
+  cursor: pointer;
 
   background-color: black;
   border: none;
   border-radius: 10rem;
-
-  color: white;
 
   transition: background-color 0.25s;
 
@@ -108,22 +107,22 @@ button {
 
   &.tertiary {
     display: inline-block;
+    font-size: inherit;
+    font-weight: 450;
 
-    &:not(.tertiary-block) {
-      padding: 0;
-    }
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: hsl(0 0% 0% / 25%);
+    text-underline-offset: 0.25rem;
 
     background-color: transparent;
     border-radius: 0;
 
-    color: inherit;
-    font-weight: 450;
-    font-size: inherit;
-    text-decoration: underline;
-    text-underline-offset: 0.25rem;
-    text-decoration-color: hsl(0 0% 0% / 25%);
-
     transition: text-underline-offset 0.25s ease-out;
+
+    &:not(.tertiary-block) {
+      padding: 0;
+    }
 
     &:hover {
       text-underline-offset: 0.5rem;

@@ -1,13 +1,11 @@
 <script lang="ts">
+  import { Check } from "lucide-svelte";
+  import { fade } from "svelte/transition";
   import additive from "$lib/assets/tutorial/additive.mp4";
-  import variants from "$lib/assets/tutorial/variants.mp4";
   import grid from "$lib/assets/tutorial/grid.mp4";
   import hint from "$lib/assets/tutorial/hint.mp4";
   import strikes from "$lib/assets/tutorial/strikes.mp4";
-
-  import { Check } from "lucide-svelte";
-
-  import { fade } from "svelte/transition";
+  import variants from "$lib/assets/tutorial/variants.mp4";
 
   let { dismiss } = $props<{
     dismiss: () => void;
@@ -87,17 +85,17 @@
   </div>
   <div class="actions">
     {#if currentStep > 0}
-      <button onclick={() => currentStep--}>
+      <button type="button" onclick={() => currentStep--}>
         <span>&lt;-</span>
       </button>
     {/if}
     {#if currentStep < steps.length - 1}
-      <button onclick={() => currentStep++}>
+      <button type="button" onclick={() => currentStep++}>
         <span>Next</span>
         <span>-&gt;</span>
       </button>
     {:else}
-      <button onclick={dismiss}>
+      <button type="button" onclick={dismiss}>
         <Check size="1.25rem" />
         Done
       </button>
@@ -108,46 +106,44 @@
 <style>
   .big-wrapper {
     z-index: 100;
-    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
     gap: 0.25rem;
+    align-items: stretch;
+    justify-content: center;
+    height: 100%;
     padding: 1.5rem;
   }
   .wrapper {
+    display: flex;
     flex: 1;
+    flex-direction: column;
+    gap: 1.5rem;
     max-width: 520px;
 
     min-height: 50dvh;
-
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
   }
   .video-container {
-    width: 100%;
-    aspect-ratio: 4/2.8;
-    border-radius: 1.5rem;
-    background-color: black;
     position: relative;
-    overflow: hidden;
     flex-shrink: 0;
+    width: 100%;
+    aspect-ratio: 4 / 2.8;
+    overflow: hidden;
+    background-color: black;
+    border-radius: 1.5rem;
   }
   video {
-    width: 100%;
-    aspect-ratio: 4/3;
-    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
   }
   .text {
-    flex: 1;
-
     display: flex;
+    flex: 1;
     flex-direction: column;
     gap: 1rem;
   }
@@ -158,11 +154,11 @@
     color: hsl(0 0% 0% / 0.8);
   }
   .actions {
-    width: 100%;
     display: flex;
-    justify-content: stretch;
-    align-items: end;
     gap: 0.25rem;
+    align-items: end;
+    justify-content: stretch;
+    width: 100%;
 
     & button {
       flex: 1;
@@ -172,8 +168,8 @@
 
   @media screen and (width <= 960px) {
     .big-wrapper {
-      padding: 1.25rem;
       max-width: 480px;
+      padding: 1.25rem;
     }
     .wrapper {
       flex: 1;
@@ -184,8 +180,8 @@
 
   @media screen and (width <= 480px) {
     .big-wrapper {
-      padding: 1rem;
       max-width: 440px;
+      padding: 1rem;
     }
     .wrapper {
       flex: 1;
@@ -196,18 +192,18 @@
 
   @media screen and (width >= 960px) and (height <= 768px) {
     .big-wrapper {
-      padding: 1rem;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      padding: 1rem;
     }
     .wrapper {
-      flex: 1;
-      max-width: none;
-      width: 80%;
-      height: fit-content;
       display: grid;
+      flex: 1;
       grid-template-columns: 1fr 1fr;
       align-items: center;
+      width: 80%;
+      max-width: none;
+      height: fit-content;
     }
   }
 </style>

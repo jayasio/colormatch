@@ -15,10 +15,6 @@ class Vector {
 }
 
 export class CoordVector extends Vector {
-  constructor(x: number, y: number, z: number) {
-    super(x, y, z);
-  }
-
   static random(max: number) {
     function randomize(max: number) {
       return Math.floor(Math.random() * max);
@@ -35,7 +31,7 @@ export class CoordVector extends Vector {
     return new PercentVector(
       calcPercent(this.x, max),
       calcPercent(this.y, max),
-      calcPercent(this.z, max),
+      calcPercent(this.z, max)
     );
   }
 
@@ -55,16 +51,12 @@ export class CoordVector extends Vector {
     return new ColorVector(
       calcColor(this.x, max),
       calcColor(this.y, max),
-      calcColor(this.z, max),
+      calcColor(this.z, max)
     );
   }
 }
 
 export class ColorVector extends Vector {
-  constructor(x: number, y: number, z: number) {
-    super(x, y, z);
-  }
-
   toString() {
     return `rgb(${this.x},${this.y},${this.z})`;
   }
@@ -75,8 +67,4 @@ export class ColorVector extends Vector {
   }
 }
 
-export class PercentVector extends Vector {
-  constructor(x: number, y: number, z: number) {
-    super(x, y, z);
-  }
-}
+export class PercentVector extends Vector {}

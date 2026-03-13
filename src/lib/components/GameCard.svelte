@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { CoordVector, ColorVector } from "$lib/vector";
+  import type { ColorVector, CoordVector } from "$lib/vector";
 
   let {
     question,
@@ -64,19 +64,18 @@
 
 <style>
   .wrapper {
-    pointer-events: all;
-
     display: flex;
     gap: 0.125rem;
+    pointer-events: all;
   }
   .card {
     display: flex;
     flex-direction: column;
-    padding: 0.8rem 1rem;
     gap: 0.5rem;
+    padding: 0.8rem 1rem;
     background-color: #26262699;
-    backdrop-filter: blur(16px);
     border-radius: 1rem;
+    backdrop-filter: blur(16px);
   }
   .card-composite {
     flex-direction: row;
@@ -86,16 +85,16 @@
   .card-shell {
     padding: 0;
     background-color: transparent;
-    backdrop-filter: none;
     border-radius: 0;
+    backdrop-filter: none;
   }
   .value {
-    color: var(--color, white);
     font-family: var(--font-stack-mono);
     font-weight: semibold;
     line-height: 1.2;
-    user-select: none;
+    color: var(--color, white);
     -webkit-user-select: none;
+    user-select: none;
   }
   .text-label {
     color: var(--color, white);
