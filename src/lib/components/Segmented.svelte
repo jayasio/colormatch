@@ -20,7 +20,7 @@
         name={`option${index}`}
         value={option}
         bind:group={value}
-      />
+      >
       {option}
     </label>
   {/each}
@@ -29,43 +29,41 @@
 <style>
   .segmented {
     position: relative;
-    overflow: hidden;
 
     display: grid;
-    grid-auto-flow: column;
     grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    overflow: hidden;
 
     background-color: #00000099;
     border-radius: 10rem;
 
     &::after {
-      content: "";
-
       position: absolute;
       width: calc(100% / var(--count));
       height: 100%;
-      transform: translateX(calc(var(--activeIndex) * 100%));
+      content: "";
 
       background: var(--accent);
-      mix-blend-mode: difference;
       border-radius: 0rem;
+      mix-blend-mode: difference;
+      transform: translateX(calc(var(--activeIndex) * 100%));
 
       transition: transform 0.25s;
     }
   }
 
   label {
-    height: 100%;
-
     display: grid;
     place-items: center;
+    height: 100%;
     padding: 1.5rem 2rem;
+    font-family: "Geist", sans-serif;
+    font-size: 1rem;
+    font-weight: medium;
+    color: hsl(0 0% 90%);
 
     text-transform: capitalize;
-    font-family: "Geist", sans-serif;
-    font-weight: medium;
-    font-size: 1rem;
-    color: hsl(0 0% 90%);
 
     cursor: pointer;
 

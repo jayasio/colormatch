@@ -1,0 +1,56 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "root": true,
+  "extends": [
+    "./node_modules/ultracite/config/biome/core/biome.jsonc",
+    "./node_modules/ultracite/config/biome/svelte/biome.jsonc"
+  ],
+  "linter": {
+    "rules": {
+      "style": {
+        // PascalCase is the Svelte component naming convention
+        "useFilenamingConvention": "off",
+        // SvelteKit generates `namespace App` in app.d.ts
+        "noNamespace": "off",
+        // Project uses TypeScript constructor parameter properties
+        "noParameterProperties": "off",
+        "useConsistentMemberAccessibility": "off",
+        // .at(-1) conflicts with noNonNullAssertion since it returns T | undefined
+        "useAtIndex": "off"
+      },
+      "suspicious": {
+        // Intentional CSS progressive enhancement fallbacks (e.g. letter-spacing: -0.1rem with -3% fallback)
+        "noDuplicateProperties": "off"
+      },
+      "correctness": {
+        // Biome doesn't resolve SvelteKit $lib path aliases or peerDependencies
+        "noUnresolvedImports": "off"
+      },
+      "a11y": {
+        // <HTML> in Scene.svelte is Threlte's 3D-positioned component, not an <html> element
+        "useHtmlLang": "off"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.svelte"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            // Svelte event handlers use `any` in Threlte IntersectionEvent
+            "noExplicitAny": "off"
+          },
+          "correctness": {
+            // Biome can't detect variables/imports used in Svelte templates
+            "noUnusedVariables": "off"
+          },
+          "style": {
+            // Biome can't detect value-usage of imports in Svelte templates (e.g. `new CoordVector()`)
+            "useImportType": "off"
+          }
+        }
+      }
+    }
+  ]
+}

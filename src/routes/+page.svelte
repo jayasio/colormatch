@@ -1,21 +1,18 @@
 <script lang="ts">
-  import { GameState, CubeState } from "$lib/state.svelte";
+  import { Canvas } from "@threlte/core";
+  import type { IntersectionEvent } from "@threlte/extras";
+  import { FiniteStateMachine } from "runed";
+  import { onMount, untrack } from "svelte";
+  import Hud from "$lib/components/Hud.svelte";
+  import Toast from "$lib/components/Toast.svelte";
+  import { CubeState, GameState } from "$lib/state.svelte";
   import type {
     Difficulty,
     FsmEvents,
     FsmStates,
     ToastStyle,
   } from "$lib/types";
-  import { FiniteStateMachine } from "runed";
-  import { Canvas } from "@threlte/core";
-
-  import Toast from "$lib/components/Toast.svelte";
-  import Hud from "$lib/components/Hud.svelte";
-
   import Scene from "./Scene.svelte";
-  import type { IntersectionEvent } from "@threlte/extras";
-  import { untrack } from "svelte";
-  import { onMount } from "svelte";
 
   let newPlayer = $state("true");
 
@@ -51,7 +48,9 @@
   let cubeState = $state(new CubeState(untrack(() => size)));
 
   $effect(() => {
-    if (gameState.strikes >= 3) stateMachine.send("endByFailure");
+    if (gameState.strikes >= 3) {
+      stateMachine.send("endByFailure");
+    }
   });
 
   const stateMachine = new FiniteStateMachine<FsmStates, FsmEvents>("initial", {
@@ -93,7 +92,9 @@
   function handleSelect(event: IntersectionEvent<PointerEvent>) {
     event.stopPropagation();
 
-    if (event.delta > 0) return;
+    if (event.delta > 0) {
+      return;
+    }
 
     const { coord } = event.object.userData;
 
@@ -140,26 +141,26 @@
     position: fixed;
     top: 0;
     left: 0;
+    z-index: -1;
     width: 100dvw;
     height: 100dvh;
-    z-index: -1;
   }
 
   :global(body),
   .bg {
+    color: white;
     background:
       radial-gradient(ellipse at top, hsl(0 0% 6%), hsl(0 0% 4%)),
       radial-gradient(ellipse at bottom, hsl(0 0% 6%), hsl(0 0% 4%));
     background-color: black;
-    color: white;
   }
 
   .container {
     position: fixed;
     top: 0;
+    z-index: -1;
     width: 100dvw;
     height: 100dvh;
-    z-index: -1;
     overflow: hidden;
   }
 </style>

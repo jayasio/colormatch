@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { ToastStyle } from "$lib/types";
   import { fade } from "svelte/transition";
+  import type { ToastStyle } from "$lib/types";
 
   let {
     message,
@@ -48,6 +48,8 @@
         return "hsl(14 96% 50%)";
       case "success":
         return "hsl(0 0% 100%)";
+      default:
+        return "hsl(0 0% 100%)";
     }
   });
 
@@ -58,6 +60,8 @@
       case "failure":
         return "white";
       case "success":
+        return "black";
+      default:
         return "black";
     }
   });
@@ -72,11 +76,10 @@
 
 <style>
   .wrapper {
-    width: 100dvw;
-
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100dvw;
   }
 
   .toast {

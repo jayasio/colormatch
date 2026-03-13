@@ -1,6 +1,6 @@
 <script lang="ts">
-  import tight from "$lib/assets/icons/tight.svg";
   import loose from "$lib/assets/icons/loose.svg";
+  import tight from "$lib/assets/icons/tight.svg";
 
   let {
     value = $bindable(),
@@ -12,32 +12,31 @@
 </script>
 
 <div class="wrapper card" {...props}>
-  <div><img src={tight} alt="Pack spheres together" /></div>
-  <input type="range" min={2} max={3} step={0.1} bind:value />
-  <div><img src={loose} alt="Spread spheres apart" /></div>
+  <div><img src={tight} alt="Pack spheres together"></div>
+  <input type="range" min={2} max={3} step={0.1} bind:value>
+  <div><img src={loose} alt="Spread spheres apart"></div>
 </div>
 
 <style>
   .wrapper {
-    pointer-events: all;
-
     display: flex;
+    gap: 1rem;
     align-items: center;
     justify-content: center;
     padding: 1rem;
-    gap: 1rem;
+    pointer-events: all;
 
     background-color: #26262699;
-    backdrop-filter: blur(16px);
     border-radius: 5rem;
+    backdrop-filter: blur(16px);
   }
 
   /*********** Baseline, reset styles ***********/
   input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
-    background: transparent;
     cursor: pointer;
+    background: transparent;
   }
 
   /* Removes default focus */
@@ -48,21 +47,21 @@
   /******** Chrome, Safari, Opera and Edge Chromium styles ********/
   /* slider track */
   input[type="range"]::-webkit-slider-runnable-track {
+    height: 1rem;
     background-color: #ffffff1f;
     /* background-color: hsla(0, 0%, 60%, 60%); */
     border-radius: 1rem;
-    height: 1rem;
   }
 
   /* slider thumb */
   input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none; /* Override default look */
-    appearance: none;
-    margin-top: 0px; /* Centers thumb on the track */
-    background-color: white;
+    width: 1rem;
 
     height: 1rem;
-    width: 1rem;
+    margin-top: 0px; /* Centers thumb on the track */
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    background-color: white;
 
     border-radius: 1rem;
   }
@@ -77,19 +76,19 @@
   /*********** Firefox styles ***********/
   /* slider track */
   input[type="range"]::-moz-range-track {
+    height: 1rem;
     background-color: #ffffff1f;
     /* background-color: hsla(0, 0%, 60%, 60%); */
     border-radius: 1rem;
-    height: 1rem;
   }
 
   /* slider thumb */
   input[type="range"]::-moz-range-thumb {
-    background-color: white;
-    border: none; /*Removes extra border that FF applies*/
+    width: 1rem;
 
     height: 1rem;
-    width: 1rem;
+    background-color: white;
+    border: none; /*Removes extra border that FF applies*/
 
     border-radius: 1rem;
   }

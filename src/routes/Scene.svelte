@@ -1,22 +1,20 @@
 <script lang="ts">
   import { T } from "@threlte/core";
+  import type { IntersectionEvent } from "@threlte/extras";
   import {
     HTML,
     Instance,
     InstancedMesh,
-    OrbitControls,
     interactivity,
+    OrbitControls,
   } from "@threlte/extras";
-  import type { IntersectionEvent } from "@threlte/extras";
-
-  import { MediaQuery } from "svelte/reactivity";
-  import { Spring } from "svelte/motion";
-
-  import { CoordVector } from "$lib/vector";
-  import { CubeState } from "$lib/state.svelte";
   import type { FiniteStateMachine } from "runed";
   import { untrack } from "svelte";
+  import { Spring } from "svelte/motion";
+  import { MediaQuery } from "svelte/reactivity";
+  import type { CubeState } from "$lib/state.svelte";
   import type { FsmEvents, FsmStates } from "$lib/types";
+  import { CoordVector } from "$lib/vector";
 
   let {
     size,
@@ -40,11 +38,11 @@
   let multiplier = $derived.by(() => {
     if (isMobile.current) {
       return 5;
-    } else if (isTablet.current) {
-      return 4;
-    } else {
-      return 5 / 2;
     }
+    if (isTablet.current) {
+      return 4;
+    }
+    return 5 / 2;
   });
 
   let cameraPositionX = new Spring(
@@ -52,30 +50,30 @@
     {
       stiffness: 0.06,
       damping: 0.8,
-    },
+    }
   );
   let cameraPositionY = new Spring(
     untrack(() => size * multiplier),
     {
       stiffness: 0.06,
       damping: 0.8,
-    },
+    }
   );
   let cameraPositionZ = new Spring(
     untrack(() => size * multiplier),
     {
       stiffness: 0.06,
       damping: 0.8,
-    },
+    }
   );
 
   let isDemoState = $derived(
-    stateMachine.current !== "playing" || showTutorial,
+    stateMachine.current !== "playing" || showTutorial
   );
 
   let isTransitioning = $state(false);
 
-  function queueTransition(callback: () => void, delay: number = 1500) {
+  function queueTransition(callback: () => void, delay = 1500) {
     isTransitioning = true;
 
     callback();
@@ -141,7 +139,6 @@
     <T.BufferGeometry>
       <T.Float32BufferAttribute
         attach={({ parent, ref }) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (parent as any).setAttribute("position", ref);
         }}
         args={[
@@ -183,7 +180,6 @@
     <T.BufferGeometry>
       <T.Float32BufferAttribute
         attach={({ parent, ref }) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (parent as any).setAttribute("position", ref);
         }}
         args={[
@@ -225,7 +221,6 @@
     <T.BufferGeometry>
       <T.Float32BufferAttribute
         attach={({ parent, ref }) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (parent as any).setAttribute("position", ref);
         }}
         args={[

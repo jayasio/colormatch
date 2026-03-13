@@ -1,6 +1,6 @@
 <script lang="ts">
-  import heart from "$lib/assets/emoji/red_heart_3d.png";
   import broken_heart from "$lib/assets/emoji/broken_heart_flat.svg";
+  import heart from "$lib/assets/emoji/red_heart_3d.png";
 
   let { wins, strikes, maxStrikes, ...props } = $props<{
     wins: number;
@@ -18,14 +18,14 @@
   <div class="card" style="border-radius: 0.25rem 1rem 1rem 0.25rem;">
     <div class="value strikes text-body-line">
       {#each { length: maxStrikes - strikes } as _, i (i)}
-        <img src={heart} alt="❤️" />
+        <img src={heart} alt="❤️">
       {/each}
       {#each { length: strikes } as _, i (i + maxStrikes)}
         <img
           src={broken_heart}
           alt="💔"
           style="opacity: 0.8; filter: saturate(0.1);"
-        />
+        >
       {/each}
     </div>
     <div class="text-label">Strikes</div>
@@ -34,19 +34,18 @@
 
 <style>
   .wrapper {
-    pointer-events: all;
-
     display: flex;
     gap: 0.125rem;
+    pointer-events: all;
   }
   .card {
     display: flex;
     flex-direction: column;
-    padding: 0.8rem 1rem;
     gap: 0.5rem;
+    padding: 0.8rem 1rem;
     background-color: #26262699;
-    backdrop-filter: blur(16px);
     border-radius: 1rem;
+    backdrop-filter: blur(16px);
   }
   .value {
     color: white;
@@ -56,21 +55,21 @@
     gap: 2px;
   }
   img {
-    height: 1.5rem;
     width: 1.25rem;
+    height: 1.5rem;
     object-fit: contain;
     object-position: top;
   }
   @media screen and (width <= 960px) {
     img {
-      height: 1.35rem;
       width: 1.125rem;
+      height: 1.35rem;
     }
   }
   @media screen and (width <= 480px) {
     img {
-      height: 1.2rem;
       width: 1rem;
+      height: 1.2rem;
     }
   }
 </style>

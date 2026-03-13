@@ -7,7 +7,7 @@ export class GameState {
 
   questions: CoordVector[] = $state([]);
   latestQuestion: CoordVector = $derived(
-    this.questions[this.questions.length - 1],
+    this.questions[this.questions.length - 1]
   );
 
   constructor(public readonly size: number = 4) {
@@ -39,7 +39,7 @@ export class CubeState {
     this.range = Array.from({ length: this.size }, (_, i) => i);
 
     this.center = $derived(
-      -1 * (this.size - 1 + ((this.spaceFactor.current - 2.0) * this.size) / 2),
+      -1 * (this.size - 1 + ((this.spaceFactor.current - 2.0) * this.size) / 2)
     );
   }
 }
