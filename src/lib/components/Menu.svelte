@@ -35,9 +35,11 @@
           Guess the color and score points!<br>Explore colors in 3D space and
           gain an intuition for the RGB color model.
           <button
-            type="button"
             class="tertiary"
-            onclick={() => (showTutorial = true)}
+            onclick={() => {
+              showTutorial = true;
+            }}
+            type="button"
           >
             Learn more
           </button>
@@ -48,7 +50,7 @@
     <div class="actions">
       <Segmented options={["easy", "medium", "hard"]} bind:value={difficulty} />
 
-      <button type="button" onclick={() => stateMachine.send("start")}>
+      <button onclick={() => stateMachine.send("start")} type="button">
         {#if stateMachine.current === "final"}
           Play again
         {:else}
@@ -58,10 +60,12 @@
 
       {#if stateMachine.current === "final"}
         <button
-          type="button"
           class="tertiary tertiary-block"
+          onclick={() => {
+            showTutorial = true;
+          }}
           style="color: black"
-          onclick={() => (showTutorial = true)}
+          type="button"
         >
           Learn more
         </button>

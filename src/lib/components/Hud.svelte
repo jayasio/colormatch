@@ -34,20 +34,20 @@
 {#if stateMachine.current === "playing"}
   <div
     class="top"
-    in:fly={{ y: -100, duration: 500, delay: 100 }}
-    out:fly={{ y: -100, duration: 500 }}
+    in:fly={{ delay: 100, duration: 500, y: -100 }}
+    out:fly={{ duration: 500, y: -100 }}
   >
-    <GameCard {size} question={gameState.latestQuestion} bind:showHint />
+    <GameCard question={gameState.latestQuestion} {size} bind:showHint />
     <ScoreCard
-      wins={gameState.wins}
-      strikes={gameState.strikes}
       maxStrikes={3}
+      strikes={gameState.strikes}
+      wins={gameState.wins}
     />
   </div>
   <div
     class="bottom"
-    in:fly={{ y: 100, duration: 500, delay: 100 }}
-    out:fly={{ y: 100, duration: 500 }}
+    in:fly={{ delay: 100, duration: 500, y: 100 }}
+    out:fly={{ duration: 500, y: 100 }}
   >
     <Slider bind:value={cubeState.spaceFactor.target} />
     <Actions {stateMachine} bind:showTutorial />
@@ -75,19 +75,19 @@
   >
     <Tutorial
       dismiss={() => {
-        showTutorial = false;
+                showTutorial = false;
 
-        // Note: Taking a copy of newPlayer value before setting it to false, because the if check was earlier done on the original newPlayer value which would change before the if check
-        const player = newPlayer;
+                // Note: Taking a copy of newPlayer value before setting it to false, because the if check was earlier done on the original newPlayer value which would change before the if check
+                const player = newPlayer;
 
-        // This needs to be done before the if check tho, since the "start" event is going to check newPlayer
-        localStorage.setItem("new-player", "false");
-        newPlayer = "false";
+                // This needs to be done before the if check tho, since the "start" event is going to check newPlayer
+                localStorage.setItem("new-player", "false");
+                newPlayer = "false";
 
-        if (player === "true") {
-          stateMachine.send("start");
-        }
-      }}
+                if (player === "true") {
+                    stateMachine.send("start");
+                }
+            }}
     />
   </div>
 {/if}

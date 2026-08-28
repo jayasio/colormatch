@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Check } from "lucide-svelte";
+  import { Check } from "@lucide/svelte";
   import { fade } from "svelte/transition";
   import additive from "$lib/assets/tutorial/additive.mp4";
   import grid from "$lib/assets/tutorial/grid.mp4";
@@ -13,33 +13,33 @@
 
   const steps = [
     {
-      title:
-        "All colors in the digital world are built from Red, Green, and Blue (RGB).",
       description:
         "These three base hues combine through 'additive mixing' to create the entire spectrum of colors.",
+      title:
+        "All colors in the digital world are built from Red, Green, and Blue (RGB).",
       video: additive,
     },
     {
-      title: "Mixing the three creates new colors.",
       description:
         "Each base hue's intensity ranges from none (0) to its maximum (255). Colors are represented as rgb(red, green, blue) values—for instance, pure red is rgb(255, 0, 0).",
+      title: "Mixing the three creates new colors.",
       video: variants,
     },
     {
-      title: "In this game, the base hues map to the three axes of a cube.",
       description:
         "X = Red, Y = Green, Z = Blue. Move along these axes to mix hues. Their intersection determines the final color.",
+      title: "In this game, the base hues map to the three axes of a cube.",
       video: grid,
     },
     {
-      title: "Your goal: identify the target color.",
       description:
         "Hover over the question to see helpful hints. Eventually, try to guess without hints!",
+      title: "Your goal: identify the target color.",
       video: hint,
     },
     {
-      title: "Score points for correct guesses.",
       description: "But beware—three strikes, and the game ends!",
+      title: "Score points for correct guesses.",
       video: strikes,
     },
   ];
@@ -52,14 +52,14 @@
     <div class="video-container">
       {#key currentStep}
         <video
-          src={steps[currentStep].video}
           autoplay
-          playsinline
+          controls={false}
           loop
           muted
-          controls={false}
+          playsinline
           preload="auto"
-          in:fade={{ duration: 200, delay: 200 }}
+          src={steps[currentStep].video}
+          in:fade={{ delay: 200, duration: 200 }}
           out:fade={{ duration: 200 }}
         ></video>
       {/key}
@@ -68,14 +68,14 @@
       <div class="text">
         <div
           class="title text-heading-2"
-          in:fade={{ duration: 200, delay: 201 }}
+          in:fade={{ delay: 201, duration: 200 }}
           out:fade={{ duration: 200 }}
         >
           {steps[currentStep].title}
         </div>
         <div
           class="description text-body-para"
-          in:fade={{ duration: 200, delay: 201 }}
+          in:fade={{ delay: 201, duration: 200 }}
           out:fade={{ duration: 200 }}
         >
           {steps[currentStep].description}
@@ -85,17 +85,27 @@
   </div>
   <div class="actions">
     {#if currentStep > 0}
-      <button type="button" onclick={() => currentStep--}>
+      <button
+        onclick={() => {
+          currentStep -= 1;
+        }}
+        type="button"
+      >
         <span>&lt;-</span>
       </button>
     {/if}
     {#if currentStep < steps.length - 1}
-      <button type="button" onclick={() => currentStep++}>
+      <button
+        onclick={() => {
+          currentStep += 1;
+        }}
+        type="button"
+      >
         <span>Next</span>
         <span>-&gt;</span>
       </button>
     {:else}
-      <button type="button" onclick={dismiss}>
+      <button onclick={dismiss} type="button">
         <Check size="1.25rem" />
         Done
       </button>

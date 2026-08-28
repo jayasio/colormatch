@@ -70,7 +70,9 @@
 <div class="wrapper" out:fade>
   <div class="toast" style:background-color={backgroundColor} style:color>
     {message ??
-      getRandomMessage(type === "success" ? successMessages : failureMessages)}
+            getRandomMessage(
+                type === "success" ? successMessages : failureMessages,
+            )}
   </div>
 </div>
 

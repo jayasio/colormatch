@@ -1,4 +1,4 @@
-<script lang="ts" generics="T">
+<script generics="T" lang="ts">
   let {
     options,
     value = $bindable(),
@@ -15,9 +15,9 @@
   {#each options as option, index (option)}
     <label for={`option${index}`}>
       <input
-        type="radio"
         id={`option${index}`}
         name={`option${index}`}
+        type="radio"
         value={option}
         bind:group={value}
       >

@@ -18,12 +18,12 @@
   <div class="card" style="border-radius: 0.25rem 1rem 1rem 0.25rem;">
     <div class="value strikes text-body-line">
       {#each { length: maxStrikes - strikes } as _, i (i)}
-        <img src={heart} alt="❤️">
+        <img alt="❤️" src={heart}>
       {/each}
       {#each { length: strikes } as _, i (i + maxStrikes)}
         <img
-          src={broken_heart}
           alt="💔"
+          src={broken_heart}
           style="opacity: 0.8; filter: saturate(0.1);"
         >
       {/each}

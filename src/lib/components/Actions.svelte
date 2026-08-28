@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { BookOpen, LogOut } from "lucide-svelte";
+  import { BookOpen, LogOut } from "@lucide/svelte";
   import type { FiniteStateMachine } from "runed";
 
   let {
@@ -14,14 +14,20 @@
 </script>
 
 <div class="wrapper" {...props}>
-  <button type="button" class="card" onclick={() => (showTutorial = true)}>
+  <button
+    class="card"
+    onclick={() => {
+      showTutorial = true;
+    }}
+    type="button"
+  >
     <BookOpen size="1rem" />
   </button>
 
   <button
-    type="button"
     class="card exit-btn"
     onclick={() => stateMachine.send("endManually")}
+    type="button"
   >
     <LogOut size="1rem" />
   </button>

@@ -14,44 +14,44 @@
   <title>Colormatch!</title>
 
   <meta
-    name="description"
     content="Guess the color and score points! Explore colors in 3D space and gain an intuition for the RGB color model."
+    name="description"
   >
   <meta
-    name="keywords"
     content="Colormatch, RGB Colors, Learning Game, Educational Game, 3D Game, Color Identification, Color Guessing, Color Space, RGB Model, Color Matching Game, Color Theory, Interactive Learning, Color Intuition, Color Points, Web Game"
+    name="keywords"
   >
-  <link rel="canonical" href="https://colormatch.jayas.me">
-  <meta name="robots" content="all">
+  <link href="https://colormatch.jayas.me" rel="canonical">
+  <meta content="all" name="robots">
 
   <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://colormatch.jayas.me">
-  <meta property="og:title" content="Colormatch!">
+  <meta content="website" property="og:type">
+  <meta content="https://colormatch.jayas.me" property="og:url">
+  <meta content="Colormatch!" property="og:title">
   <meta
-    property="og:description"
     content="Guess the color and score points! Explore colors in 3D space and gain an intuition for the RGB color model."
+    property="og:description"
   >
-  <meta property="og:image" content="/og.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  <meta content="/og.png" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
 
   <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:domain" content="colormatch.jayas.me">
-  <meta name="twitter:url" content="https://colormatch.jayas.me">
-  <meta name="twitter:title" content="Colormatch!">
+  <meta content="summary_large_image" name="twitter:card">
+  <meta content="colormatch.jayas.me" name="twitter:domain">
+  <meta content="https://colormatch.jayas.me" name="twitter:url">
+  <meta content="Colormatch!" name="twitter:title">
   <meta
-    name="twitter:description"
     content="Guess the color and score points! Explore colors in 3D space and gain an intuition for the RGB color model."
+    name="twitter:description"
   >
-  <meta name="twitter:image" content="/og.png">
+  <meta content="/og.png" name="twitter:image">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
   <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
     crossorigin="anonymous"
+    href="https://fonts.gstatic.com"
+    rel="preconnect"
   >
   <link
     href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&display=swap"

@@ -19,15 +19,19 @@
 <div
   class="wrapper"
   {...props}
-  onpointerenter={() => (showHint = true)}
-  onpointerleave={() => (showHint = false)}
+  onpointerenter={() => {
+    showHint = true;
+  }}
+  onpointerleave={() => {
+    showHint = false;
+  }}
   style:cursor="default"
 >
   {#if showHint}
     <div
       class="card card-composite"
-      style:background-color={color.toString()}
       style:--color={color.getLuminance() === "light" ? "#000" : "#fff"}
+      style:background-color={color.toString()}
     >
       <div class="card card-shell">
         <div class="value text-body-para">

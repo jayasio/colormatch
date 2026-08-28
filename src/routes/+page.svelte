@@ -35,7 +35,7 @@
   let showTutorial = $state(false);
   let showHint = $state(false);
 
-  function toast(type: ToastStyle, message: string | undefined = undefined) {
+  function toast(type: ToastStyle, message?: string) {
     toastMessage = message;
     toastType = type;
     showToast = true;
@@ -54,6 +54,9 @@
   });
 
   const stateMachine = new FiniteStateMachine<FsmStates, FsmEvents>("initial", {
+    final: {
+      start: "playing",
+    },
     initial: {
       start: () => {
         if (newPlayer && newPlayer === "true") {
@@ -68,6 +71,11 @@
         gameState = new GameState(size);
         cubeState = new CubeState(size);
       },
+      endByFailure: () => {
+        toast("failure", "Game over :(");
+        return "final";
+      },
+      endManually: () => "final",
       score: () => {
         gameState.score();
         toast("success");
@@ -76,16 +84,6 @@
         gameState.strike();
         toast("failure");
       },
-      endByFailure: () => {
-        toast("failure", "Game over :(");
-        return "final";
-      },
-      endManually: () => {
-        return "final";
-      },
-    },
-    final: {
-      start: "playing",
     },
   });
 
@@ -107,26 +105,26 @@
 </script>
 
 <Hud
-  {stateMachine}
-  {gameState}
   {cubeState}
+  {gameState}
   {size}
-  bind:newPlayer
-  bind:showTutorial
-  bind:showHint
+  {stateMachine}
   bind:difficulty={menuState.difficulty}
+  bind:newPlayer
+  bind:showHint
+  bind:showTutorial
 />
 
 <div class="container">
   <Canvas colorSpace="srgb" toneMapping={0}>
     <!-- TODO infer colorspace from media queries maybe -->
     <Scene
-      {handleSelect}
-      {stateMachine}
       {cubeState}
-      {size}
-      {showTutorial}
+      {handleSelect}
       {showHint}
+      {showTutorial}
+      {size}
+      {stateMachine}
     />
   </Canvas>
   <div class="bg"></div>

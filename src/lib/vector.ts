@@ -16,16 +16,16 @@ class Vector {
 
 export class CoordVector extends Vector {
   static random(max: number) {
-    function randomize(max: number) {
-      return Math.floor(Math.random() * max);
+    function randomize(limit: number) {
+      return Math.floor(Math.random() * limit);
     }
 
     return new CoordVector(randomize(max), randomize(max), randomize(max));
   }
 
   toPercent(max: number) {
-    function calcPercent(val: number, max: number) {
-      return Math.round((val / (max - 1)) * 100);
+    function calcPercent(val: number, limit: number) {
+      return Math.round((val / (limit - 1)) * 100);
     }
 
     return new PercentVector(
@@ -44,8 +44,8 @@ export class CoordVector extends Vector {
   }
 
   toColor(max: number) {
-    function calcColor(val: number, max: number) {
-      return Math.ceil((val / (max - 1)) * 255);
+    function calcColor(val: number, limit: number) {
+      return Math.ceil((val / (limit - 1)) * 255);
     }
 
     return new ColorVector(

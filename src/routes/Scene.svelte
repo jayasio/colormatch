@@ -48,22 +48,22 @@
   let cameraPositionX = new Spring(
     untrack(() => size * multiplier),
     {
-      stiffness: 0.06,
       damping: 0.8,
+      stiffness: 0.06,
     }
   );
   let cameraPositionY = new Spring(
     untrack(() => size * multiplier),
     {
-      stiffness: 0.06,
       damping: 0.8,
+      stiffness: 0.06,
     }
   );
   let cameraPositionZ = new Spring(
     untrack(() => size * multiplier),
     {
-      stiffness: 0.06,
       damping: 0.8,
+      stiffness: 0.06,
     }
   );
 
@@ -112,49 +112,64 @@
   position.z={cameraPositionZ.current}
 >
   <OrbitControls
-    enableDamping
     autoRotate={isDemoState}
+    enableDamping
     onchange={(event) => {
-      if (stateMachine.current === "playing" && !isTransitioning) {
-        cameraPositionX.set(event.target.object.position.x, { instant: true });
-        cameraPositionY.set(event.target.object.position.y, { instant: true });
-        cameraPositionZ.set(event.target.object.position.z, { instant: true });
-      }
-    }}
+            if (stateMachine.current === "playing" && !isTransitioning) {
+                cameraPositionX.set(event.target.object.position.x, {
+                    instant: true,
+                });
+                cameraPositionY.set(event.target.object.position.y, {
+                    instant: true,
+                });
+                cameraPositionZ.set(event.target.object.position.z, {
+                    instant: true,
+                });
+            }
+        }}
   />
-  <T.DirectionalLight position={[12, 36, -0]} intensity={Math.PI * 0.25} />
-  <T.DirectionalLight position={[0, -4, 10]} intensity={Math.PI * 0.25} />
+  <T.DirectionalLight intensity={Math.PI * 0.25} position={[12, 36, -0]} />
+  <T.DirectionalLight intensity={Math.PI * 0.25} position={[0, -4, 10]} />
 </T.PerspectiveCamera>
 
 <T.AmbientLight intensity={Math.PI * 0.75} />
 
 <T.Group
   position={[
-    size * -1 * (1 + (cubeState.spaceFactor.current - 2) / 2),
-    size * -1 * (1 + (cubeState.spaceFactor.current - 2) / 2),
-    size * -1 * (1 + (cubeState.spaceFactor.current - 2) / 2),
-  ]}
+        size * -1 * (1 + (cubeState.spaceFactor.current - 2) / 2),
+        size * -1 * (1 + (cubeState.spaceFactor.current - 2) / 2),
+        size * -1 * (1 + (cubeState.spaceFactor.current - 2) / 2),
+    ]}
 >
   <T.Line position={[0, 0, 0]}>
     <T.BufferGeometry>
       <T.Float32BufferAttribute
-        attach={({ parent, ref }) => {
-          (parent as any).setAttribute("position", ref);
-        }}
         args={[
-          new Float32Array([
-            ...[0, 0, 0],
-            ...[size * (2 + (cubeState.spaceFactor.current - 2) / 1.5), 0, 0],
-          ]),
-          3,
-        ]}
+                    new Float32Array([
+                        ...[0, 0, 0],
+                        ...[
+                            size *
+                                (2 + (cubeState.spaceFactor.current - 2) / 1.5),
+                            0,
+                            0,
+                        ],
+                    ]),
+                    3,
+                ]}
+        attach={({ parent, ref }) => {
+                    (parent as any).setAttribute("position", ref);
+                }}
       />
     </T.BufferGeometry>
     <T.LineBasicMaterial color="red" />
   </T.Line>
   <HTML
     occlude={!showHint}
-    position={[size * (2.15 + (cubeState.spaceFactor.current - 2) / 1.5), 0, 0]}
+    position={[
+            size * (2.15 + (cubeState.spaceFactor.current - 2) / 1.5),
+            0,
+            0,
+        ]}
   >
     <p class="text-label">RED</p>
   </HTML>
@@ -163,13 +178,15 @@
       <HTML
         class="text-label"
         position={[
-          2 * i +
-            1 +
-            (size * (i / (size - 1)) * (cubeState.spaceFactor.current - 2)) /
-              1.5,
-          0,
-          0,
-        ]}
+                    2 * i +
+                        1 +
+                        (size *
+                            (i / (size - 1)) *
+                            (cubeState.spaceFactor.current - 2)) /
+                            1.5,
+                    0,
+                    0,
+                ]}
       >
         {Math.ceil((255 * i) / (size - 1))}
       </HTML>
@@ -179,23 +196,32 @@
   <T.Line position={[0, 0, 0]}>
     <T.BufferGeometry>
       <T.Float32BufferAttribute
-        attach={({ parent, ref }) => {
-          (parent as any).setAttribute("position", ref);
-        }}
         args={[
-          new Float32Array([
-            ...[0, 0, 0],
-            ...[0, size * (2 + (cubeState.spaceFactor.current - 2) / 1.5), 0],
-          ]),
-          3,
-        ]}
+                    new Float32Array([
+                        ...[0, 0, 0],
+                        ...[
+                            0,
+                            size *
+                                (2 + (cubeState.spaceFactor.current - 2) / 1.5),
+                            0,
+                        ],
+                    ]),
+                    3,
+                ]}
+        attach={({ parent, ref }) => {
+                    (parent as any).setAttribute("position", ref);
+                }}
       />
     </T.BufferGeometry>
     <T.LineBasicMaterial color="green" />
   </T.Line>
   <HTML
     occlude={!showHint}
-    position={[0, size * (2.15 + (cubeState.spaceFactor.current - 2) / 1.5), 0]}
+    position={[
+            0,
+            size * (2.15 + (cubeState.spaceFactor.current - 2) / 1.5),
+            0,
+        ]}
   >
     <p class="text-label">GREEN</p>
   </HTML>
@@ -204,13 +230,15 @@
       <HTML
         class="text-label"
         position={[
-          0,
-          2 * i +
-            1 +
-            (size * (i / (size - 1)) * (cubeState.spaceFactor.current - 2)) /
-              1.5,
-          0,
-        ]}
+                    0,
+                    2 * i +
+                        1 +
+                        (size *
+                            (i / (size - 1)) *
+                            (cubeState.spaceFactor.current - 2)) /
+                            1.5,
+                    0,
+                ]}
       >
         {Math.ceil((255 * i) / (size - 1))}
       </HTML>
@@ -220,23 +248,32 @@
   <T.Line position={[0, 0, 0]}>
     <T.BufferGeometry>
       <T.Float32BufferAttribute
-        attach={({ parent, ref }) => {
-          (parent as any).setAttribute("position", ref);
-        }}
         args={[
-          new Float32Array([
-            ...[0, 0, 0],
-            ...[0, 0, size * (2 + (cubeState.spaceFactor.current - 2) / 1.5)],
-          ]),
-          3,
-        ]}
+                    new Float32Array([
+                        ...[0, 0, 0],
+                        ...[
+                            0,
+                            0,
+                            size *
+                                (2 + (cubeState.spaceFactor.current - 2) / 1.5),
+                        ],
+                    ]),
+                    3,
+                ]}
+        attach={({ parent, ref }) => {
+                    (parent as any).setAttribute("position", ref);
+                }}
       />
     </T.BufferGeometry>
     <T.LineBasicMaterial color="blue" />
   </T.Line>
   <HTML
     occlude={!showHint}
-    position={[0, 0, size * (2.15 + (cubeState.spaceFactor.current - 2) / 1.5)]}
+    position={[
+            0,
+            0,
+            size * (2.15 + (cubeState.spaceFactor.current - 2) / 1.5),
+        ]}
   >
     <p class="text-label">BLUE</p>
   </HTML>
@@ -245,13 +282,15 @@
       <HTML
         class="text-label"
         position={[
-          0,
-          0,
-          2 * i +
-            1 +
-            (size * (i / (size - 1)) * (cubeState.spaceFactor.current - 2)) /
-              1.5,
-        ]}
+                    0,
+                    0,
+                    2 * i +
+                        1 +
+                        (size *
+                            (i / (size - 1)) *
+                            (cubeState.spaceFactor.current - 2)) /
+                            1.5,
+                ]}
       >
         {Math.ceil((255 * i) / (size - 1))}
       </HTML>
@@ -261,18 +300,18 @@
 
 <T.Group
   autocenter
-  position={[cubeState.center, cubeState.center, cubeState.center]}
-  onpointerenter={(event: IntersectionEvent<PointerEvent>) => {
-    highlight = event.object.userData.coord;
-    event.stopPropagation();
-  }}
-  onpointerleave={(event: IntersectionEvent<PointerEvent>) => {
-    highlight = null;
-    event.stopPropagation();
-  }}
   onclick={(event: IntersectionEvent<PointerEvent>) => {
-    handleSelect(event);
-  }}
+        handleSelect(event);
+    }}
+  onpointerenter={(event: IntersectionEvent<PointerEvent>) => {
+        highlight = event.object.userData.coord;
+        event.stopPropagation();
+    }}
+  onpointerleave={(event: IntersectionEvent<PointerEvent>) => {
+        highlight = null;
+        event.stopPropagation();
+    }}
+  position={[cubeState.center, cubeState.center, cubeState.center]}
 >
   <InstancedMesh>
     <T.SphereGeometry />
@@ -284,19 +323,19 @@
           {@const coord = new CoordVector(x, y, z)}
           {@const color = coord.toColor(size)}
           <Instance
-            position={[
-              coord.x * cubeState.spaceFactor.current,
-              coord.y * cubeState.spaceFactor.current,
-              coord.z * cubeState.spaceFactor.current,
-            ]}
-            userData={{ coord }}
             color={color.toString()}
+            position={[
+                            coord.x * cubeState.spaceFactor.current,
+                            coord.y * cubeState.spaceFactor.current,
+                            coord.z * cubeState.spaceFactor.current,
+                        ]}
             scale={highlight &&
-            highlight.x === coord.x &&
-            highlight.y === coord.y &&
-            highlight.z === coord.z
-              ? [1.125, 1.125, 1.125]
-              : [1, 1, 1]}
+                        highlight.x === coord.x &&
+                        highlight.y === coord.y &&
+                        highlight.z === coord.z
+                            ? [1.125, 1.125, 1.125]
+                            : [1, 1, 1]}
+            userData={{ coord }}
           />
         {/each}
       {/each}

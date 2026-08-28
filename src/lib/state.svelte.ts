@@ -15,12 +15,12 @@ export class GameState {
   }
 
   score() {
-    this.wins++;
+    this.wins += 1;
     this.generateQuestion();
   }
 
   strike() {
-    this.strikes++;
+    this.strikes += 1;
   }
 
   private generateQuestion() {

@@ -12,9 +12,9 @@
 </script>
 
 <div class="wrapper card" {...props}>
-  <div><img src={tight} alt="Pack spheres together"></div>
-  <input type="range" min={2} max={3} step={0.1} bind:value>
-  <div><img src={loose} alt="Spread spheres apart"></div>
+  <div><img alt="Pack spheres together" src={tight}></div>
+  <input max={3} min={2} step={0.1} type="range" bind:value>
+  <div><img alt="Spread spheres apart" src={loose}></div>
 </div>
 
 <style>
