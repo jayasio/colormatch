@@ -36,5 +36,6 @@
     "typescript": "^5.9.3",
     "ultracite": "^7.10.7",
     "vite": "^8.2.2"
-  }
+  },
+  "packageManager": "pnpm@10.34.5"
 }
